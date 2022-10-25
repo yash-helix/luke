@@ -87,11 +87,9 @@ const Instruction_Page = () => {
                     {data[0].heading}
                 </h1>
                 {data.map((item, index) => (
-                    <>
                         <Typography key={index} sx={{ marginBottom: '10px' }} fontWeight={600}>
                             {item.paragraph}
                         </Typography>
-                    </>
                 ))}
 
                 <Stack sx={{mt:5 ,justifyContent: 'center', alignItems: 'center'}} >
