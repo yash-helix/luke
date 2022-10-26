@@ -1,10 +1,23 @@
 import express from 'express';
+import login from '../../controllers/admin/login.js';
 import uploadExcelToDB from '../../controllers/admin/uploadExcelToDB.js';
 import { testModel } from '../../models/testSchema.js';
 import { userModal } from '../../models/UserSchema.js';
 export const adminRouter = express.Router();
 
 import {test1} from '../../utils/json/test1.js';
+
+
+adminRouter.post("/login", (req, res) => {
+    const {email, password} = req.body;
+    if(!email || !password){
+        return res.json({success:false, msg:"Invalid email and password"});
+    }
+    
+    login(email, password, res);
+});
+
+
 
 adminRouter.post("/excelUpload", (req, res) => {
     const file = req.files?.file;
