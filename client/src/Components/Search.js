@@ -7,19 +7,21 @@ const Search = () => {
 
   return (
     <>
-      <div className="d-flex justify-content-between">
-        <img src="/logo.png" alt="Logo" width={180}/>
-        {/* <h2>Marketing Management</h2> */}
-      </div>
+      <div className="container">
+        <div className="d-flex justify-content-between">
+          <img src="/logo.png" alt="Logo" width={180} />
+          {/* <h2>Marketing Management</h2> */}
+        </div>
 
-      <div className="searchBox mt-5 container-fluid">
-        <input
-          className="form-control w-75 mx-auto"
-          type="text"
-          placeholder="Search..."
-          onChange={(e) => setFilterData(e.target.value)}
-        />
-        <UserTable filterData={filterData} />
+        <div className="searchBox mt-5 container-fluid">
+          <input
+            className="form-control w-50 mx-auto"
+            type="text"
+            placeholder="Search..."
+            onChange={(e) => setFilterData(e.target.value)}
+          />
+          <UserTable filterData={filterData} />
+        </div>
       </div>
     </>
   );
