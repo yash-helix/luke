@@ -49,14 +49,14 @@ const Quiz = (props) => {
                         fontFamily={"Roboto"}
                         fontWeight={600}
                         lineHeight="33px"
-                        sx={{ mt: 2 }}
+                        sx={{ mt: '12px', fontSize: '18px' }}
                         color={"#444"}
                     >
                         Question : {index + 1} of  50
                     </Typography>
 
                     <Stack className='timer_stack' sx={{ flexDirection: 'row', fontWeight: "600" }}>
-                        <Typography className='fw-bold' sx={{color:"#444"}}>Time Remaining:&nbsp;</Typography>
+                        <Typography className='fw-bold' sx={{ color: "#444", fontSize: '16px' }}>Time Remaining:&nbsp;</Typography>
                         <Timer OutOfTime={TimeOut} isPlaying={isPlaying} />
                     </Stack>
 
@@ -65,22 +65,22 @@ const Quiz = (props) => {
                         fontFamily={"Roboto"}
                         fontWeight={600}
                         lineHeight="33px"
-                        sx={{ mt: 2 }}
                         color={"#444"}
+                        sx={{ mt: 2, fontSize: '18px' }}
                     >
                         {question.question}
                     </Typography>
 
                     <FormControl style={{
-                        marginLeft: "2rem",
-                        marginTop: "2rem",
+                        marginLeft: "1rem",
+                        margin: "12px",
                         fontWeight: 'bold',
 
                     }}>
                         <RadioGroup name="radio-options"
                             value={choice}
                             onChange={onChangeHandler}
-                            sx={{color:"#444"}}
+                            sx={{ color: "#444" }}
                         >
                             {question.options.map((opt, i) =>
                                 <FormControlLabel
