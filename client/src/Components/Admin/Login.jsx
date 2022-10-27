@@ -6,24 +6,26 @@ import { useCookies } from 'react-cookie';
 const Login = () => {
 
     const navigate = useNavigate();
-    const [cookies, setCookie, removeCookie] = useCookies(['admin']);
+    const [cookies, setCookie, removeCookie] = useCookies(['email', 'password']);
 
     const [data, setData] = useState({
         email: "",
         password: ""
     });
+    const [mount, setMount] = useState(false);
 
+    const getUserCookies = () => {
+        const email = cookies.email;
+        const password = cookies.password;
+
+        if (!email || !password) return;
+        LoginAdmin(email, password);
+    }
 
     useEffect(() => {
-        const getUserCookies = () => {
-            const email = cookies.email;
-            const password = cookies.password;
-
-            if (!email || !password) return;
-            LoginAdmin(email, password);
-        }
-        getUserCookies();
-    }, []);
+        if(mount) getUserCookies();
+        else setMount(true);
+    }, [mount]);
 
 
     const handleChange = (e) => {
@@ -55,7 +57,8 @@ const Login = () => {
             }
             else{
                 alert(res.data.msg);
-                removeCookie("admin");
+                removeCookie("email");
+                removeCookie("password");
             }
         }
         catch (error) {
@@ -70,16 +73,17 @@ const Login = () => {
 
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Email</label>
-                    <input type="email" name='email' className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={handleChange} />
+                    <input type="email" name='email' className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={handleChange} tabIndex={1}/>
                 </div>
 
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                    <input type="password" name='password' className="form-control" id="exampleInputPassword1" onChange={handleChange} />
+                    <input type="password" name='password' className="form-control" id="exampleInputPassword1" onChange={handleChange} tabIndex={2}/>
                 </div>
 
-                <button type="button"
-                    onClick={() => LoginAdmin(data.email, data.password)} className="btn btn-primary">Login</button>
+                <button type="button" tabIndex={3} autoFocus
+                    onClick={() => LoginAdmin(data.email, data.password)} className="btn btn-primary">Sign In
+                </button>
             </form>
         </div>
     )

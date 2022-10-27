@@ -1,6 +1,6 @@
 import { testModel } from "../../models/testSchema.js";
 
-const CalculateScore = async(userID, userQuestions, res, country) => {
+const CalculateScore = async(userID, userQuestions, res) => {
   try {
     const test = await testModel.findOne({userID}, 'Questions _id');
     if(!test) return res.json({success:false, msg:"Failed to find the test"});
@@ -40,7 +40,6 @@ const CalculateScore = async(userID, userQuestions, res, country) => {
     test.isTestCompleted = true;
 
     test.userQuestionsAndAnswers = userQuestionsAndAnswers;
-    test.country = country || "";
 
     await test.save(function(err){
         if(err) return res.send({success:false, msg:'Failed to save test'});

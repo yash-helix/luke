@@ -1,10 +1,13 @@
 import { adminModal } from "../../models/AdminSchema.js";
+import bcrypt from "bcrypt";
 
 const login = async(email, password, res) => {
   try {
     const admin = await adminModal.findOne({email}, {password:1});
 
-    if(!admin || admin.password !== password){
+    const isPasswordCorrect = await bcrypt.compare(password, admin.password);
+
+    if(!admin || isPasswordCorrect === false){
         return res.json({success:false, msg:"No user found"})
     }
 

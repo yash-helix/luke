@@ -1,16 +1,26 @@
 import React, { useState } from "react";
 import UserTable from "./UserTables";
 import "./Search.css";
+import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router";
 
 const Search = () => {
+  const navigate = useNavigate();
+  const[, , removeCookie] = useCookies(["email", "password"]);
   const [filterData, setFilterData] = useState("");
+
+  const Logout = () => {
+    removeCookie("email", {path : "/adminLogin"});
+    removeCookie("password", {path : "/adminLogin"});
+    navigate("/adminLogin", {replace:true});
+  }
 
   return (
     <>
       <div className="container">
-        <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-between align-items-center">
           <img src="/logo.png" alt="Logo" width={180} />
-          {/* <h2>Marketing Management</h2> */}
+          <button className="btn btn-danger" onClick={Logout}>Logout</button>
         </div>
 
         <div className="searchBox mt-5 container-fluid">

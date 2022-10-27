@@ -9,9 +9,6 @@ const TestSchema = new Schema({
         type:String,
         required:true
     },
-    country:{
-        type:String
-    },
     score:{
         type:Number,
         default:0
