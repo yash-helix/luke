@@ -99,7 +99,7 @@ userRouter.post("/getQuestionFromId", async (req, res) => {
 
 userRouter.post("/submitTest", (req, res) => {
     try {
-        let { userID, questions, country } = req.body.data;
+        let { userID, questions } = req.body.data;
         questions = questions.filter(question => question.answer !== 0)
 
         if (!userID) return res.json({ success: false, msg: "Test not found" });
@@ -109,7 +109,7 @@ userRouter.post("/submitTest", (req, res) => {
         userTestSchema.validate({ questions })
             .then(response => {
                 const { questions: userQuestions } = response;
-                CalculateScore(userID, userQuestions, res, country);
+                CalculateScore(userID, userQuestions, res);
             })
             .catch(err => {
                 return res.json({ success: false, msg: "Validation error occurred", errror: err.message })

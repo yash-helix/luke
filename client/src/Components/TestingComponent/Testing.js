@@ -11,7 +11,6 @@ import { useNavigate } from "react-router";
 
 const FinalScreen = () => {
     const [data, setData] = useState([]);
-    const [country, setCountry] = useState("");
     const [mount, setMount] = useState(false);
     const navigate = useNavigate();
 
@@ -47,16 +46,10 @@ const FinalScreen = () => {
         }
     }
 
-    const getCountry = async () => {
-        const res = await axios.get("http://ip-api.com/json");
-        setCountry(res.data?.country || "")
-    }
-
 
     useEffect(() => {
         if (mount) {
             getQuestions();
-            getCountry();
         }
         
         setMount(true);
@@ -83,7 +76,6 @@ const FinalScreen = () => {
         const data1 = {
             userID,
             questions: finalAnswers,
-            country
         }
 
         const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/submitTest`, { data: data1 });

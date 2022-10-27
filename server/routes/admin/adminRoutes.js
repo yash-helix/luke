@@ -61,8 +61,8 @@ adminRouter.post("/getUserPaper", async(req, res) => {
     try {
         const {id, name} = req.body;
 
-        const test = await testModel.findOne({userID:id}, "userQuestionsAndAnswers email country");
-        const user = await userModal.findOne({_id:id}, "fullName file");
+        const test = await testModel.findOne({userID:id}, "userQuestionsAndAnswers email");
+        const user = await userModal.findOne({_id:id}, "fullName file country");
 
         if(!test || !user) return res.json({success:false, msg:"Failed to find the user or his test"});
 

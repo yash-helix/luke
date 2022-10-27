@@ -14,6 +14,9 @@ export const userSchema = new Schema({
         type:String,
         required:true
     },
+    country:{
+        type:String
+    },
     language:{
         type:String,
         required:true
