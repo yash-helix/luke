@@ -16,7 +16,7 @@ export const test2 = [
     "Type": 2
   },
   {
-    "Question": "Fill in the missing words:The bridge was used to carry to buckets of grain and seed over the river. Many workers would ____ the bridge when heading out of the village to the outside fields where they toiled throughout the day. Those who worked harder would earn more from their _____ than those who were indolent.",
+    "Question": "Fill in the missing words: The bridge was used to carry to buckets of grain and seed over the river. Many workers would ____ the bridge when heading out of the village to the outside fields where they toiled throughout the day. Those who worked harder would earn more from their _____ than those who were indolent.",
     "Options": ['walk, branch', 'snap, smile', 'hammer, criticism', 'traverse, breeze', 'cross, labour'],
     "Images": [],
     "Solution": "Explanation: For the first missing word, we need a word that is an action to the bridge. Snap does not work. The words from the options that work properly are: walk, traverse, cross and even hammer, although it is a little odd. The second missing word needs context. The passage states that the workers will earn more for something. We have branch, that doesn't make much sense. Neither does breeze. Smile, criticism and labour work. Smile is paired with snap does that is no longer an option. Indolence suggests being lazy, and labour is an antonym of this. Given the context therefore, labour makes good sense rather than criticism which is a little peculiar in the circumstance. Therefore, the correct word pair is: cross, labour.",
@@ -40,7 +40,7 @@ export const test2 = [
     "Type": 2
   },
   {
-    "Question": "Fill in the missing words:The Great Barrier Reef is the world's largest coral reef system.It is not a singular reef, but rather a ______ of nearly 3,000individual reefs. It is so large and vast, that it can be seen from_____ space. It is often considered as one of the world's natural wonders of the world.",
+    "Question": "Fill in the missing words: The Great Barrier Reef is the world's largest coral reef system.It is not a singular reef, but rather a ______ of nearly 3,000 individual reefs. It is so large and vast, that it can be seen from_____ space. It is often considered as one of the world's natural wonders of the world.",
     "Options": ['conversation, outside', 'collection, outer', 'guarantee, high', 'meeting, zone', 'gathering, far'],
     "Images": [],
     "Solution": "Explanation: The sentence requires a word to describe a group of reefs. We have first options for the first word: conversation, collection, guarantee, meeting, gathering. Conversation does not work here, and guarantee is a little awkward so they can be disregarded. The other three words all work so they are all possible answers for now. The second word is a preceding word combined with space. From our three options, we have: outer, zone and far. Zone does not work at all. Far works but makes little sense. Outer makes sense and works in this situation. Therefore, the correct answer is: collection, outer.",
@@ -80,7 +80,7 @@ export const test2 = [
     "Type": 2
   },
   {
-    "Question": "A recipe for making 2 mojitos requires 1/3 cup of white rum. Inorder to make 30 mojitos, how many cups of white rum would be required?",
+    "Question": "A recipe for making 2 mojitos requires 1/3 cup of white rum. In order to make 30 mojitos, how many cups of white rum would be required?",
     "Options": ['1', '2', '3', '4', '5'],
     "Images": [],
     "Solution": "Step 1: 2 * 3 = 6 Step 2: 30 / 6 = 5",
@@ -96,7 +96,7 @@ export const test2 = [
     "Type": 2
   },
   {
-    "Question": "Which age bracket had the highest percentage of accidents in2015?",
+    "Question": "Which age bracket had the highest percentage of accidents in 2015?",
     "Options": ['16-24', '25-34', '35-44', '45-54', '55-64', '65+'],
     "Images": ['Test2_image_Page13_1.png'],
     "Solution": "Explanation: Simply locate the figures of each bracket. We can notice that they stack up as follows: 16-24 = 16.7% 25-34 = 21% 35-44 = 16.5% 45-54 = 16.2% 55-64 = 11.8% 65+ = 9.7% Therefore, the highest percentage was in the 25-34 age bracket.",
@@ -160,7 +160,7 @@ export const test2 = [
     "Type": 2
   },
   {
-    "Question": "How many more million kgs of CO2 were emitted from Diesel in2015 than Natural gas in 2012?",
+    "Question": "How many more million kgs of CO2 were emitted from Diesel in 2015 than Natural gas in 2012?",
     "Options": ['11', '12', '13', '14', '15'],
     "Images": ['Test2_image_Page21_1.png'],
     "Solution": "Step 1: Simply locate the figures of the Diesel 2015 and Natural gas 2012. 27 and 13, respectively. Step 2: Subtract the least by the most. 27 - 13 = 14",
