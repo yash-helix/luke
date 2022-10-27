@@ -32,7 +32,7 @@ export const test4 = [
     "Type": 4
   },
   {
-    "Question": "In 2004, how many more powered goods vehicles were there inNetherlands than France?",
+    "Question": "In 2004, how many more powered goods vehicles were there in Netherlands than France?",
     "Options": ['32,000', '36,000', '40,000', '44,000', '48,000'],
     "Images": ['Test4_image_Page5_1.png'],
     "Solution": "Explanation: Simply locate the figures for 2004 for Netherlands and France which can be found using the colour scheme. Netherlands 2004 = 264, France 2004 = 224.  Subtract the least by the most. 264 - 224 = 40",
@@ -40,7 +40,7 @@ export const test4 = [
     "Type": 4
   },
   {
-    "Question": "Madeleine runs a business that earns $40,000 a month. Her outgoing costs are $30,000 with her pocketing the remainder.How much will Madeleine earn in 3 years?",
+    "Question": "Madeleine runs a business that earns $40,000 a month. Her outgoing costs are $30,000 with her pocketing the remainder. How much will Madeleine earn in 3 years?",
     "Options": ['$240,000', '$280,000', '$320,000', '$360,000', '$400,000'],
     "Images": [],
     "Solution": "Explanation: 40,000 - 30,000 = 10,000 10,000 * 36 = 360,000",
@@ -80,7 +80,7 @@ export const test4 = [
     "Type": 4
   },
   {
-    "Question": "In 2015, how many more people have health insurance inSweden than in Italy?",
+    "Question": "In 2015, how many more people have health insurance in Sweden than in Italy?",
     "Options": ['13,000', '21,000', '27,000', '36,000', '49,000'],
     "Images": ['Test4_image_Page11_1.png'],
     "Solution": "Solution: Locate the numbers from 2015, indicated with the purple colour for Sweden and Italy, 149 and 100 respectively. Answer is in ('000). 149 - 100 = 49",
@@ -96,7 +96,7 @@ export const test4 = [
     "Type": 4
   },
   {
-    "Question": "Assumptions: Some spices are deadly. All spices are hot.Conclusion: Some hot spices are deadly.",
+    "Question": "Assumptions: Some spices are deadly. All spices are hot. Conclusion: Some hot spices are deadly.",
     "Options": ['True', 'False', 'Cannot Say'],
     "Images": [],
     "Solution": "Explanation: We are told that all spices are hot. Some spices are deadly, we do not know which ones. The conclusions that some hot spices are deadly is to be considered. Even though we do not know which ones are deadly, we do know that they are going to be hot because all spices are hot. And since some hot spices are deadly, it follows that some hot spices, whatever they are, are deadly.",
@@ -144,7 +144,7 @@ export const test4 = [
     "Type": 4
   },
   {
-    "Question": "In 2015, what is the difference between the lowest quarter forFrance, and the highest quarter for Germany?",
+    "Question": "In 2015, what is the difference between the lowest quarter for France, and the highest quarter for Germany?",
     "Options": ['6', '7', '8', '9', '10'],
     "Images": ['Test4_image_Page19_1.png'],
     "Solution": "Step 1: Simply locate the figures for 2015 quarters for France which can be found using the table. Q1 = 31, Q2 = 29, Q3 = 26, Q4 = 28. Therefore, the lowest is Q3 = 26 Step 2: Now locate the figures for 2015 quarters for Germany. Q1 = 36, Q2 = 33, Q3 = 31, Q4 = 33. Therefore, the highest is Q1 = 36 Step 3: Now subtract the lowest from the highest. 36 - 26 = 10",
@@ -248,7 +248,7 @@ export const test4 = [
     "Type": 4
   },
   {
-    "Question": "Dumbbell sets sell for $70, and Resistance band sets sell for$30. How many more Dumbbell sets can you buy thanResistance band sets with $210?",
+    "Question": "Dumbbell sets sell for $70, and Resistance band sets sell for$30. How many more Dumbbell sets can you buy than Resistance band sets with $210?",
     "Options": ['2', '4', '5', '6', '8'],
     "Images": [],
     "Solution": "Step 1: 210 / 70 = 3 Step 2: 210 / 30 = 7 Step 3: 7 - 3 = 4",
@@ -344,7 +344,7 @@ export const test4 = [
     "Type": 4
   },
   {
-    "Question": "Which one comes next in the pattern of these letter pairs:TX, ST, RS... ?",
+    "Question": "Which one comes next in the pattern of these letter pairs: TX, ST, RS... ?",
     "Options": ['QX', 'PR', 'PT', 'ST', 'QR'],
     "Images": [],
     "Solution": "Explanation: Notice that the first letter in the pair goes T, S then R. We can gather from this that it is moving in alphabetical order backwards. Therefore, we can surmise that the next first letter will be Q. The second letter in the pair goes X, T, then S. If we look at the pairs, we can gather from this that the subsequent right hand letter was the previous left hand letter. For example, TX = ST. WE can surmise that the next second letter will be R. As a result, we can determine that the next letter pair will be QR.",
@@ -360,7 +360,7 @@ export const test4 = [
     "Type": 4
   },
   {
-    "Question": "The ninth object, a pillow, is placed in one of the three boxes.Which box is it placed in?",
+    "Question": "The ninth object, a pillow, is placed in one of the three boxes. Which box is it placed in?",
     "Options": ['Left', 'Centre', 'Right'],
     "Images": ['Test4_image_Page47_1.png'],
     "Solution": "Step 1: Each box must contain at least three objects. The ladle and spatula are in the left box. Step 2: The bell and battery are in the right box, which is the same box that contains the pinecone. Therefore, the right box has three objects and can be discounted. Step 3: The egg and bucket are in the box next to the ladle, so the middle. And the carton is next to the one with the spatula, the left, so It's also in the middle. Therefore, the middle box has three objects also. The only box without three objects is the left box, which will therefore accept the ninth object, a pillow.",

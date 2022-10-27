@@ -53,7 +53,7 @@ export const test1 = [
     "type": 1
   },
   {
-    "Question": "How many more total numbers of hazards where there in 2014than in 2015?",
+    "Question": "How many more total numbers of hazards where there in 2014 than in 2015?",
     "Options": ['110', '117', '124', '131', '138'],
     "Images": ['Test1_image_Page7_1.png'],
     "Solution": "Step 1: Simply locate the figures of the total number of hazards for 2014 and 2015. 1,645 and 1,514, respectively. Step 2: Subtract the least by the most. 1,645 - 1,514 = 131",
@@ -61,7 +61,7 @@ export const test1 = [
     "type": 1
   },
   {
-    "Question": "Assumptions: All shirts are clothes. Some shirts are made from cotton. No clothes are made from elastane.Conclusion: Some shirts are made from elastane.",
+    "Question": "Assumptions: All shirts are clothes. Some shirts are made from cotton. No clothes are made from elastane. Conclusion: Some shirts are made from elastane.",
     "Options": ['True', 'False', 'Cannot Say'],
     "Images": [],
     "Solution": "Explanation: We are told that shirts are clothes. We are also told that no clothes are made from elastane. Therefore, the conclusion that some shirts are made from elastane is false.",
@@ -85,7 +85,7 @@ export const test1 = [
     "type": 1
   },
   {
-    "Question": "What is the difference between the most frequent Hazard TypeIncidents and the least frequent in 2015?",
+    "Question": "What is the difference between the most frequent Hazard Type Incidents and the least frequent in 2015?",
     "Options": ['146', '178', '210', '242', '274'],
     "Images": ['Test1_image_Page11_1.png'],
     "Solution": "Step 1: Simply locate the figures of the most frequent hazard type (pathogenic), and the least frequent (parasitic). 277 and 3, respectively. Step 2: Subtract the least by the most. 277 - 3 = 274",
@@ -117,7 +117,7 @@ export const test1 = [
     "type": 1
   },
   {
-    "Question": "Fill in the missing words:Forming a lasting impression at a job interview is _____. It is worth remembering also that it is not only about what you can_____ the employer but what they can give back to you.",
+    "Question": "Fill in the missing words: Forming a lasting impression at a job interview is _____. It is worth remembering also that it is not only about what you can_____ the employer but what they can give back to you.",
     "Options": ['important, offer', 'demonstrable, drastic', 'required, extort', 'ideal, store', 'measured, give'],
     "Images": [],
     "Solution": "Explanation: For our first missing word we have: important, demonstrable, required, ideal and measured. Measured doesn't quite work. Demonstrable is possible but is awkward. Important, required and ideal all work in context. It is hard to determine which is best so far. For our second missing word we have: offer, drastic, extort, store and give. Store, drastic and extort do not make sense. Offer and give make sense in context. However, the paired word with 'give' is 'measured' which does not work. Therefore, the only pair that works is 'important, offer'.",
@@ -133,7 +133,7 @@ export const test1 = [
     "type": 1
   },
   {
-    "Question": "What was the difference of Supply Pipe Losses from 2000 to2007?",
+    "Question": "What was the difference of Supply Pipe Losses from 2000 to 2007?",
     "Options": ['238', '250', '262', '274', '286'],
     "Images": ['Test1_image_Page17_1.png'],
     "Solution": "Solution: Locate the figure for Supply Pipe Losses of 2000 and 200. Calculate the difference between them. 2,103 - 1,829 = 274",
@@ -141,7 +141,7 @@ export const test1 = [
     "type": 1
   },
   {
-    "Question": "Fill in the missing words:The national museum released a statement outlining their plans to _____ a new exhibition for obsolete technology. It will include old televisions, early video game consoles, and other precursor technology items. The pre-order tickets for the exhibition has already reached double that of the average monthly museum attendees, suggesting that it will be _____.",
+    "Question": "Fill in the missing words: The national museum released a statement outlining their plans to _____ a new exhibition for obsolete technology. It will include old televisions, early video game consoles, and other precursor technology items. The pre-order tickets for the exhibition has already reached double that of the average monthly museum attendees, suggesting that it will be _____.",
     "Options": ['open, read', 'stun, protested', 'exclude, fair', 'commemorate, socialist', 'unveil, popular'],
     "Images": [],
     "Solution": "Explanation: For the first missing word, we need a word that stated that the new exhibition is being opened or built. The words from the options that work properly are: open, commemorate and unveil. The second missing word needs context. The passage states that the ticket numbers are high, and therefore this doesn't suggest the exhibition will be fair, protested, read, or indeed socialist. The word that works most here is popular. And popular is paired with unveil which is one of the other missing words that works. Therefore, the correct word pair is: unveil, popular.",
@@ -149,7 +149,7 @@ export const test1 = [
     "type": 1
   },
   {
-    "Question": "Fill in the missing words:Walking across a frozen lake is not a good idea. The ice might be thinner than expected and one can fall ______ the ice into the cold water below. Once submerged, climbing out can be______ difficult as the ice continues to break under your weight.",
+    "Question": "Fill in the missing words: Walking across a frozen lake is not a good idea. The ice might be thinner than expected and one can fall ______ the ice into the cold water below. Once submerged, climbing out can be______ difficult as the ice continues to break under your weight.",
     "Options": ['beneath, increasingly', 'mark, action', 'thick, quite', 'under, review', 'below, applicably'],
     "Images": [],
     "Solution": "Explanation: The sentence requires a word to describe going under the ice. We have first options for the first word: beneath, mark, thick, under, below. Mark and thick do not work here so they can be disregarded. The other three words all work so they are all possible answers for now. The second word is an adverb and combined with 'difficult'. From our three options, we have: increasingly, review and applicably. Review does not work at all. Applicably works but makes little sense. Increasingly makes sense and works in this situation. Therefore, the correct answer is: beneath, increasingly.",
@@ -312,7 +312,7 @@ export const test1 = [
     "Question": "Eye is to ball as:",
     "Options": ['Dragon is to fly', 'Water is to flower', 'Bread is to bake', 'TV is to watch', 'Run is to walk'],
     "Images": [],
-    "Solution": "Explanation: The answer is that these are both compound words. There is not a 'waterflower', a 'breadbake', a 'TVwatch' nor a 'runwalk'. But there is a 'dragonfly'. Hence, that is the correct answer.",
+    "Solution": "Explanation: The answer is that these are both compound words. There is not a 'water flower', a 'breadbake', a 'TVwatch' nor a 'runwalk'. But there is a 'dragonfly'. Hence, that is the correct answer.",
     "Answer": 1,
     "type": 1
   },
@@ -357,7 +357,7 @@ export const test1 = [
     "type": 1
   },
   {
-    "Question": "Assumptions: Some gamers don't have jobs. No adults are gamers.Conclusion: Some adults don't have jobs.",
+    "Question": "Assumptions: Some gamers don't have jobs. No adults are gamers. Conclusion: Some adults don't have jobs.",
     "Options": ['True', 'False', 'Cannot Say'],
     "Images": [],
     "Solution": "Explanation: We are told that some gamers don't have jobs and that no adults are gamers. We are asked if we can conclude that some adults don't have jobs from these assumptions. Given that no adults are gamers, the previous assumption gamers have no bearing on adults. Therefore, the conclusion about some adults not having jobs cannot be determined either way. Therefore, it is cannot say.",
@@ -368,7 +368,7 @@ export const test1 = [
     "Question": "Complete the sequence.",
     "Options": ['7', '8', '9', '10', '11'],
     "Images": ['Test1_image_Page46_1.png'],
-    "Solution": "Explanation: We can notice that 5 is 3 + 2. We do not know the middle number. It goes ? then 13. After that is 21, which is 13 + 8. 8 is also 5 + 3, the first two in the sequence. If we try with 8, we find that 5 + 8 = 13. We can know reasonably say that the sequence is as follows. The current number + the previous number = the subsequent number. Therefore, the ? is 8.",
+    "Solution": "Explanation: We can notice that 5 is 3 + 2. We do not know the middle number. It goes? then 13. After that is 21, which is 13 + 8. 8 is also 5 + 3, the first two in the sequence. If we try with 8, we find that 5 + 8 = 13. We can know reasonably say that the sequence is as follows. The current number + the previous number = the subsequent number. Therefore, the ? is 8.",
     "Answer": 2,
     "type": 1
   },
@@ -389,7 +389,7 @@ export const test1 = [
     "type": 1
   },
   {
-    "Question": "It takes Ellie 45 minutes to walk from Home to Gym at a constant pace of 2mph. Ellie wants to reduce this time to 30minutes. How much faster must Ellie walk?",
+    "Question": "It takes Ellie 45 minutes to walk from Home to Gym at a constant pace of 2mph. Ellie wants to reduce this time to 30 minutes. How much faster must Ellie walk?",
     "Options": ['0 mph', '0.5 mph', '1 mph', '1.5 mph', '2 mph'],
     "Images": [],
     "Solution": "Step 1: A pace of 2mph means that Ellie will therefore walk 1.5 miles in 45 minutes. S = d / t Step 2: S = 1.5 / 0.50 S = 3 Step 3: 3 - 2 = 1 Ellie therefore needs to increase her speed to 3mph, and thus must walk 1mph faster.",

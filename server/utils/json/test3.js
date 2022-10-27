@@ -1,6 +1,6 @@
 export const test3 = [
   {
-    "Question": "Which one comes next in the pattern of these letter pairs:AM, BN, CO... ?",
+    "Question": "Which one comes next in the pattern of these letter pairs: AM, BN, CO... ?",
     "Options": ['DP', 'DR', 'CR', 'EP', 'ER'],
     "Images": [],
     "Solution": "Explanation: Notice that the first letter in the pair goes A, B then C. We can gather from this that it is moving in alphabetical order. Therefore, we can surmise that the next first letter will be D. The second letter in the pair goes M, N, then O. We can gather from this that is also moving alphabetically, from the midway point of the alphabet. Therefore, we can surmise that the next second letter will be P. As a result, we can determine that the next letter pair will be DP.",
@@ -32,7 +32,7 @@ export const test3 = [
     "Type": 3
   },
   {
-    "Question": "Fill in the missing words:The office space was used as economically as possible. All of the tables were ______ up against one another, so all the employees were having to sit next to each other closely. Each desk was given two monitors to work with and each had their own metal cabinet to put their ______ items into for safekeeping.",
+    "Question": "Fill in the missing words: The office space was used as economically as possible. All of the tables were ______ up against one another, so all the employees were having to sit next to each other closely. Each desk was given two monitors to work with and each had their own metal cabinet to put their ______ items into for safekeeping.",
     "Options": ['stacked, blame', 'pushed, personal', 'diluted, hostage', 'leaned, champion', 'priced, product'],
     "Images": [],
     "Solution": "Explanation: For the first missing word, we need a word that is an action to the tables, suggesting that they are close to each other. The words from the options that work properly are: Stacked, pushed, and perhaps leaned although it is a little odd. The second missing word precedes 'items' and describes what items they are. The words from the options that work properly are potentially all of them, though some are more awkward than others. The most typical word is 'personal'. And since personal is paired with pushed, another word that works well with the previous missing word, this is the best word pair we have. Therefore, the correct word pair is: pushed, personal.",
@@ -72,7 +72,7 @@ export const test3 = [
     "Type": 3
   },
   {
-    "Question": "Fill in the missing words:There can be a lot of rain in the months of Winter. The high street was not built to adequately deal with this ______ of rainwater. The drains were unable to cope, and the roads and paths became flooded. Many shops had to close down from being _____ by the overflowing water.",
+    "Question": "Fill in the missing words: There can be a lot of rain in the months of Winter. The high street was not built to adequately deal with this ______ of rainwater. The drains were unable to cope, and the roads and paths became flooded. Many shops had to close down from being _____ by the overflowing water.",
     "Options": ['measure, boomed', 'amount, ruined', 'level, suntanned', 'difficulty, closed', 'ability, secured'],
     "Images": [],
     "Solution": "Explanation: The sentence requires a word to describe the quantity of rainwater. We have five options for the first word: measure, amount, level, difficulty, ability. Ability does not work here, and difficulty is a little awkward so they can be disregarded. The other three words all work so they are all possible answers for now. The second word is saying what happened due to the rainwater. From our three options, we have: boomed, ruined and suntanned. Suntanned does not work at all. Boomed also makes little sense. Ruined makes sense and works in this situation. Therefore, the correct answer is: Amount, ruined.",
@@ -152,7 +152,7 @@ export const test3 = [
     "Type": 3
   },
   {
-    "Question": "The apprentice boulderer _____ ever higher up the cliff face,using all the rock-climbing techniques she could to get to the top.",
+    "Question": "The apprentice boulderer _____ ever higher up the cliff face, using all the rock-climbing techniques she could to get to the top.",
     "Options": ['Warped', 'Ascended', 'Threw', 'Fell', 'Grovelled'],
     "Images": [],
     "Solution": "Explanation: Warped, threw and grovelled do not make much sense. To fall higher up the cliff face also does not make much sense. To ascend the cliff face is what we need to describe the boulderer going up the cliff. Therefore, that is the correct answer.",
@@ -184,7 +184,7 @@ export const test3 = [
     "Type": 3
   },
   {
-    "Question": "The eight object, a whisk, is placed in one of the four boxes.Which box is it placed in?",
+    "Question": "The eight object, a whisk, is placed in one of the four boxes. Which box is it placed in?",
     "Options": ['Left', 'Centre-Left', 'Centre-Right', 'Right'],
     "Images": ['Test3_image_Page24_1.png'],
     "Solution": "Step 1: Each box must contain at least 2 objects. The mask and flag are in the right box. Therefore, the right box is covered. Step 2: The paintbrush and buckle are in the box next to the one with the mask, the right box. Therefore, the centre-right box is covered. Step 3: The jigsaw is on the left, along with the ocarina. Therefore, the left is covered. The key chain is next to the buckle, thus the centre-left but it only has one object. So, the eight object the whisk will be placed in this box to satisfy the two object a box rule. Therefore, the correct answer is centre-left.",
@@ -192,7 +192,7 @@ export const test3 = [
     "Type": 3
   },
   {
-    "Question": "Alina reads at a constant speed of 1 page every 2 minutes.How many hours will it take her to read a book the length of 360pages?",
+    "Question": "Alina reads at a constant speed of 1 page every 2 minutes. How many hours will it take her to read a book the length of 360pages?",
     "Options": ['6 hours', '8 hours', '10 hours', '12 hours', '14 hours'],
     "Images": [],
     "Solution": "Explanation: 360 / 60 = 6 6 x 2 = 12",
@@ -200,7 +200,7 @@ export const test3 = [
     "Type": 3
   },
   {
-    "Question": "What was the difference in UK Energy Consumption byHouseholds and Transport?",
+    "Question": "What was the difference in UK Energy Consumption by Households and Transport?",
     "Options": ['20.2', '21.4', '22.6', '23.8', '25.0'],
     "Images": ['Test3_image_Page26_1.png'],
     "Solution": "Explanation: Simply locate the figures of Households and Transport. 37.4 and 14.8, respectively. Subtract the least by the most. 37.4 - 14.8 = 22.6",
@@ -256,7 +256,7 @@ export const test3 = [
     "Type": 3
   },
   {
-    "Question": "In millions, what was the amount of Hate-mail cyber-attacks in2019?",
+    "Question": "In millions, what was the amount of Hate-mail cyber-attacks in 2019?",
     "Options": ['2', '3', '4', '5', '6'],
     "Images": ['Test3_image_Page33_1.png'],
     "Solution": "Solution: Locate the numbers from 2019 of cyber-attacks, and the total number. The answer we need is the total minus the rest of the other numbers to get our difference. 36 = 4 + 2 + 3 + 2 + 20 + x x = 36 - 4 - 2 - 3 - 2 - 20 = 5 x = 5",
@@ -280,7 +280,7 @@ export const test3 = [
     "Type": 3
   },
   {
-    "Question": "Assumptions: Some trees grow tall. All trees have leaves.Conclusion: Some trees with leaves don't grow tall.",
+    "Question": "Assumptions: Some trees grow tall. All trees have leaves. Conclusion: Some trees with leaves don't grow tall.",
     "Options": ['True', 'False', 'Cannot Say'],
     "Images": [],
     "Solution": "Explanation: We are told that all trees have leaves. Some trees grow tall, which also means that some trees do not. Trees with leaves that do not grow tall. We firstly know that all trees have leaves, so we have that covered. And we also know that some trees will not grow tall. As a result, we can say that it is true that some trees with leave don't grow tall.",
