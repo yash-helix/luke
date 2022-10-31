@@ -1,11 +1,14 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
-import Search from "./Search";
-import { Users } from "./Users";
+import React, { useContext, useEffect, useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/auth";
 import "./UserTable.css";
 
 const UserTable = ({ filterData }) => {
+  const {logged, setLogged, UpdateAuth} = useContext(AuthContext);
+  
+  const navigate = useNavigate();
+
   const [data, setData] = useState([]);
   const [order, setOrder] = useState("ASC");
   const [duplicateData, setduplicateData] = useState([]);
@@ -30,8 +33,9 @@ const UserTable = ({ filterData }) => {
   }
 
   useEffect(() => {
-    getTestDetails();
-  }, [])
+    if(!logged) navigate("/adminLogin", {replace:true})
+    else getTestDetails();
+  }, []);
 
 
 
@@ -103,7 +107,6 @@ const UserTable = ({ filterData }) => {
       alert("Cannot find any user whose score is more than 35");
     }
   }
-
 
   return (
     <div className="userTable mt-5">

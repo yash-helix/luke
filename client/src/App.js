@@ -59,14 +59,14 @@ function App() {
         }
 
         setSelectedFile("");
-        setData({
-            fullName: "",
-            email: "",
-            phone: "",
-            position: "",
-            language: "",
-            experience: "",
-        });
+        // setData({
+        //     fullName: "",
+        //     email: "",
+        //     phone: "",
+        //     position: "",
+        //     language: "",
+        //     experience: "",
+        // });
     };
     
 

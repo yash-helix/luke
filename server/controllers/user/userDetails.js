@@ -11,7 +11,8 @@ export const getCountry = () => {
             const res = await axios.get("https://www.cloudflare.com/cdn-cgi/trace");
             let arr = res.data.split("\n")
             let ip = arr.filter(item => item.includes("ip"))[0].split("=")[1];
-    
+            
+            console.log(ip, "ip")
             if(!ip) reject("");
     
             const client = new WebServiceClient(process.env.MAXMIND_ACCOUNT_ID, process.env.MAXMIND_LICENSE_KEY);
@@ -22,6 +23,7 @@ export const getCountry = () => {
                 resolve(country);
             })
             .catch(err => {
+                console.log(err)
                 reject("");
             });
         }
