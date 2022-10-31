@@ -1,31 +1,25 @@
 import { userDetailsFormSchemaWithoutCV } from '../../utils/YupSchemas.js';
 import { userModal } from '../../models/UserSchema.js';
-import { WebServiceClient } from '@maxmind/geoip2-node';
 import axios from 'axios';
+import { Reader } from 'maxmind';
+import fs from 'fs'
 
 export const getCountry = () => {
 
     return new Promise(async(resolve, reject) => {
         try {
-            let country;
             const res = await axios.get("https://www.cloudflare.com/cdn-cgi/trace");
             let arr = res.data.split("\n")
             let ip = arr.filter(item => item.includes("ip"))[0].split("=")[1];
             
-            console.log(ip, "ip")
-            if(!ip) reject("");
-    
-            const client = new WebServiceClient(process.env.MAXMIND_ACCOUNT_ID, process.env.MAXMIND_LICENSE_KEY);
-    
-            client.country(ip)
-            .then(response => {
-                country = response.country;
-                resolve(country);
-            })
-            .catch(err => {
-                console.log(err)
-                reject("");
-            });
+            if (!ip) reject("");
+
+            const buffer = fs.readFileSync(`${process.cwd()}/public/GeoLite2-Country.mmdb`);
+            const lookup = new Reader(buffer);
+            const city = lookup.get(ip);
+
+            if(city.country.names.en) resolve(city.country.names.en);
+            else reject("");
         }
         catch (error) {
             reject("");
@@ -41,10 +35,8 @@ export const userDetails = async(data, req, res) => {
     let country; 
     try {
         country = await getCountry();
-        console.log(country);
     }
     catch (error) {
-        console.log(error)
         country = "";
     }
 
