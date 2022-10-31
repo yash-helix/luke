@@ -11,6 +11,7 @@ import UserQuestionPaper from "./Components/UserQuestionPaper";
 import Login from "./Components/Admin/Login";
 
 import { CookiesProvider } from 'react-cookie';
+import { Auth } from "./contexts/auth";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -21,11 +22,23 @@ root.render(
                 <Route index element={<App />} />
                 <Route path="/startTest" element={<InstructionPage />} />
                 <Route path="/test" element={<FinalScreen />} />
-                <Route path="/table" element={<CookiesProvider><Search /></CookiesProvider>} />
+                <Route path="/table" element=
+                {<Auth>
+                    <CookiesProvider>
+                        <Search />
+                    </CookiesProvider>
+                </Auth>
+                } />
                 <Route path="/TestCompleted" element={<TestCompleted />} />
                 <Route path="/retestExhasuted" element={<RetestExhausted />} />
                 <Route path="/questionPaper/:name/:id" element={<UserQuestionPaper />} />
-                <Route path="/adminLogin" element={<CookiesProvider><Login/></CookiesProvider>} />
+                <Route path="/adminLogin" element=
+                {<Auth>
+                    <CookiesProvider>
+                        <Login/>
+                    </CookiesProvider>
+                </Auth>
+                }/>
             </Routes>
         </BrowserRouter>
     </React.StrictMode>

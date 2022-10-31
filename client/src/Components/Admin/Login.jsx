@@ -1,9 +1,12 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router';
 import { useCookies } from 'react-cookie';
+import { AuthContext } from '../../contexts/auth';
 
 const Login = () => {
+
+    const {UpdateAuth} = useContext(AuthContext);
 
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['email', 'password']);
@@ -45,7 +48,6 @@ const Login = () => {
                 return false
             }
 
-
             const res = await axios.post(`${process.env.REACT_APP_SERVER}/admin/login`, {email, password:pass}, {
                 headers:{"Content-Type":"application/json"}
             });
@@ -53,16 +55,19 @@ const Login = () => {
             if(res.data.success){
                 setCookie('email', email, { path: '/adminLogin' });
                 setCookie('password', pass, { path: '/adminLogin' });
+                UpdateAuth(true);
                 navigate("/table");
             }
             else{
                 alert(res.data.msg);
                 removeCookie("email");
                 removeCookie("password");
+                UpdateAuth(false);
             }
         }
         catch (error) {
-            alert("Unexpected error occurred")
+            UpdateAuth(false);
+            alert("Unexpected error occurred");
         }
     }
 
