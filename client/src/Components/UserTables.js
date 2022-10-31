@@ -76,13 +76,13 @@ const UserTable = ({ filterData }) => {
 
   // send the qualified users list to slack
   const sendToppersList = async() => {
-    const users = data.filter(user => user.score >= 10);
+    const users = data.filter(user => user.score >= 30);
 
     if(users.length > 0){
       
       let data = {text: ''};
       users.forEach((user, index) => {
-        data.text += `Sr No. ${index+1}.\nName: ${user.fullName}.\nEmail: ${user.email}.\nScore: ${user.score}\n\n`
+        data.text += `Sr No. ${index+1}.\nName: ${user.fullName}.\nEmail: ${user.email}.\nScore: ${user.score}\nCV: ${val.file}\n\n`
       });
 
       try {
