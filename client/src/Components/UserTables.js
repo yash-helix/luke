@@ -76,7 +76,7 @@ const UserTable = ({ filterData }) => {
 
   // send the qualified users list to slack
   const sendToppersList = async() => {
-    const users = data.filter(user => user.score >= 30);
+    const users = data.filter(user => user.score >= 10);
 
     if(users.length > 0){
       
