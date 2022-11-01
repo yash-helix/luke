@@ -1,18 +1,31 @@
 import axios from "axios";
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/auth";
 import "./UserTable.css";
 
 const UserTable = ({ filterData }) => {
-  const {logged, setLogged, UpdateAuth} = useContext(AuthContext);
-  
+  const { logged, setLogged, UpdateAuth } = useContext(AuthContext);
+
   const navigate = useNavigate();
 
   const [data, setData] = useState([]);
   const [order, setOrder] = useState("ASC");
   const [duplicateData, setduplicateData] = useState([]);
   const [errMsg, setErrMsg] = useState("Loading Tests");
+
+  const [arrowState, setArrowState] = useState({
+    fullName: 'asc',
+    position: 'asc',
+    country: 'asc',
+    score: 'asc',
+    averageTime: 'asc',
+    accuracy: 'asc',
+    questionsAttempted: 'asc',
+    correctAnswers: 'asc',
+  });
 
 
   //get details of all tests
@@ -33,10 +46,7 @@ const UserTable = ({ filterData }) => {
   }
 
   useEffect(() => {
-    if(!logged){
-      console.log(logged)
-      navigate("/adminLogin", {replace:true})
-    }
+    if (!logged) navigate("/adminLogin", { replace: true })
     else getTestDetails();
   }, []);
 
@@ -50,12 +60,14 @@ const UserTable = ({ filterData }) => {
       );
       setData(sorted);
       setOrder("DSC");
+      setArrowState({ ...arrowState, [col]: "dsc" });
     } else {
       const sorted = [...data].sort((a, b) =>
         a[col].toString().toLowerCase() < b[col].toString().toLowerCase() ? 1 : -1
       );
       setData(sorted);
       setOrder("ASC");
+      setArrowState({ ...arrowState, [col]: "asc" });
     }
   };
 
@@ -78,26 +90,26 @@ const UserTable = ({ filterData }) => {
 
 
   // send the qualified users list to slack
-  const sendToppersList = async() => {
+  const sendToppersList = async () => {
     const users = data.filter(user => user.score >= 10);
 
-    if(users.length > 0){
-      
-      let data = {text: ''};
+    if (users.length > 0) {
+
+      let data = { text: '' };
       users.forEach((user, index) => {
-        data.text += `Sr No. ${index+1}.\nName: ${user.fullName}.\nEmail: ${user.email}.\nScore: ${user.score}\nCV: ${user.file}\n\n`
+        data.text += `Sr No. ${index + 1}.\nName: ${user.fullName}.\nEmail: ${user.email}.\nScore: ${user.score}\nCV: ${user.file}\n\n`
       });
 
       try {
-        const res = await axios.post(process.env.REACT_APP_SLACK, JSON.stringify(data),{
-          withCredentials:false,
-          headers:{}
+        const res = await axios.post(process.env.REACT_APP_SLACK, JSON.stringify(data), {
+          withCredentials: false,
+          headers: {}
         });
 
-        if(res.status === 200){
+        if (res.status === 200) {
           alert("Sent successfully");
         }
-        else{
+        else {
           alert("Message not sent");
         }
       }
@@ -106,7 +118,7 @@ const UserTable = ({ filterData }) => {
         alert("Unexpected error occurred");
       }
     }
-    else{
+    else {
       alert("Cannot find any user whose score is more than 35");
     }
   }
@@ -126,20 +138,22 @@ const UserTable = ({ filterData }) => {
 
             <thead className="bg-dark text-light border-dark border">
               <tr>
-                <th onClick={(e) => sorting("fullName")}>Name</th>
-                <th onClick={(e) => sorting("position")}>Position</th>
-                <th onClick={(e) => sorting("country")}>Country</th>
-                <th onClick={(e) => sorting("score")}>Total Score</th>
-                <th onClick={(e) => sorting("questionsAttempted")}>Questions Attempted</th>
-                <th onClick={(e) => sorting("correctAnswers")}>Questions Answered Correctly</th>
+                <th onClick={(e) => sorting("fullName")}>Name {arrowState.fullName === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
+                <th onClick={(e) => sorting("position")}>Position {arrowState.position === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
+                <th onClick={(e) => sorting("country")}>Country {arrowState.country === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
+                <th onClick={(e) => sorting("score")}>Total Score {arrowState.score === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
+                <th onClick={(e) => sorting("questionsAttempted")}>Questions Attempted {arrowState.questionsAttempted === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
+                <th onClick={(e) => sorting("correctAnswers")}>Questions Answered Correctly {arrowState.correctAnswers === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
                 <th onClick={(e) => sorting("averageTime")}>
                   Average time taken per Question(in minutes)
+                  {arrowState.averageTime === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                 </th>
                 <th onClick={() => sorting("accuracy")}>
                   Accuracy (percent correct of questions answered)
+                  {arrowState.accuracy === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                 </th>
                 <th onClick={() => sorting("cv")}>
-                  CV
+                  CV {arrowState.cv === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                 </th>
               </tr>
             </thead>
@@ -163,14 +177,14 @@ const UserTable = ({ filterData }) => {
                     <td>
                       {
                         val?.file ?
-                        <a href={val.file} target="_blank" rel="noopener noreferrer" className="fw-semibold text-decoration-none">
-                          Click to view
-                        </a>
-                        :
-                        <p>Not Found</p>
+                          <a href={val.file} target="_blank" rel="noopener noreferrer" className="fw-semibold text-decoration-none">
+                            Click to view
+                          </a>
+                          :
+                          <p>Not Found</p>
                       }
                     </td>
-                    
+
                   </tr>
                 );
               })}
@@ -179,7 +193,7 @@ const UserTable = ({ filterData }) => {
           :
           <h1>{errMsg}</h1>
       }
-    </div>
+    </div >
   );
 };
 

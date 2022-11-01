@@ -6,18 +6,18 @@ import { useNavigate } from "react-router";
 
 const Search = () => {
   const navigate = useNavigate();
-  const[, , removeCookie] = useCookies(["email", "password"]);
+  const [, , removeCookie] = useCookies(["email", "password"]);
   const [filterData, setFilterData] = useState("");
 
   const Logout = () => {
-    removeCookie("email", {path : "/adminLogin"});
-    removeCookie("password", {path : "/adminLogin"});
-    navigate("/adminLogin", {replace:true});
+    removeCookie("email", { path: "/adminLogin" });
+    removeCookie("password", { path: "/adminLogin" });
+    navigate("/adminLogin", { replace: true });
   }
 
   return (
     <>
-      <div className="container">
+      <div className="container-fluid">
         <div className="d-flex justify-content-between align-items-center">
           <img src="/logo.png" alt="Logo" width={180} />
           <button className="btn btn-danger" onClick={Logout}>Logout</button>
