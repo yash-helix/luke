@@ -1,4 +1,4 @@
-import React, {useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./App.css";
 import { useNavigate } from 'react-router-dom';
@@ -68,7 +68,7 @@ function App() {
         //     experience: "",
         // });
     };
-    
+
 
     return (
         <div className="App  container-fluid">
@@ -127,9 +127,9 @@ function App() {
                         required
                         onChange={handleChange}
                     >
-                        <option value="1">A</option>
-                        <option value="2">B</option>
-                        <option value="3">C</option>
+                        <option value="Junior Developer">Junior Developer</option>
+                        <option value="Senior Developer">Senior Developer</option>
+                        <option value="Fresher">Fresher</option>
                     </select>
                     <br />
                     <label className="fw-normal">Select Language: *</label>
@@ -141,8 +141,8 @@ function App() {
                         required
                         onChange={handleChange}
                     >
-                        <option value="1">Hindi</option>
-                        <option value="2">English</option>
+                        <option value="Hindi">Hindi</option>
+                        <option value="English">English</option>
                     </select>
                     <br />
                     <label className="fw-normal">Your Work Experience: *</label>
