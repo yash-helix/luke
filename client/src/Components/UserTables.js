@@ -17,6 +17,13 @@ const UserTable = ({ filterData }) => {
   const [duplicateData, setduplicateData] = useState([]);
   const [errMsg, setErrMsg] = useState("Loading Tests");
 
+  const [filter, setFilter] = useState({
+    country: '',
+    position: '',
+  });
+  const [countries, setCountries] = useState([]);
+  const [positions, setPositions] = useState([]);
+
   const [arrowState, setArrowState] = useState({
     fullName: 'asc',
     position: 'asc',
@@ -38,6 +45,22 @@ const UserTable = ({ filterData }) => {
       if (res.data.success) {
         setData(res.data.user)
         setduplicateData(res.data.user)
+
+        if (res.data.user.length > 0) {
+          const allCountries = res.data.user.map(user => {
+            return user.country
+          });
+
+          const allPositions = res.data.user.map(user => {
+            return user.position
+          });
+
+          let allC = [...new Set(allCountries)]
+          let allP = [...new Set(allPositions)]
+
+          setCountries(allC);
+          setPositions(allP);
+        }
       }
       else {
         setErrMsg(res.data.msg)
@@ -76,6 +99,36 @@ const UserTable = ({ filterData }) => {
     }
   };
 
+
+  // filtering
+  const Filter = (e) => {
+    const { value, name } = e.target;
+    setFilter(prev => {
+      return {
+        ...prev,
+        [name]: value
+      }
+    })
+  }
+
+  // Search
+  useEffect(() => {
+    if (filter.country !== "") {
+      let filteredCountryData = duplicateData.filter((item) => item.country === filter.country);
+      setData(filteredCountryData);
+    }
+    else {
+      setData(duplicateData);
+    }
+
+    if (filter.position !== "") {
+      let filteredPositionData = duplicateData.filter((item) => item.position === filter.position);
+      setData(filteredPositionData);
+    }
+    else {
+      setData(duplicateData);
+    }
+  }, [filter]);
 
 
   // Search
@@ -130,6 +183,27 @@ const UserTable = ({ filterData }) => {
 
   return (
     <div className="userTable mt-5">
+
+      <div className="row">
+        <div className="mb-4">
+          <select name="country" onChange={Filter}>
+            <option value="">Select Country</option>
+            {countries.map((item, index) =>
+              <option value={item} key={index} >{item}</option>
+            )}
+          </select>
+        </div>
+
+        <div>
+          <select name="position" onChange={Filter}>
+            <option value="">Select Position</option>
+            {positions.map((item, index) =>
+              <option value={item} key={index} >{item}</option>
+            )}
+          </select>
+        </div>
+      </div>
+
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
         {
           data.length > 0 &&
@@ -146,6 +220,7 @@ const UserTable = ({ filterData }) => {
         }
 
       </div>
+
 
       {
         data.length > 0 ?
@@ -209,7 +284,7 @@ const UserTable = ({ filterData }) => {
           :
           <h1>{errMsg}</h1>
       }
-    </div >
+    </div>
   );
 };
 
