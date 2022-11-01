@@ -61,12 +61,19 @@ adminRouter.post("/getUserPaper", async(req, res) => {
     try {
         const {id, name} = req.body;
 
-        const test = await testModel.findOne({userID:id}, "userQuestionsAndAnswers email");
-        const user = await userModal.findOne({_id:id}, "fullName file country");
+        const test = await testModel.findOne({userID:id}, {_id:0 ,userID:0, __v:0, Questions:0, email:0, retest:0, isTestCompleted:0, isTestStarted:0, createdAt:0});
+        const user = await userModal.findOne({_id:id}, {_id:0, __v:0, });
 
         if(!test || !user) return res.json({success:false, msg:"Failed to find the user or his test"});
 
-        return res.json({success:true, UserPaper:test.userQuestionsAndAnswers, email:test.email, name:user.fullName, country:test.country})
+        const {fullName,email,phone,country,language,position,experience,file} = user;
+        const {score,questionsAttempted,correctAnswers,averageTime,accuracy, updatedAt:date} = test;
+        const User = {
+            fullName,email,phone,country,language,position,experience,file,
+            score,questionsAttempted,correctAnswers,averageTime,accuracy, date
+        };
+
+        return res.json({success:true, UserPaper:test.userQuestionsAndAnswers, user:User})
     }
     catch (error) {
         return res.json({success:false, msg:"Internal server error occurred"})
