@@ -1,6 +1,7 @@
 import axios from "axios";
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import { CSVLink, CSVDownload } from 'react-csv';
 import React, { useContext, useEffect, useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/auth";
@@ -26,6 +27,8 @@ const UserTable = ({ filterData }) => {
     questionsAttempted: 'asc',
     correctAnswers: 'asc',
   });
+
+  const CSVData = data;
 
 
   //get details of all tests
@@ -125,12 +128,22 @@ const UserTable = ({ filterData }) => {
 
   return (
     <div className="userTable mt-5">
-      {
-        data.length > 0 &&
-        <div className="my-3">
-          <button className="btn btn-dark" onClick={sendToppersList}>Export to slack</button>
-        </div>
-      }
+      <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+        {
+          data.length > 0 &&
+          <div className="my-3">
+            <button className="btn btn-dark" onClick={sendToppersList}>Export to slack</button>
+          </div>
+        }
+
+        {
+          data.length > 0 &&
+          <div className="my-3">
+            <CSVLink data={CSVData}> <button className="btn btn-dark">Download CSV File </button></CSVLink>;
+          </div>
+        }
+
+      </div>
 
       {
         data.length > 0 ?
@@ -193,7 +206,7 @@ const UserTable = ({ filterData }) => {
           :
           <h1>{errMsg}</h1>
       }
-    </div >
+    </div>
   );
 };
 
