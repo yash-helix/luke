@@ -12,6 +12,7 @@ const app = express();
 app.use(cors());
 app.use(fileupload());
 app.use(express.json());
+app.set('trust proxy', 'loopback')
 
 const uri = process.env.MONGODB_CONNECTION_URL;
 const PORT = process.env.PORT || 5000;
@@ -24,6 +25,7 @@ app.use("/admin", adminRouter);
 
 app.get("/", (req, res) => {
     // main()
+    console.log(req.ip)
     return res.status(200).send("<h1>Hello World</h1>")
 })
 
@@ -37,7 +39,7 @@ try {
     })
     
     mongoose.connection.on('open', async () => {
-        app.listen(PORT, () => {
+        app.listen({port:PORT, host:'0.0.0.0'}, () => {
             console.log('Server started and database connected')
         })
     })
