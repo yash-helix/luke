@@ -13,7 +13,7 @@ const UserQuestionPaper = () => {
             const res = await axios.post(`${process.env.REACT_APP_SERVER}/admin/getUserPaper`, {id, name});
             if(res.data.success){
                 setData(res.data.UserPaper);
-                setUser({name:res.data.name, email:res.data.email, country:res.data.country || ""});
+                setUser(res.data.user || "");
             }
             else{
                 alert(res.data.msg);

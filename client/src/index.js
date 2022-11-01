@@ -31,7 +31,11 @@ root.render(
                 } />
                 <Route path="/TestCompleted" element={<TestCompleted />} />
                 <Route path="/retestExhasuted" element={<RetestExhausted />} />
-                <Route path="/questionPaper/:name/:id" element={<UserQuestionPaper />} />
+                <Route path="/questionPaper/:name/:id" element=
+                {   <Auth>
+                        <UserQuestionPaper />
+                    </Auth>
+                } />
                 <Route path="/adminLogin" element=
                 {<Auth>
                     <CookiesProvider>

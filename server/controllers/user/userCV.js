@@ -1,8 +1,17 @@
 import { userDetailsFormSchema } from '../../utils/YupSchemas.js';
 import { userModal } from '../../models/UserSchema.js';
 import UploadToS3 from './UploadToS3.js';
+import { getCountry } from './userDetails.js';
 
-export const userCV = (data, req, res) => {
+export const userCV = async(data, req, res) => {
+    let country; 
+    try {
+        country = await getCountry();
+    }
+    catch (error) {
+        country = "";
+    }
+
     userDetailsFormSchema.validate(data)
         .then(async (response) => {
             try {
@@ -25,7 +34,7 @@ export const userCV = (data, req, res) => {
 
                     // save to database
                     let s3File = 'https://luke-pdf.s3.ap-south-1.amazonaws.com/' + filename
-                    const dataToSave = { ...data, file: s3File };
+                    const dataToSave = { ...data,country:country, file: s3File };
                     const newCV = new userModal(dataToSave);
                     await newCV.save();
                     

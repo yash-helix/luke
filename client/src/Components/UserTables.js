@@ -33,7 +33,10 @@ const UserTable = ({ filterData }) => {
   }
 
   useEffect(() => {
-    if(!logged) navigate("/adminLogin", {replace:true})
+    if(!logged){
+      console.log(logged)
+      navigate("/adminLogin", {replace:true})
+    }
     else getTestDetails();
   }, []);
 
@@ -82,7 +85,7 @@ const UserTable = ({ filterData }) => {
       
       let data = {text: ''};
       users.forEach((user, index) => {
-        data.text += `Sr No. ${index+1}.\nName: ${user.fullName}.\nEmail: ${user.email}.\nScore: ${user.score}\nCV: ${val.file}\n\n`
+        data.text += `Sr No. ${index+1}.\nName: ${user.fullName}.\nEmail: ${user.email}.\nScore: ${user.score}\nCV: ${user.file}\n\n`
       });
 
       try {
