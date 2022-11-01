@@ -64,12 +64,14 @@ const UserTable = ({ filterData }) => {
       setData(sorted);
       setOrder("DSC");
       setArrowState({ ...arrowState, [col]: "dsc" });
+      setArrowState({ ...arrowState, [col]: "dsc" });
     } else {
       const sorted = [...data].sort((a, b) =>
         a[col].toString().toLowerCase() < b[col].toString().toLowerCase() ? 1 : -1
       );
       setData(sorted);
       setOrder("ASC");
+      setArrowState({ ...arrowState, [col]: "asc" });
       setArrowState({ ...arrowState, [col]: "asc" });
     }
   };
@@ -93,7 +95,7 @@ const UserTable = ({ filterData }) => {
 
 
   // send the qualified users list to slack
-  const sendToppersList = async () => {
+  const sendToppersList = async  () => {
     const users = data.filter(user => user.score >= 10);
 
     if (users.length > 0) {
@@ -104,15 +106,15 @@ const UserTable = ({ filterData }) => {
       });
 
       try {
-        const res = await axios.post(process.env.REACT_APP_SLACK, JSON.stringify(data), {
-          withCredentials: false,
-          headers: {}
+        const res = await axios.post(process.env.REACT_APP_SLACK, JSON.stringify(data),  {
+          withCredentials:  false,
+          headers:  {}
         });
 
-        if (res.status === 200) {
+        if  (res.status === 200)  {
           alert("Sent successfully");
         }
-        else {
+        else  {
           alert("Message not sent");
         }
       }
@@ -121,7 +123,7 @@ const UserTable = ({ filterData }) => {
         alert("Unexpected error occurred");
       }
     }
-    else {
+    else  {
       alert("Cannot find any user whose score is more than 35");
     }
   }
@@ -151,22 +153,24 @@ const UserTable = ({ filterData }) => {
 
             <thead className="bg-dark text-light border-dark border">
               <tr>
-                <th onClick={(e) => sorting("fullName")}>Name {arrowState.fullName === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
-                <th onClick={(e) => sorting("position")}>Position {arrowState.position === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
-                <th onClick={(e) => sorting("country")}>Country {arrowState.country === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
-                <th onClick={(e) => sorting("score")}>Total Score {arrowState.score === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
-                <th onClick={(e) => sorting("questionsAttempted")}>Questions Attempted {arrowState.questionsAttempted === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
-                <th onClick={(e) => sorting("correctAnswers")}>Questions Answered Correctly {arrowState.correctAnswers === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
+                <th onClick={(e) => sorting("fullName")}>Name {arrowState.fullName === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}  {arrowState.fullName === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
+                <th onClick={(e) => sorting("position")}>Position {arrowState.position === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}  {arrowState.position === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
+                <th onClick={(e) => sorting("country")}>Country {arrowState.country === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}  {arrowState.country === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
+                <th onClick={(e) => sorting("score")}>Total Score {arrowState.score === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}  {arrowState.score === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
+                <th onClick={(e) => sorting("questionsAttempted")}>Questions Attempted {arrowState.questionsAttempted === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}  {arrowState.questionsAttempted === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
+                <th onClick={(e) => sorting("correctAnswers")}>Questions Answered Correctly {arrowState.correctAnswers === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}  {arrowState.correctAnswers === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
                 <th onClick={(e) => sorting("averageTime")}>
                   Average time taken per Question(in minutes)
+                  {arrowState.averageTime === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                   {arrowState.averageTime === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                 </th>
                 <th onClick={() => sorting("accuracy")}>
                   Accuracy (percent correct of questions answered)
                   {arrowState.accuracy === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                  {arrowState.accuracy === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                 </th>
                 <th onClick={() => sorting("cv")}>
-                  CV {arrowState.cv === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                  CV {arrowState.cv === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} {arrowState.cv === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                 </th>
               </tr>
             </thead>
@@ -206,7 +210,7 @@ const UserTable = ({ filterData }) => {
           :
           <h1>{errMsg}</h1>
       }
-    </div>
+    </div >
   );
 };
 
