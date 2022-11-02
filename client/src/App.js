@@ -11,8 +11,8 @@ function App() {
         fullName: "",
         email: "",
         phone: "",
-        position: "1",
-        language: "1",
+        position: "Junior Developer",
+        language: "Hindi",
         experience: "1",
     });
 
