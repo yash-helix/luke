@@ -80,7 +80,7 @@ const FinalScreen = () => {
 
         const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/submitTest`, { data: data1 });
         if (res.data.success) {
-            navigate("/TestCompleted", { replace: true, state: { userID } });
+            navigate("/feedback", { replace: true, state: { userID } });
         }
         else {
             alert(res.data.msg);

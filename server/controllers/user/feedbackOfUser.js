@@ -4,11 +4,16 @@ import { userModal } from "../../models/UserSchema.js";
 export const FeedBack = {
 
     createfeedback: async (req, res) => {
-        const { text, userID } = req.body
+        const { text, userID } = req.body;
+
+        if (!text || !userID) {
+            return res.json({ success: false, msg: 'Invalid User Details' })
+        }
+
         await userModal.findOne({ userID }).then(
             async (user) => {
                 if (!user) {
-                    return res.json({ msg: 'User not found' })
+                    return res.json({ success: false, msg: 'User not found' })
                 }
                 else {
                     const feedback = await feedbackModal.create(
@@ -17,11 +22,18 @@ export const FeedBack = {
                             userID: userID,
                         }
                     )
-                    // feedback.save();
-                    res.send('Feedback Given Successfully');
+                    res.status(200).json({ success: true, msg: 'Feedback Given Successfully' });
                 }
             }
-        )
+        ).catch(err => {
+            res.json({ success: false, msg: 'Unexpected Error Occured' })
+        })
 
     },
 }
+
+
+
+
+
+

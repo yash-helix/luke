@@ -1,45 +1,6 @@
-import { Button, TextField } from '@mui/material'
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import React from "react"
 
 const TestCompleted = () => {
-
-  const [feedback, setFeedback] = useState({
-    text: '',
-  });
-
-
-  const changeHandler = (e) => {
-    const { name, value } = e.target
-    setFeedback((prev) => {
-      return {
-        ...prev,
-        [name]: value
-      }
-    })
-  }
-
-  const { state } = useLocation();
-
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    const apibody = {
-      text: feedback.text,
-      userID: state.userID
-    }
-    try {
-      const res = await axios.post('http://localhost:5000/user/createfeedback',
-        apibody
-      );
-      console.log(res);
-    }
-    catch (err) {
-      console.log(err);
-    }
-    setFeedback({ text: '' })
-  }
-
   return <div className="container-fluid d-flex justify-content-center align-items-center flex-column" style={{ height: "100vh", backgroundColor: "#DCDCDC" }}>
     <div className="shadow p-5 bg-light" style={{ maxWidth: "600px", marginBottom: '15px', borderRadius: '5px' }}>
       <div className="card-body d-flex justify-content-center align-items-center">
@@ -51,18 +12,7 @@ const TestCompleted = () => {
         </div>
       </div>
     </div>
-
-    <div className="shadow p-5 bg-light" style={{ minWidth: "600px", borderRadius: '5px' }}>
-      <div className="card-body flex-column d-flex justify-content-start mb-3">
-        <h5>Please Share Your Valuable Feedback...</h5>
-        <TextField variant='outlined' name='text' value={feedback.text} onChange={changeHandler} fullWidth multiline small />
-      </div>
-      <div className='d-flex justify-content-center'>
-        <Button type='submit' onClick={(e) => submitHandler(e)} variant='outlined'>Submit Feedback</Button>
-      </div>
-    </div>
-
   </div>
 }
 
-export default TestCompleted
+export default TestCompleted;
