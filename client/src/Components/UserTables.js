@@ -49,11 +49,11 @@ const UserTable = ({ filterData }) => {
         if (res.data.user.length > 0) {
           const allCountries = res.data.user.map(user => {
             return user.country
-          });
+          }).filter(country => country !== "");
 
           const allPositions = res.data.user.map(user => {
             return user.position
-          });
+          }).filter(position => position !== "");
 
           let allC = [...new Set(allCountries)]
           let allP = [...new Set(allPositions)]
@@ -111,22 +111,25 @@ const UserTable = ({ filterData }) => {
     })
   }
 
-  // Search
+  // filters
   useEffect(() => {
-    if (filter.country !== "") {
-      let filteredCountryData = duplicateData.filter((item) => item.country === filter.country);
-      setData(filteredCountryData);
-    }
-    else {
-      setData(duplicateData);
-    }
+    let filteredCountryData = duplicateData.filter(({country}) => country.toLowerCase() === filter.country.toLowerCase());
+    filteredCountryData.length>0 ? setData(filteredCountryData) : setData(duplicateData);
 
-    if (filter.position !== "") {
-      let filteredPositionData = duplicateData.filter((item) => item.position === filter.position);
+    if (filter.position && filter.position !== "") {
+      let finalData;
+      if (filteredCountryData.length > 0) finalData = filteredCountryData;
+      else finalData = duplicateData
+
+      let filteredPositionData = finalData.filter(user => user.position.toLowerCase() === filter.position.toLowerCase());
       setData(filteredPositionData);
-    }
-    else {
-      setData(duplicateData);
+
+      if(filteredPositionData.length <=0 ){
+        setErrMsg("No records found")
+      }
+      else{
+        setErrMsg("");
+      }
     }
   }, [filter]);
 
