@@ -29,7 +29,7 @@ export const test1 = [
     "type": 1
   },
   {
-    "Question": "Which one comes next in the pattern of these letter pairs:AZ, BY, CX... ?",
+    "Question": "Which one comes next in the pattern of these letter pairs: AZ, BY, CX... ?",
     "Options": ['DT', 'DU', 'DW', 'EU', 'EW'],
     "Images": [],
     "Solution": "Explanation: Notice that the first letter in the pair goes A, B then C. We can gather from this that it is moving in alphabetical order. Therefore, we can surmise that the next first letter will be D. The second letter in the pair goes Z, Y, X. This is going alphabetically backwards. Therefore, we can surmise that the next second letter will be W. As a result, the next letter pair is DW.",
@@ -245,7 +245,7 @@ export const test1 = [
     "type": 1
   },
   {
-    "Question": "Back is to lack as:",
+    "Question": "Back is to lack as: ",
     "Options": ['Try is to fly', 'Float is to water', 'Make is to build', 'Look is to see', 'Quake is to move'],
     "Images": [],
     "Solution": "Explanation: This one is all about rhymes. As you can see, lack rhymes with back. Water does not rhyme with float. Build does not rhyme with make. See does not rhyme with look. Move does not rhyme with quake. But try rhymes with fly. Therefore, that is the correct answer.",
@@ -309,7 +309,7 @@ export const test1 = [
     "type": 1
   },
   {
-    "Question": "Eye is to ball as:",
+    "Question": "Eye is to ball as: ",
     "Options": ['Dragon is to fly', 'Water is to flower', 'Bread is to bake', 'TV is to watch', 'Run is to walk'],
     "Images": [],
     "Solution": "Explanation: The answer is that these are both compound words. There is not a 'water flower', a 'breadbake', a 'TVwatch' nor a 'runwalk'. But there is a 'dragonfly'. Hence, that is the correct answer.",
@@ -325,7 +325,7 @@ export const test1 = [
     "type": 1
   },
   {
-    "Question": "Attractive is to ugly as:",
+    "Question": "Attractive is to ugly as: ",
     "Options": ['Point is to sharp', 'Lend is to borrow', 'Brush is to stroke', 'Free is to watch', 'Clearance is to day'],
     "Images": [],
     "Solution": "Explanation: 'Attractive is to ugly' is an antonym, an opposite. Point is to sharp is not an opposite. Brush is to stroke is not an opposite. Free is to watch is not an opposite. Clearance is to not is likewise not an opposite. Lend is to borrow is indeed an opposite, almost opposite.",

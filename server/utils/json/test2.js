@@ -88,7 +88,7 @@ export const test2 = [
     "Type": 2
   },
   {
-    "Question": "Finger is to hand as:",
+    "Question": "Finger is to hand as: ",
     "Options": ['Cup is to coaster', 'Dumbbell is to lift', 'Leaf is to branch', 'Jacket is to sleeve', 'TV is to remote'],
     "Images": [],
     "Solution": "Explanation: This one is all about a small extension of the subsequent subject. As you can see, cup is not an extension of coaster, they are separate objects. Lifting a dumbbell is not relevant. Jacket to sleeve is the wrong way around. Again, TV and remote are not connected. Leaf to branch is the similar example. Therefore, that is the correct answer.",
@@ -192,7 +192,7 @@ export const test2 = [
     "Type": 2
   },
   {
-    "Question": "Ate is to eat as:",
+    "Question": "Ate is to eat as: ",
     "Options": ['Wanted is to want', 'Looked is to look', 'Saw is to see', 'Walked is to walk', 'Flipped is to flip'],
     "Images": [],
     "Solution": "Explanation: The answer is that these are both are irregular simple past words. Wanted, looked, walked and flipped are all regular. But ate is irregular, and so is saw. Hence, that is the correct answer.",
@@ -200,7 +200,7 @@ export const test2 = [
     "Type": 2
   },
   {
-    "Question": "Which one comes next in the pattern of these letter pairs:KK, LJ, MI... ?",
+    "Question": "Which one comes next in the pattern of these letter pairs: KK, LJ, MI... ?",
     "Options": ['NL', 'LK', 'LN', 'KH', 'NH'],
     "Images": [],
     "Solution": "Explanation: Notice that the first letter in the pair goes K, L then M. We can gather from this that it is moving in alphabetical order. Therefore, we can surmise that the next first letter will be N. The second letter in the pair goes K, J, then I. We can gather from this that is moving backwards alphabetically. Therefore, we can surmise that the next second letter will be H. As a result, we can determine that the next letter pair will be NH.",
@@ -264,7 +264,7 @@ export const test2 = [
     "Type": 2
   },
   {
-    "Question": "Dusk is to dawn as:",
+    "Question": "Dusk is to dawn as: ",
     "Options": ['Pen is to pencil', 'Card is to stamp', 'Start is to go', 'Up is to down', 'Cloud is to rain'],
     "Images": [],
     "Solution": "Explanation: Dusk is to dawn' is an opposite. Pen is to pencil is not an opposite. Card is to stamp is not an opposite. Start is to go is not an opposite. Cloud is to rain is likewise not an opposite. Up is to down is indeed an opposite, almost opposite. Therefore, it is the correct answer.",
