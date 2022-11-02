@@ -1,6 +1,6 @@
 export const test4 = [
   {
-    "Question": "Which one comes next in the pattern of these letter pairs:AA, AB, BB, BC... ?",
+    "Question": "Which one comes next in the pattern of these letter pairs: AA, AB, BB, BC... ?",
     "Options": ['BD', 'CB', 'CC', 'CD', 'DD'],
     "Images": [],
     "Solution": "Explanation: Notice that the first letter in the pair goes A, A, B then B. It is not immediately obvious the pattern here. The second letter in the pair goes A, B, B, C. Again, not straightforward. But seen as pairs in a continuous sequence, we can see that the pairs are shifting alphabetically, as if down a line. The right-hand move to the left-hand. The letters are moving left down the sequence. Therefore, we can surmise that the C on the right-hand side will shift left, meaning our left-hand letter will be C. And given there are 3 As and 3 Bs, we should expect 3Cs. We have only seen one so the next will in the sequence will be a C. Therefore, the right-hand letter of the pair will also be a C. As a result, we can determine that the next letter pair will be CC.",
@@ -8,7 +8,7 @@ export const test4 = [
     "Type": 4
   },
   {
-    "Question": "Fill in the missing words:The French author was well known for her provocative ____, as well as her controversial interviews. But what very few foresaw was that she would suddenly decide to _____ at the age of thirty-five, and retreat to a solitary life in the alpine mountains.",
+    "Question": "Fill in the missing words: The French author was well known for her provocative ____, as well as her controversial interviews. But what very few foresaw was that she would suddenly decide to _____ at the age of thirty-five, and retreat to a solitary life in the alpine mountains.",
     "Options": ['documentaries, glow', 'novels, retire', 'fashion, bend', 'washing, foster', 'sayings, attack'],
     "Images": [],
     "Solution": "Explanation: For our first missing word we have: documentaries, novels, fashion, washing and sayings. The word needs to work with provocative. Almost all the words work except washing. For our second missing word we have: glow, retire, bend, foster and attack. Attack, bend and glow do not make sense. This leaves us only with foster and retire. Both of them work within the context of the sentence. But foster is paired with 'washing' the previous word that did not make sense. Therefore, the only pair that works is novels, retire.",
@@ -128,7 +128,7 @@ export const test4 = [
     "Type": 4
   },
   {
-    "Question": "Fill in the missing words:The driver could not see the traffic coming from the right at the junction in the road. There was a bush ______ her view. As a result, she had to slow down to a stop at the junction to see the traffic on the road in order to _____ safely.",
+    "Question": "Fill in the missing words: The driver could not see the traffic coming from the right at the junction in the road. There was a bush ______ her view. As a result, she had to slow down to a stop at the junction to see the traffic on the road in order to _____ safely.",
     "Options": ['turning, connect', 'pushing, drive', 'obstructing, join', 'stopping, grab', 'helping, jump'],
     "Images": [],
     "Solution": "Explanation: For the first missing word, we need a word that describes what the bush was doing the driver. The context suggests it was a hinderance. The words from the options that work properly are: obstructing, stopping, and helping. The second missing word suggests an action verb for what the driver was doing. The words from the options that work properly are most of them, except grab and jump which doesn't work. Therefore, the only pair that works is: obstructing and join. Therefore, the correct word pair is: obstructing, join.",
@@ -216,7 +216,7 @@ export const test4 = [
     "Type": 4
   },
   {
-    "Question": "Tug is to rope as:",
+    "Question": "Tug is to rope as: ",
     "Options": ['Lure is to ball', 'File is to food', 'Honour is to blackboard', 'Tune is to piano', 'Rinse is to candle'],
     "Images": [],
     "Solution": "Explanation: The answer is that the verb is typically associated and used with the corresponding noun. For example, you tug a rope, or a rope is tugged. This is not the case for: luring a ball, filing food, honouring a blackboard, or rinsing a candle. On the other hand, tuning a piano is typical and sensical. Therefore, D is the correct answer.",
@@ -320,7 +320,7 @@ export const test4 = [
     "Type": 4
   },
   {
-    "Question": "Finish is to complete:",
+    "Question": "Finish is to complete: ",
     "Options": ['Single is to lonely', 'Work is to busy', 'Exercise is to sweat', 'Wave is to ride', 'Linger is to remain '],
     "Images": [],
     "Solution": "Explanation: This one is all about synonyms. As you can see, wave is to ride is not synonymous but rather an action to do to the wave. Exercise is to sweat, a consequence of the action. Work is to busy, an effect of the action. Single is to lonely is likewise an effect of the state. Linger is to remain is a synonym, like finish is to complete. Therefore, E is the correct answer.",

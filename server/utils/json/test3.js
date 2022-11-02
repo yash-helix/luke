@@ -8,7 +8,7 @@ export const test3 = [
     "Type": 3
   },
   {
-    "Question": "Blue is to sky as:",
+    "Question": "Blue is to sky as: ",
     "Options": ['Yellow is to television', 'Green is to leaf', 'Orange is to water', 'Red is to aubergine', 'Purple is to tangerine'],
     "Images": [],
     "Solution": "Explanation: The answer is that the noun is the same colour their pairing colour.  For example, orange is to water, and red is to aubergine, are not the same. The one that is the same is green is to leaf. Hence, that is the correct answer. Q3 Choose the word that is opposite, or almost opposite to the word: TIDY (A) Messy (B) Mile (C) Twist (D) Shelter (E) Small Explanation: Mile and twist do not make much sense. Shelter likewise doesn't relate to being an opposite to tidy. Small would be a synonym of 'tiny' not tidy. Do not get tricked by reading the wrong word - and either way, it is a synonym and an opposite. Messy however is when something is not tidy. Therefore, it is an opposite of tidy and as a result, it is the correct answer.",
@@ -104,7 +104,7 @@ export const test3 = [
     "Type": 3
   },
   {
-    "Question": "Fills in the missing words:The professor did his best to make sure he was deliberately______ as he gave his lecture. This way, his students could not understand him, and he was able to continue pretending that he knew what he was talking about. In fact, he didn't know his______ very well, as he was a poor professor.",
+    "Question": "Fills in the missing words: The professor did his best to make sure he was deliberately______ as he gave his lecture. This way, his students could not understand him, and he was able to continue pretending that he knew what he was talking about. In fact, he didn't know his______ very well, as he was a poor professor.",
     "Options": ['confusing, subject', 'hard, light', 'diagram, topic', 'provocative, shareholder', 'revise, guideline'],
     "Images": [],
     "Solution": "Explanation: For our first missing word we have: confusing, hard, diagram, provocative, and revise. Revise doesn't work. Hard works but It's a little awkward as it doesn't quite make sense in the rest of the context, but it works. Confusing works well and makes sense in the context, as does provocative. Diagram doesn't quite work. For our second missing word we have: subject, light, topic, shareholder and guideline. Light, shareholder and guideline do not make sense. Topic makes sense but its preceding word in the pair does not so this is not the answer. Subject works well and make sense in the context and the preceding word in the pair works. Therefore, this is the pair 'confusing, subject.",
@@ -120,7 +120,7 @@ export const test3 = [
     "Type": 3
   },
   {
-    "Question": "Which one comes next in the pattern of these letter pairs:AE, BD, CC... ?",
+    "Question": "Which one comes next in the pattern of these letter pairs: AE, BD, CC... ?",
     "Options": ['BB', 'CA', 'DA', 'DB', 'DC'],
     "Images": [],
     "Solution": "Explanation: Notice that the first letter in the pair goes A, B then C. We can gather from this that it is moving in alphabetical order. Therefore, we can surmise that the next first letter will be D. The second letter in the pair goes E, D, then C. We can gather from this that is also moving backwards alphabetically. Therefore, we can surmise that the next second letter will be B. As a result, we can determine that the next letter pair will be DB.",
@@ -312,7 +312,7 @@ export const test3 = [
     "Type": 3
   },
   {
-    "Question": "Art is to start as:",
+    "Question": "Art is to start as: ",
     "Options": ['Cub is to truck', 'Kid is to river', 'Blank is to bind', 'Alarm is to ring', 'Clock is to frock'],
     "Images": [],
     "Solution": "Explanation: This one is all about rhyming. As you can see, cub does not rhyme with truck. Kid does not rhyme with river. Blank does not rhyme with bind. Alarm does not rhyme with ring. But clock rhymes with frock. Therefore, it is the correct answer.",
@@ -352,7 +352,7 @@ export const test3 = [
     "Type": 3
   },
   {
-    "Question": "Boulder is to stone as:",
+    "Question": "Boulder is to stone as: ",
     "Options": ['Forest is to trees', 'Ocean is to lake', 'Pencil is to pen', 'Cup is to mug', 'Knife is to fork'],
     "Images": [],
     "Solution": "Explanation: Boulder is to stone. It is the same category of object but one is larger or grander than the other. With knife is to fork, we have different objects. That is also true for pencil is to pen and cup is to mug. Forest is to trees, they are similar categories but not quite the same. Ocean is to lake is a similar conceptual idea and therefore is the right answer.",
