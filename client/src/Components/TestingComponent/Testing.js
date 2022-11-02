@@ -39,7 +39,7 @@ const FinalScreen = () => {
                     navigate("/startTest", { replace: true });
                 }
             }
-        } 
+        }
         catch (error) {
             alert("Unexpected error occurred");
             navigate("/startTest", { replace: true });
@@ -51,7 +51,7 @@ const FinalScreen = () => {
         if (mount) {
             getQuestions();
         }
-        
+
         setMount(true);
 
         window.onbeforeunload = function () {
@@ -80,7 +80,7 @@ const FinalScreen = () => {
 
         const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/submitTest`, { data: data1 });
         if (res.data.success) {
-            navigate("/TestCompleted", { replace: true });
+            navigate("/feedback", { replace: true, state: { userID } });
         }
         else {
             alert(res.data.msg);
@@ -93,72 +93,72 @@ const FinalScreen = () => {
 
     return (
         <>
-        <div className="container">
-            <Box sx={{ display: 'flex', justifyContent: 'space-between', }} padding={"1rem"} id='timer'>
-                <Logo />
+            <div className="container">
+                <Box sx={{ display: 'flex', justifyContent: 'space-between', }} padding={"1rem"} id='timer'>
+                    <Logo />
 
-            </Box>
-            
-            {data[index]?.Images.length > 0 ? (
-                <Stack flexDirection='column' >
-                    <Stack className="testing" sx={{ display: "flex", flexDirection: "row", justifyContent: 'space-between' }}>
+                </Box>
 
+                {data[index]?.Images.length > 0 ? (
+                    <Stack flexDirection='column' >
+                        <Stack className="testing" sx={{ display: "flex", flexDirection: "row", justifyContent: 'space-between' }}>
 
-                        <Card sx={{ flex: 1, boxShadow: 'none' }}>
-
-                            <QuestionTable data={data[index]} index={index} sendAns={setAns} Submit={Submit}/>
-                        </Card>
-
-                        <Card sx={{ flex: 0.8, boxShadow: 'none' }}>
-                            {data[index].Images.map((img, key) => <img
-                                src={"https://luke-pdf-image.s3.ap-south-1.amazonaws.com/" + img} key={key} className="img-fluid" />)}
-                        </Card>
-                    </Stack>
-
-                    <Stack sx={{ justifyContent: 'center', alignItems: 'center', m: 2, mt: 5 }}>
-
-                        {index < data.length - 1 && <Button sx={{
-                            "&:hover": { 'background': 'lightblue' }, color: 'white', backgroundColor: 'green', padding: '0.5rem 1rem',
-                            mt: '5%',
-                        }} onClick={() => setIndex(i => i + 1)} > Submit Answer <ChevronRightOutlinedIcon /> </Button>}
-                        {index === data.length - 1 && <Button variant='outlined' size='medium' sx={{
-                                mt: '5%',
-                                color: 'white', backgroundColor: 'green'
-                            }} onClick={Submit}> Submit Answer </Button>}
-                    </Stack>
-                </Stack>
-            )
-
-                :
-
-                (
-                    <Stack flexDirection='column'>
-
-                        <Stack className="" sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" } }}>
 
                             <Card sx={{ flex: 1, boxShadow: 'none' }}>
-                                <QuestionTable data={data[index]} index={index} sendAns={setAns} 
-                                Submit={Submit}/>
+
+                                <QuestionTable data={data[index]} index={index} sendAns={setAns} Submit={Submit} />
                             </Card>
 
+                            <Card sx={{ flex: 0.8, boxShadow: 'none' }}>
+                                {data[index].Images.map((img, key) => <img
+                                    src={"https://luke-pdf-image.s3.ap-south-1.amazonaws.com/" + img} key={key} className="img-fluid" />)}
+                            </Card>
                         </Stack>
 
-                        <Stack sx={{ justifyContent: 'center', alignItems: 'center', m: 2, mt: 5, }}>
-                            {index < data.length - 1 && <Button sx={{
-                                "&:hover": {
-                                    'background': 'lightblue'
-                                }, color: 'white', backgroundColor: 'green', padding: '0.5rem 1rem',
+                        <Stack sx={{ justifyContent: 'center', alignItems: 'center', m: 2, mt: 5 }}>
 
-                            }} onClick={() => setIndex(i => i + 1)}> Submit Answer <ChevronRightOutlinedIcon /> </Button>}
+                            {index < data.length - 1 && <Button sx={{
+                                "&:hover": { 'background': 'lightblue' }, color: 'white', backgroundColor: 'green', padding: '0.5rem 1rem',
+                                mt: '5%',
+                            }} onClick={() => setIndex(i => i + 1)} > Submit Answer <ChevronRightOutlinedIcon /> </Button>}
                             {index === data.length - 1 && <Button variant='outlined' size='medium' sx={{
                                 mt: '5%',
                                 color: 'white', backgroundColor: 'green'
                             }} onClick={Submit}> Submit Answer </Button>}
                         </Stack>
+                    </Stack>
+                )
 
-                    </Stack>)
-            }
-</div>
+                    :
+
+                    (
+                        <Stack flexDirection='column'>
+
+                            <Stack className="" sx={{ display: "flex", flexDirection: { xs: "column", sm: "row" } }}>
+
+                                <Card sx={{ flex: 1, boxShadow: 'none' }}>
+                                    <QuestionTable data={data[index]} index={index} sendAns={setAns}
+                                        Submit={Submit} />
+                                </Card>
+
+                            </Stack>
+
+                            <Stack sx={{ justifyContent: 'center', alignItems: 'center', m: 2, mt: 5, }}>
+                                {index < data.length - 1 && <Button sx={{
+                                    "&:hover": {
+                                        'background': 'lightblue'
+                                    }, color: 'white', backgroundColor: 'green', padding: '0.5rem 1rem',
+
+                                }} onClick={() => setIndex(i => i + 1)}> Submit Answer <ChevronRightOutlinedIcon /> </Button>}
+                                {index === data.length - 1 && <Button variant='outlined' size='medium' sx={{
+                                    mt: '5%',
+                                    color: 'white', backgroundColor: 'green'
+                                }} onClick={Submit}> Submit Answer </Button>}
+                            </Stack>
+
+                        </Stack>)
+                }
+            </div>
         </>
     )
 }

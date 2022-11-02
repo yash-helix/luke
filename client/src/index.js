@@ -12,6 +12,7 @@ import Login from "./Components/Admin/Login";
 
 import { CookiesProvider } from 'react-cookie';
 import { Auth } from "./contexts/auth";
+import { Feedback } from "./Components/Feedback/FeedbackComponent";
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -23,26 +24,27 @@ root.render(
                 <Route path="/startTest" element={<InstructionPage />} />
                 <Route path="/test" element={<FinalScreen />} />
                 <Route path="/table" element=
-                {<Auth>
-                    <CookiesProvider>
-                        <Search />
-                    </CookiesProvider>
-                </Auth>
-                } />
+                    {<Auth>
+                        <CookiesProvider>
+                            <Search />
+                        </CookiesProvider>
+                    </Auth>
+                    } />
                 <Route path="/TestCompleted" element={<TestCompleted />} />
                 <Route path="/retestExhasuted" element={<RetestExhausted />} />
                 <Route path="/questionPaper/:name/:id" element=
-                {   <Auth>
+                    {<Auth>
                         <UserQuestionPaper />
                     </Auth>
-                } />
+                    } />
+                <Route path="/feedback" element={<Feedback />} />
                 <Route path="/adminLogin" element=
-                {<Auth>
-                    <CookiesProvider>
-                        <Login/>
-                    </CookiesProvider>
-                </Auth>
-                }/>
+                    {<Auth>
+                        <CookiesProvider>
+                            <Login />
+                        </CookiesProvider>
+                    </Auth>
+                    } />
             </Routes>
         </BrowserRouter>
     </React.StrictMode>

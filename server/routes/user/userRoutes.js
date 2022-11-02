@@ -6,7 +6,7 @@ import { userModal } from '../../models/UserSchema.js';
 import { testModel } from '../../models/testSchema.js';
 import CalculateScore from '../../controllers/user/CalculateScore.js';
 import { userTestSchema } from '../../utils/YupSchemas.js';
-
+import { FeedBack } from '../../controllers/user/feedbackOfUser.js';
 export const userRouter = express.Router();
 
 userRouter.post("/userCV", (req, res) => {
@@ -31,7 +31,6 @@ userRouter.post("/userCV", (req, res) => {
     }
 });
 
-
 userRouter.post("/StartTest", async (req, res) => {
     try {
         const { email, userID } = req.body;
@@ -44,7 +43,7 @@ userRouter.post("/StartTest", async (req, res) => {
 
         else if (test?.isTestCompleted) return res.json({ success: false, msg: "Test already given!!", testCompleted: true });
 
-        else if(test?.retest >= 3) {
+        else if (test?.retest >= 3) {
             return res.json({ success: false, msg: 'You have exhausted your retest limit, please contact the admin', retestExhausted: true })
         }
 
@@ -119,3 +118,6 @@ userRouter.post("/submitTest", (req, res) => {
         return res.json({ success: false, msg: "Unexpected error occurred" })
     }
 })
+
+// feedback..
+userRouter.post('/createfeedback', FeedBack.createfeedback);
