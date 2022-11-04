@@ -51,7 +51,7 @@ userRouter.post("/StartTest", async (req, res) => {
             isTestAlreadyAvailable = true;
         };
 
-        const size = 10;
+        const size = 50;
         StartTest(userID, email, res, size, { isTestAlreadyAvailable, testID: test?._id });
     }
     catch (error) {
