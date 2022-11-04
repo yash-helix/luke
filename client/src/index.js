@@ -9,10 +9,20 @@ import TestCompleted from "./Components/TestCompleted";
 import RetestExhausted from "./Components/RetestExhausted";
 import UserQuestionPaper from "./Components/UserQuestionPaper";
 import Login from "./Components/Admin/Login";
-
 import { CookiesProvider } from 'react-cookie';
 import { Auth } from "./contexts/auth";
-import { Feedback } from "./Components/Feedback/FeedbackComponent";
+import * as Sentry from "@sentry/react";
+import { BrowserTracing } from "@sentry/tracing";
+
+Sentry.init({
+    dsn: "https://d980efd7db5d4230a5cf3694612b6514@o4504100922130432.ingest.sentry.io/4504100959158272",
+    integrations: [new BrowserTracing()],
+
+    // Set tracesSampleRate to 1.0 to capture 100%
+    // of transactions for performance monitoring.
+    // We recommend adjusting this value in production
+    tracesSampleRate: 1.0,
+});
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -37,7 +47,6 @@ root.render(
                         <UserQuestionPaper />
                     </Auth>
                     } />
-                <Route path="/feedback" element={<Feedback />} />
                 <Route path="/adminLogin" element=
                     {<Auth>
                         <CookiesProvider>

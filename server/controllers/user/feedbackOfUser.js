@@ -6,8 +6,10 @@ export const FeedBack = {
     createfeedback: async (req, res) => {
         const { text, userID } = req.body;
 
+
+
         if (!text || !userID) {
-            return res.json({ success: false, msg: 'Invalid User Details' })
+            return res.json({ success: false, msg: 'Feedback cannot be empty' })
         }
 
         await userModal.findOne({ userID }).then(
@@ -16,7 +18,7 @@ export const FeedBack = {
                     return res.json({ success: false, msg: 'User not found' })
                 }
                 else {
-                    const feedback = await feedbackModal.create(
+                    await feedbackModal.create(
                         {
                             text: text,
                             userID: userID,

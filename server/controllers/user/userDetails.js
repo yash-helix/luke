@@ -30,9 +30,6 @@ export const getCountry = (ip) => {
 }
 
 
-
-
-
 export const userDetails = async(data, req, res) => {
     let country;
     try {

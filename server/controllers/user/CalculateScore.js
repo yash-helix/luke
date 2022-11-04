@@ -1,10 +1,12 @@
 import { testModel } from "../../models/testSchema.js";
+import { userModal } from "../../models/UserSchema.js";
+import axios from 'axios';
 
-const CalculateScore = async(userID, userQuestions, res) => {
+const CalculateScore = async (userID, userQuestions, res) => {
   try {
-    const test = await testModel.findOne({userID}, 'Questions _id');
-    if(!test) return res.json({success:false, msg:"Failed to find the test"});
-    
+    const test = await testModel.findOne({ userID }, 'Questions _id');
+    if (!test) return res.json({ success: false, msg: "Failed to find the test" });
+
     // logic to calculate the score of the user
     const QuestionPaper = test.Questions;
     let score = 0;
@@ -14,23 +16,23 @@ const CalculateScore = async(userID, userQuestions, res) => {
     let accuracy = 0
 
     const userQuestionsAndAnswers = userQuestions.map((userQuestion, i) => {
-        const userAns = userQuestion.answer;
-        const mainQuestion = QuestionPaper.find(paper => paper._id.toString() === userQuestion.questionID);
-        const mainAnswer = mainQuestion.Answer;
+      const userAns = userQuestion.answer;
+      const mainQuestion = QuestionPaper.find(paper => paper._id.toString() === userQuestion.questionID);
+      const mainAnswer = mainQuestion.Answer;
 
-        if(userAns === mainAnswer){
-          score+=1;
-          correctAnswers+=1;
-        };
+      if (userAns === mainAnswer) {
+        score += 1;
+        correctAnswers += 1;
+      };
 
-        return {question:mainQuestion.Question, answer:mainAnswer, userAnswer:userAns, answerValue:mainQuestion.Options[parseInt(mainAnswer)-1], userAnswerValue:mainQuestion.Options[parseInt(userAns)-1]}
+      return { question: mainQuestion.Question, answer: mainAnswer, userAnswer: userAns, answerValue: mainQuestion.Options[parseInt(mainAnswer) - 1], userAnswerValue: mainQuestion.Options[parseInt(userAns) - 1] }
     });
 
     // calculate other stats
     questionsAttempted = userQuestions.length;
-    averageTime = (15/questionsAttempted).toFixed(2);
-    accuracy = ((correctAnswers/questionsAttempted)*100).toFixed(2);
-    
+    averageTime = (15 / questionsAttempted).toFixed(2);
+    accuracy = ((correctAnswers / questionsAttempted) * 100).toFixed(2);
+
     // save stats in document
     test.score = score;
     test.questionsAttempted = questionsAttempted;
@@ -41,15 +43,48 @@ const CalculateScore = async(userID, userQuestions, res) => {
 
     test.userQuestionsAndAnswers = userQuestionsAndAnswers;
 
-    await test.save(function(err){
-        if(err) return res.send({success:false, msg:'Failed to save test'});
-
-        return res.send({success:true, msg:`Test submitted successfully`});
+    await test.save(function (err) {
+      if (err) return res.send({ success: false, msg: 'Failed to save test' });
     });
+
+    const isMsgSentToSlack = await sendUserDetailsToSlack(userID);
+    console.log(isMsgSentToSlack);
+
+    if (isMsgSentToSlack) return res.send({ success: true, msg: `Test submitted successfully` });
+    else return res.send({ success: true, msg: `Test submitted successfully but your exam information is not sent to examiner` });
   }
   catch (error) {
-    return res.json({success:false, msg:"Unexpected error occurred"})
+    return res.json({ success: false, msg: "Unexpected error occurred" })
   }
 }
+
+
+// send the qualified users list to slack
+const sendUserDetailsToSlack = async (userID) => {
+  try {
+    const testData = await testModel.findOne({ userID }, 'score')
+    const userData = await userModal.findOne({ _id: userID }, 'fullName email file')
+
+    if (!testData || !userData) return false
+
+    let msgData = { text: `Name: ${userData.fullName}.\nEmail: ${userData.email}.\nScore: ${testData.score}\nCV: ${userData.file || "Not Found"}\n\n` };
+
+    const res = await axios.post(process.env.REACT_APP_SLACK, JSON.stringify(msgData), {
+      withCredentials: false,
+      headers: {}
+    });
+
+    if (res.status === 200) {
+      return true
+    }
+    else {
+      return false
+    }
+  }
+  catch (error) {
+    return false;
+  }
+}
+
 
 export default CalculateScore;

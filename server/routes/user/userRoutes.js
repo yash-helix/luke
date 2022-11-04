@@ -51,7 +51,7 @@ userRouter.post("/StartTest", async (req, res) => {
             isTestAlreadyAvailable = true;
         };
 
-        const size = 50;
+        const size = 10;
         StartTest(userID, email, res, size, { isTestAlreadyAvailable, testID: test?._id });
     }
     catch (error) {
@@ -103,7 +103,6 @@ userRouter.post("/submitTest", (req, res) => {
 
         if (!userID) return res.json({ success: false, msg: "Test not found" });
         else if (!questions || !questions.length > 0) return res.json({ success: false, msg: "No question was answered" });
-
 
         userTestSchema.validate({ questions })
             .then(response => {

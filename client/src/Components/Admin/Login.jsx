@@ -6,7 +6,7 @@ import { AuthContext } from '../../contexts/auth';
 
 const Login = () => {
 
-    const {UpdateAuth} = useContext(AuthContext);
+    const { UpdateAuth } = useContext(AuthContext);
 
     const navigate = useNavigate();
     const [cookies, setCookie, removeCookie] = useCookies(['email', 'password']);
@@ -26,7 +26,7 @@ const Login = () => {
     }
 
     useEffect(() => {
-        if(mount) getUserCookies();
+        if (mount) getUserCookies();
         else setMount(true);
     }, [mount]);
 
@@ -42,23 +42,24 @@ const Login = () => {
     }
 
     const LoginAdmin = async (email, pass) => {
+
         try {
             if (!email || !pass) {
                 alert("Enter email and password");
                 return false
             }
 
-            const res = await axios.post(`${process.env.REACT_APP_SERVER}/admin/login`, {email, password:pass}, {
-                headers:{"Content-Type":"application/json"}
+            const res = await axios.post(`${process.env.REACT_APP_SERVER}/admin/login`, { email, password: pass }, {
+                headers: { "Content-Type": "application/json" }
             });
 
-            if(res.data.success){
-                setCookie('email', email, { path: '/adminLogin' });
-                setCookie('password', pass, { path: '/adminLogin' });
+            if (res.data.success) {
+                setCookie('email', email, { path: '/', expires: new Date(Date.now() + 24 * 60 * 60 * 1000) }); //2592000
+                setCookie('password', pass, { path: '/', expires: new Date(Date.now() + 24 * 60 * 60 * 1000) });
                 UpdateAuth(true);
                 navigate("/table");
             }
-            else{
+            else {
                 alert(res.data.msg);
                 removeCookie("email");
                 removeCookie("password");
@@ -78,12 +79,12 @@ const Login = () => {
 
                 <div className="mb-3">
                     <label htmlFor="exampleInputEmail1" className="form-label">Email</label>
-                    <input type="email" name='email' className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={handleChange} tabIndex={1}/>
+                    <input type="email" name='email' className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" onChange={handleChange} tabIndex={1} />
                 </div>
 
                 <div className="mb-3">
                     <label htmlFor="exampleInputPassword1" className="form-label">Password</label>
-                    <input type="password" name='password' className="form-control" id="exampleInputPassword1" onChange={handleChange} tabIndex={2}/>
+                    <input type="password" name='password' className="form-control" id="exampleInputPassword1" onChange={handleChange} tabIndex={2} />
                 </div>
 
                 <button type="button" tabIndex={3} autoFocus
