@@ -11,8 +11,8 @@ function App() {
         fullName: "",
         email: "",
         phone: "",
-        position: "Junior Developer",
-        language: "Hindi",
+        position: "Junior Virtual Assistant",
+        language: "English",
         experience: "1",
     });
 
@@ -127,8 +127,8 @@ function App() {
                         required
                         onChange={handleChange}
                     >
-                        <option value="Junior Developer">Junior Developer</option>
-                        <option value="Senior Developer">Senior Developer</option>
+                        <option value="Junior Virtual Assistant">Junior Virtual Assistant</option>
+                        <option value="Senior Virtual Assistant">Senior Virtual Assistant</option>
                         <option value="Fresher">Fresher</option>
                     </select>
                     <br />
@@ -141,7 +141,6 @@ function App() {
                         required
                         onChange={handleChange}
                     >
-                        <option value="Hindi">Hindi</option>
                         <option value="English">English</option>
                     </select>
                     <br />

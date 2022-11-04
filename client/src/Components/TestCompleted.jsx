@@ -1,8 +1,55 @@
-import React from "react"
+import { Button, TextField } from '@mui/material'
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 const TestCompleted = () => {
-  return <div className="container-fluid d-flex justify-content-center align-items-center flex-column" style={{ height: "100vh", backgroundColor: "#DCDCDC" }}>
-    <div className="shadow p-5 bg-light" style={{ maxWidth: "600px", marginBottom: '15px', borderRadius: '5px' }}>
+
+  const navigate = useNavigate();
+
+  const [feedback, setFeedback] = useState({
+    text: '',
+  });
+
+  const changeHandler = (e) => {
+    const { name, value } = e.target
+    setFeedback((prev) => {
+      return {
+        ...prev,
+        [name]: value
+      }
+    })
+  }
+
+  const { state } = useLocation();
+
+  const submitHandler = async (e) => {
+    const apibody = {
+      text: feedback?.text,
+      userID: state?.userID
+    }
+    try {
+      const res = await axios.post('http://localhost:5000/user/createfeedback',
+        apibody
+      );
+      if (res.data.success) {
+        navigate('/testCompleted', { replace: true })
+      } else {
+        alert(res.data.msg);
+      }
+    }
+    catch (err) {
+      console.log(err);
+    }
+    setFeedback({ text: '' })
+  }
+
+
+
+
+  return <div className="container-fluid d-flex justify-content-center align-items-center flex-column" style={{ height: "100vh", backgroundColor: "#DCDCDC", }}>
+    <div className="shadow p-5 bg-light" style={{ maxWidth: '800px', marginBottom: '15px', borderRadius: '5px' }}>
       <div className="card-body d-flex justify-content-center align-items-center">
         <div>
           <h3>Successfully Submitted Test...</h3>
@@ -12,7 +59,22 @@ const TestCompleted = () => {
         </div>
       </div>
     </div>
+
+    <div className="shadow p-3 bg-light" style={{ maxWidth: '800px', borderRadius: '5px' }}>
+      <div className="card-body flex-column d-flex justify-content-start m-4">
+        <h3>Your Feedback is valuable...</h3>
+        <p className='mb-0'>
+          If you have any comments or questions about the assessment you completed please leave them in the comments section below. If for some reason you had any technical issues while taking the assessment we apologize. Please let us know with as much detail as possible what happened so we can investigate/resolve any potential issues. We may contact you to retake the assessment after completing our investigation.
+        </p>
+        <TextField variant='outlined' name='text' value={feedback.text} onChange={changeHandler} className='mt-3' fullWidth multiline small='true' />
+      </div>
+      <div className='d-flex justify-content-around'>
+        <Button type='submit' onClick={(e) => submitHandler(e)} variant='contained'>Submit Feedback</Button>
+      </div>
+    </div>
+
   </div>
+
 }
 
 export default TestCompleted;

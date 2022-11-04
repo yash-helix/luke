@@ -147,43 +147,8 @@ const UserTable = ({ filterData }) => {
   }, [filterData]);
 
 
-  // send the qualified users list to slack
-  const sendToppersList = async () => {
-    const users = data.filter(user => user.score >= 10);
-
-    if (users.length > 0) {
-
-      let data = { text: '' };
-      users.forEach((user, index) => {
-        data.text += `Sr No. ${index + 1}.\nName: ${user.fullName}.\nEmail: ${user.email}.\nScore: ${user.score}\nCV: ${user.file}\n\n`
-      });
-
-      try {
-        const res = await axios.post(process.env.REACT_APP_SLACK, JSON.stringify(data), {
-          withCredentials: false,
-          headers: {}
-        });
-
-        if (res.status === 200) {
-          alert("Sent successfully");
-        }
-        else {
-          alert("Message not sent");
-        }
-      }
-      catch (error) {
-        console.log(error)
-        alert("Unexpected error occurred");
-      }
-    }
-    else {
-      alert("Cannot find any user whose score is more than 35");
-    }
-  }
-
   return (
     <div className="userTable mt-5">
-
       <div className="row">
         <div className="mb-4">
           <select name="country" onChange={Filter}>
@@ -205,12 +170,12 @@ const UserTable = ({ filterData }) => {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        {
+        {/* {
           data.length > 0 &&
           <div className="my-3">
             <button className="btn btn-dark" onClick={sendToppersList}>Export to slack</button>
           </div>
-        }
+        } */}
 
         {
           data.length > 0 &&
@@ -244,7 +209,7 @@ const UserTable = ({ filterData }) => {
 
                 </th>
                 <th onClick={() => sorting("cv")}>
-                  CV {arrowState.cv === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
+                  CV
                 </th>
               </tr>
             </thead>
