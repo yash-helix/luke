@@ -14,6 +14,7 @@ import { Auth } from "./contexts/auth";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 
+
 Sentry.init({
     dsn: "https://d980efd7db5d4230a5cf3694612b6514@o4504100922130432.ingest.sentry.io/4504100959158272",
     integrations: [new BrowserTracing()],

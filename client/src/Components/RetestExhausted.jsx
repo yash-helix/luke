@@ -1,4 +1,5 @@
 import React from 'react'
+import * as Sentry from '@sentry/react';
 
 const RetestExhausted = () => {
   return (
@@ -9,4 +10,4 @@ const RetestExhausted = () => {
   )
 }
 
-export default RetestExhausted
+export default Sentry.withProfiler(RetestExhausted);

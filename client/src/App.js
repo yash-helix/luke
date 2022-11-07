@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import "./App.css";
 import { useNavigate } from 'react-router-dom';
+import * as Sentry from '@sentry/react';
 
 function App() {
     const navigate = useNavigate();
@@ -183,4 +184,4 @@ function App() {
     );
 }
 
-export default App;
+export default Sentry.withProfiler(App);

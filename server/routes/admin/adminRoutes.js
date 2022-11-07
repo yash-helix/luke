@@ -3,17 +3,19 @@ import login from '../../controllers/admin/login.js';
 import uploadExcelToDB from '../../controllers/admin/uploadExcelToDB.js';
 import { testModel } from '../../models/testSchema.js';
 import { userModal } from '../../models/UserSchema.js';
+import { feedbackModal } from '../../models/FeedbackSchema.js';
 export const adminRouter = express.Router();
 
-import {test1} from '../../utils/json/test1.js';
+
+import { test1 } from '../../utils/json/test1.js';
 
 
 adminRouter.post("/login", (req, res) => {
-    const {email, password} = req.body;
-    if(!email || !password){
-        return res.json({success:false, msg:"Invalid email and password"});
+    const { email, password } = req.body;
+    if (!email || !password) {
+        return res.json({ success: false, msg: "Invalid email and password" });
     }
-    
+
     login(email, password, res);
 });
 
@@ -25,57 +27,63 @@ adminRouter.post("/excelUpload", (req, res) => {
     const fileName = file?.name;
     const fullPath = `${filePath}/${fileName}`
 
-    if(!file && fileName){
-        return res.json({success:false, msg:"File not found"})
+    if (!file && fileName) {
+        return res.json({ success: false, msg: "File not found" })
     }
 
-    uploadExcelToDB(res,test1);
+    uploadExcelToDB(res, test1);
 });
 
 
 
-adminRouter.post("/getTestDetails", async(req, res) => {
+adminRouter.post("/getTestDetails", async (req, res) => {
     try {
-        const user = await userModal.find().lean().select({__v:0});
-        const test = await testModel.find().lean().select({Questions:0 ,email:0, __v:0})
+        const user = await userModal.find().lean().select({ __v: 0 });
+        const test = await testModel.find().lean().select({ Questions: 0, email: 0, __v: 0 })
 
-        if(!user || !test) return res.json({success:false, msg:"Cannot find user and his test details"});
+        if (!user || !test) return res.json({ success: false, msg: "Cannot find user and his test details" });
 
         const userDataArr = user.map(userDetails => {
             const testDetails = test.find(t => t.userID === userDetails._id.toString());
-            return {...userDetails, ...testDetails}
+            return { ...userDetails, ...testDetails }
         });
 
-        if(!userDataArr.length>0) return res.json({success:false, msg:"Failed to find any test details"});
+        if (!userDataArr.length > 0) return res.json({ success: false, msg: "Failed to find any test details" });
 
-        return res.json({success:true, user:userDataArr})
+        return res.json({ success: true, user: userDataArr })
     }
     catch (error) {
-        return res.json({success:false, msg:"Internal server error occurred"})
+        return res.json({ success: false, msg: "Internal server error occurred" })
     }
 });
 
 
 
-adminRouter.post("/getUserPaper", async(req, res) => {
+adminRouter.post("/getUserPaper", async (req, res) => {
     try {
-        const {id, name} = req.body;
+        const { id, name } = req.body;
 
-        const test = await testModel.findOne({userID:id}, {_id:0 ,userID:0, __v:0, Questions:0, email:0, retest:0, isTestCompleted:0, isTestStarted:0, createdAt:0});
-        const user = await userModal.findOne({_id:id}, {_id:0, __v:0, });
+        const test = await testModel.findOne({ userID: id }, { _id: 0, userID: 0, __v: 0, Questions: 0, email: 0, retest: 0, isTestCompleted: 0, isTestStarted: 0, createdAt: 0 });
+        const user = await userModal.findOne({ _id: id }, { _id: 0, __v: 0, });
+        const userFeedback = await feedbackModal.findOne({ userID: id }, { text: 1 });
 
-        if(!test || !user) return res.json({success:false, msg:"Failed to find the user or his test"});
+        if (!test || !user) return res.json({ success: false, msg: "Failed to find the user or his test" });
 
-        const {fullName,email,phone,country,language,position,experience,file} = user;
-        const {score,questionsAttempted,correctAnswers,averageTime,accuracy, updatedAt:date} = test;
+        const { fullName, email, phone, country, language, position, experience, file } = user;
+        const { score, questionsAttempted, correctAnswers, averageTime, accuracy, updatedAt: date } = test;
+
+        const { text: feedback } = userFeedback;
+
         const User = {
-            fullName,email,phone,country,language,position,experience,file,
-            score,questionsAttempted,correctAnswers,averageTime,accuracy, date
+            fullName, email, phone, country, language, position, experience, file,
+            score, questionsAttempted, correctAnswers, averageTime, accuracy, date,
+            feedback
         };
 
-        return res.json({success:true, UserPaper:test.userQuestionsAndAnswers, user:User})
+        return res.json({ success: true, UserPaper: test.userQuestionsAndAnswers, user: User })
     }
     catch (error) {
-        return res.json({success:false, msg:"Internal server error occurred"})
+        console.log(error);
+        return res.json({ success: false, msg: "Internal server error occurred" })
     }
 })

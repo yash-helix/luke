@@ -2,6 +2,9 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const FeedBackSchema = new Schema({
+    name:{
+        type:String
+    },
     text: {
         type: String,
     },

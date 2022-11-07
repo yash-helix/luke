@@ -3,6 +3,7 @@ import UserTable from "./UserTables";
 import "./Search.css";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router";
+import * as Sentry from '@sentry/react';
 
 const Search = () => {
   const navigate = useNavigate();
@@ -37,4 +38,4 @@ const Search = () => {
   );
 };
 
-export default Search;
+export default Sentry.withProfiler(Search);

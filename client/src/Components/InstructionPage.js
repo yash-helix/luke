@@ -4,7 +4,7 @@ import axios from "axios";
 import Logo from "../Components/Logo/Logo";
 import { Stack, Button, Typography, Box, Container } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
-
+import * as Sentry from '@sentry/react';
 
 const Instruction_Page = () => {
     const navigate = useNavigate();
@@ -124,7 +124,7 @@ const Instruction_Page = () => {
                         ))}
 
                         <Stack sx={{ mt: 5, justifyContent: 'center', alignItems: 'center' }} >
-                            <p className="fw-bold fst-italic fs-6 badge bg-danger text-wrap m-5">Please Complete the assessment using a deskstop device only</p>
+                            <p className="fw-bold fst-italic fs-6 badge bg-danger text-wrap m-5">Please Complete the assessment using a deskstop device.</p>
                             <button className="btn rounded-0 px-4 fw-bold" disabled style={{ color: 'white', backgroundColor: '#35aa57' }} onClick={getQuestions}>Start Test</button>
                         </Stack>
 
@@ -135,7 +135,7 @@ const Instruction_Page = () => {
     );
 };
 
-export default Instruction_Page;
+export default Sentry.withProfiler(Instruction_Page);
 
 
 
