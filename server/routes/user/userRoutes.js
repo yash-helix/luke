@@ -120,3 +120,4 @@ userRouter.post("/submitTest", (req, res) => {
 
 // feedback..
 userRouter.post('/createfeedback', FeedBack.createfeedback);
+userRouter.get('/getfeedback', FeedBack.getAll);

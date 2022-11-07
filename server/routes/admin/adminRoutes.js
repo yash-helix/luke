@@ -72,7 +72,10 @@ adminRouter.post("/getUserPaper", async (req, res) => {
         const { fullName, email, phone, country, language, position, experience, file } = user;
         const { score, questionsAttempted, correctAnswers, averageTime, accuracy, updatedAt: date } = test;
 
-        const { text: feedback } = userFeedback;
+        let feedback = "";
+        if(userFeedback?.text) {
+            feedback = userFeedback.text;
+        }
 
         const User = {
             fullName, email, phone, country, language, position, experience, file,

@@ -19,6 +19,8 @@ const UserTable = ({ filterData }) => {
   const [duplicateData, setduplicateData] = useState([]);
   const [errMsg, setErrMsg] = useState("Loading Tests");
 
+  const [feedback, setFeedback] = useState(null);
+
 
   const [filter, setFilter] = useState({
     country: '',
@@ -152,6 +154,13 @@ const UserTable = ({ filterData }) => {
     }
   }, [filterData]);
 
+  const handleFeedback = () => {
+    axios.get('http://localhost:5000/user/getfeedback').then((response) => {
+      setFeedback(response.data);
+    });
+  }
+
+
 
   return (
     <div className="userTable mt-5">
@@ -182,6 +191,12 @@ const UserTable = ({ filterData }) => {
             <CSVLink data={CSVData}> <button className="btn btn-dark">Download CSV File </button></CSVLink>
           </div>
         }
+
+        {/* {
+          <div className="my-3">
+            <button className="btn btn-dark" onClick={handleFeedback}>View All Feedback</button>
+          </div>
+        } */}
 
       </div>
 
