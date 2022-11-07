@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios'
+import axios from 'axios';
+import * as Sentry from '@sentry/react';
 
 const Test = () => {
   const [questions, setQuestions] = useState([]);
@@ -54,4 +55,4 @@ const Test = () => {
   )
 }
 
-export default Test
+export default Sentry.withProfiler(Test);

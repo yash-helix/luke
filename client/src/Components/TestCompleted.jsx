@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import * as Sentry from '@sentry/react';
 
 const TestCompleted = () => {
 
@@ -27,7 +28,8 @@ const TestCompleted = () => {
   const submitHandler = async (e) => {
     const apibody = {
       text: feedback?.text,
-      userID: state?.userID
+      userID: state?.userID,
+    
     }
     try {
       const res = await axios.post('http://localhost:5000/user/createfeedback',
@@ -77,4 +79,4 @@ const TestCompleted = () => {
 
 }
 
-export default TestCompleted;
+export default Sentry.withProfiler(TestCompleted);

@@ -2,6 +2,7 @@ import { Stack, Card, CardContent, FormControl, FormControlLabel, Radio, RadioGr
 import React, { useState, useEffect } from 'react';
 import './QuestionTable.css';
 import Timer from '../Timer/Timer';
+import * as Sentry from '@sentry/react';
 
 
 const Quiz = (props) => {
@@ -105,5 +106,5 @@ const Quiz = (props) => {
 
 }
 
-export default Quiz
+export default Sentry.withProfiler(Quiz);
 

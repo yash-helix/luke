@@ -4,10 +4,7 @@ import { userModal } from "../../models/UserSchema.js";
 export const FeedBack = {
 
     createfeedback: async (req, res) => {
-        const { text, userID } = req.body;
-
-
-
+        const { text, userID} = req.body;
         if (!text || !userID) {
             return res.json({ success: false, msg: 'Feedback cannot be empty' })
         }
@@ -22,6 +19,7 @@ export const FeedBack = {
                         {
                             text: text,
                             userID: userID,
+                            name: user.fullName,
                         }
                     )
                     res.status(200).json({ success: true, msg: 'Feedback Given Successfully' });

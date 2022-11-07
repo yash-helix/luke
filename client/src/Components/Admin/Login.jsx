@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router';
 import { useCookies } from 'react-cookie';
 import { AuthContext } from '../../contexts/auth';
+import * as Sentry from '@sentry/react';
 
 const Login = () => {
 
@@ -95,4 +96,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default Sentry.withProfiler(Login);

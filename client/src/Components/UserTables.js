@@ -1,11 +1,13 @@
 import axios from "axios";
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { CSVLink, CSVDownload } from 'react-csv';
+import { CSVLink } from 'react-csv';
 import React, { useContext, useEffect, useState } from "react";
+import moment from 'moment';
 import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/auth";
 import "./UserTable.css";
+import * as Sentry from '@sentry/react';
 
 const UserTable = ({ filterData }) => {
   const { logged, setLogged, UpdateAuth } = useContext(AuthContext);
@@ -17,6 +19,7 @@ const UserTable = ({ filterData }) => {
   const [duplicateData, setduplicateData] = useState([]);
   const [errMsg, setErrMsg] = useState("Loading Tests");
 
+
   const [filter, setFilter] = useState({
     country: '',
     position: '',
@@ -25,6 +28,7 @@ const UserTable = ({ filterData }) => {
   const [positions, setPositions] = useState([]);
 
   const [arrowState, setArrowState] = useState({
+    updatedAt: 'asc',
     fullName: 'asc',
     position: 'asc',
     country: 'asc',
@@ -45,6 +49,8 @@ const UserTable = ({ filterData }) => {
       if (res.data.success) {
         setData(res.data.user)
         setduplicateData(res.data.user)
+
+        console.log(res.data.user);
 
         if (res.data.user.length > 0) {
           const allCountries = res.data.user.map(user => {
@@ -170,17 +176,10 @@ const UserTable = ({ filterData }) => {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-        {/* {
-          data.length > 0 &&
-          <div className="my-3">
-            <button className="btn btn-dark" onClick={sendToppersList}>Export to slack</button>
-          </div>
-        } */}
-
         {
           data.length > 0 &&
           <div className="my-3">
-            <CSVLink data={CSVData}> <button className="btn btn-dark">Download CSV File </button></CSVLink>;
+            <CSVLink data={CSVData}> <button className="btn btn-dark">Download CSV File </button></CSVLink>
           </div>
         }
 
@@ -211,6 +210,7 @@ const UserTable = ({ filterData }) => {
                 <th onClick={() => sorting("cv")}>
                   CV
                 </th>
+                <th onClick={() => sorting("updatedAt")}>Date {arrowState.updatedAt === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}</th>
               </tr>
             </thead>
 
@@ -240,7 +240,7 @@ const UserTable = ({ filterData }) => {
                           <p>Not Found</p>
                       }
                     </td>
-
+                    <td>{moment(val.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</td>
                   </tr>
                 );
               })}
@@ -253,4 +253,4 @@ const UserTable = ({ filterData }) => {
   );
 };
 
-export default UserTable;
+export default Sentry.withProfiler(UserTable);

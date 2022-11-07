@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Box, Stack, Card, Button } from '@mui/material';
-
+import * as Sentry from '@sentry/react';
 import Logo from "../Logo/Logo";
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
 // import QuestionChips from '../QuestionChips/QuestionChips';
@@ -162,6 +162,6 @@ const FinalScreen = () => {
         </>
     )
 }
-export default FinalScreen;
+export default Sentry.withProfiler(FinalScreen);
 
 

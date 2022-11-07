@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import moment from 'moment';
 import { useNavigate, useParams } from 'react-router'
 import { Button } from '@mui/material';
+import * as Sentry from '@sentry/react';
 
 const UserQuestionPaper = () => {
     const { id, name } = useParams();
@@ -59,6 +60,7 @@ const UserQuestionPaper = () => {
                     {user?.file && <h6>CV: <a href={user.file} download="MyExampleDoc" target='_blank'>
                         <Button>DOWNLOAD CV</Button>
                     </a></h6>}
+                    <h6 className='col-12 col-md-6 col-lg-3'>Feedback: {user?.feedback}</h6>
                 </div>
                 {
                     data.map((paper, i) => {
@@ -79,8 +81,8 @@ const UserQuestionPaper = () => {
                     })
                 }
             </div>
-        </div >
+        </div>
     )
 }
 
-export default UserQuestionPaper
+export default Sentry.withProfiler(UserQuestionPaper);

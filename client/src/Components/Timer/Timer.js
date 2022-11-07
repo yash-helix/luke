@@ -1,6 +1,7 @@
 import React from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
+
 import "./TimerStyles.css";
 
 const formatRemainingTime = time => {
@@ -24,17 +25,17 @@ const renderTime = ({ remainingTime }) => {
 
 export default function Timer({ OutOfTime, isPlaying }) {
   return (
-      <CountdownCircleTimer
-        className='CountdownCircleTimer'
-        isPlaying={isPlaying}
-        duration={900}
-        colors={["#004777", "#F7B801", "#A30000"]}
-        size={0}
-        strokeWidth={0}
-        onComplete={() => OutOfTime()}
-      >
-        {renderTime}
-      </CountdownCircleTimer>
+    <CountdownCircleTimer
+      className='CountdownCircleTimer'
+      isPlaying={isPlaying}
+      duration={900}
+      colors={["#004777", "#F7B801", "#A30000"]}
+      size={0}
+      strokeWidth={0}
+      onComplete={() => OutOfTime()}
+    >
+      {renderTime}
+    </CountdownCircleTimer>
   );
 }
 
