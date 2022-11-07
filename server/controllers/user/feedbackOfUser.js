@@ -4,7 +4,7 @@ import { userModal } from "../../models/UserSchema.js";
 export const FeedBack = {
 
     createfeedback: async (req, res) => {
-        const { text, userID} = req.body;
+        const { text, userID } = req.body;
         if (!text || !userID) {
             return res.json({ success: false, msg: 'Feedback cannot be empty' })
         }
@@ -30,6 +30,12 @@ export const FeedBack = {
         })
 
     },
+
+    getAll: async (req, res) => {
+        const data = await feedbackModal.find()
+        return res.send(data)
+    },
+
 }
 
 
