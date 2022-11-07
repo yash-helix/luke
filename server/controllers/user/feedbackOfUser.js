@@ -5,12 +5,16 @@ export const FeedBack = {
 
     createfeedback: async (req, res) => {
         const { text, userID } = req.body;
+
+        console.log(req.body);
+
         if (!text || !userID) {
             return res.json({ success: false, msg: 'Feedback cannot be empty' })
         }
 
         await userModal.findOne({ userID }).then(
             async (user) => {
+                console.log(user);
                 if (!user) {
                     return res.json({ success: false, msg: 'User not found' })
                 }

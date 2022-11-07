@@ -29,10 +29,10 @@ const TestCompleted = () => {
     const apibody = {
       text: feedback?.text,
       userID: state?.userID,
-    
+
     }
     try {
-      const res = await axios.post('http://localhost:5000/user/createfeedback',
+      const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/createfeedback`,
         apibody
       );
       if (res.data.success) {
