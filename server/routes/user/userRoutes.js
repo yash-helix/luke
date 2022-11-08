@@ -27,7 +27,7 @@ userRouter.post("/userCV", (req, res) => {
     }
     catch (error) {
         console.log(error)
-        return res.status(500).json({ success: false, msg: "Unexpected error occurred!" })
+        return res.status(400).json({ success: false, msg: "Unexpected error occurred!" })
     }
 });
 
