@@ -5,6 +5,8 @@ import Logo from "../Components/Logo/Logo";
 import { Stack, Button, Typography, Box, Container } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const Instruction_Page = () => {
     const navigate = useNavigate();
@@ -14,7 +16,7 @@ const Instruction_Page = () => {
         const email = localStorage.getItem("email");
 
         if (!userID || !email) {
-            alert("Cannot find the user");
+            toast.error("Cannot find the user");
             return navigate("/");
         }
 
@@ -40,7 +42,9 @@ const Instruction_Page = () => {
             }
         }
         catch (error) {
-            alert('Unexpected error occurred')
+            toast.error('Unexpected error occurred', {
+                position: toast.POSITION.TOP_CENTER
+            })
         }
     }
 
@@ -101,6 +105,7 @@ const Instruction_Page = () => {
                         </Stack>
 
                     </Container>
+                    <ToastContainer />
                 </div>
             </>
 
@@ -130,6 +135,7 @@ const Instruction_Page = () => {
 
                     </Container>
                 </div>
+                <ToastContainer />
 
             </>)
     );

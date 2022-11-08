@@ -8,6 +8,8 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { AuthContext } from "../contexts/auth";
 import "./UserTable.css";
 import * as Sentry from '@sentry/react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const UserTable = ({ filterData }) => {
   const { logged, setLogged, UpdateAuth } = useContext(AuthContext);
@@ -75,7 +77,9 @@ const UserTable = ({ filterData }) => {
       }
     }
     catch (error) {
-      alert("Unexpected error occurred")
+      toast.error("Unexpected error occurred", {
+
+      })
     }
   }
 
@@ -264,6 +268,7 @@ const UserTable = ({ filterData }) => {
           :
           <h1>{errMsg}</h1>
       }
+      <ToastContainer />
     </div>
   );
 };
