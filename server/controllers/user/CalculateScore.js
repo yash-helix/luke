@@ -50,7 +50,8 @@ const CalculateScore = async (userID, userQuestions, res) => {
         const isMsgSentToSlack = await sendUserDetailsToSlack(userID);
 
         if (isMsgSentToSlack) return res.status(200).send({ success: true, msg: `Test submitted successfully` });
-        else return res.status(400).send({ success: true, msg: `Test submitted successfully but your exam information is not sent to examiner` });
+        // Slack 
+        else return res.status(200).send({ success: true, msg: `Test submitted successfully but your exam information is not sent to examiner` });
       }
     });
   }
