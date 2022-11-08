@@ -5,6 +5,8 @@ import Logo from "../Logo/Logo";
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined';
 // import QuestionChips from '../QuestionChips/QuestionChips';
 import QuestionTable from '../QuestionTable/QuestionTable';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
 import { useNavigate } from "react-router";
 
@@ -41,7 +43,9 @@ const FinalScreen = () => {
             }
         }
         catch (error) {
-            alert("Unexpected error occurred");
+            toast.error("Unexpected error occurred", {
+                position: toast.POSITION.TOP_CENTER
+            });
             navigate("/startTest", { replace: true });
         }
     }
@@ -158,6 +162,7 @@ const FinalScreen = () => {
 
                         </Stack>)
                 }
+                <ToastContainer />
             </div>
         </>
     )

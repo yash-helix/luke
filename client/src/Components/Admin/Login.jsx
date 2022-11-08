@@ -3,6 +3,9 @@ import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router';
 import { useCookies } from 'react-cookie';
 import { AuthContext } from '../../contexts/auth';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import * as Sentry from '@sentry/react';
 
 const Login = () => {
@@ -46,7 +49,9 @@ const Login = () => {
 
         try {
             if (!email || !pass) {
-                alert("Enter email and password");
+                toast.warn("Enter email and password", {
+                    
+                });
                 return false
             }
 
@@ -61,7 +66,7 @@ const Login = () => {
                 navigate("/table");
             }
             else {
-                alert(res.data.msg);
+                toast.success(res.data.msg);
                 removeCookie("email");
                 removeCookie("password");
                 UpdateAuth(false);
@@ -69,7 +74,9 @@ const Login = () => {
         }
         catch (error) {
             UpdateAuth(false);
-            alert("Unexpected error occurred");
+            toast.error("Wrong Input Credentials", {
+                position: toast.POSITION.TOP_CENTER
+            });
         }
     }
 
@@ -91,6 +98,8 @@ const Login = () => {
                 <button type="button" tabIndex={3} autoFocus
                     onClick={() => LoginAdmin(data.email, data.password)} className="btn btn-primary">Sign In
                 </button>
+
+                <ToastContainer />
             </form>
         </div>
     )

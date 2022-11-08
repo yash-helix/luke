@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import * as Sentry from '@sentry/react';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Test = () => {
   const [questions, setQuestions] = useState([]);
@@ -24,7 +26,9 @@ const Test = () => {
     }
     catch (error) {
       console.log(error)
-      alert("Unexpexted error occurred!!")
+      toast.error("Unexpexted error occurred!!", {
+        position: toast.POSITION.TOP_CENTER
+      })
     }
   }
 
@@ -48,6 +52,7 @@ const Test = () => {
                 })
               }
             </div>
+            <ToastContainer />
           </div>
         })
       }
