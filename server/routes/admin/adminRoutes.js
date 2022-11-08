@@ -4,7 +4,7 @@ import uploadExcelToDB from '../../controllers/admin/uploadExcelToDB.js';
 import { testModel } from '../../models/testSchema.js';
 import { userModal } from '../../models/UserSchema.js';
 import { feedbackModal } from '../../models/FeedbackSchema.js';
-export const adminRouter = express.Router();
+const adminRouter = express.Router();
 
 
 import { test1 } from '../../utils/json/test1.js';
@@ -13,7 +13,7 @@ import { test1 } from '../../utils/json/test1.js';
 adminRouter.post("/login", (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
-        return res.json({ success: false, msg: "Invalid email and password" });
+        return res.status(401).json({ success: false, msg: "Invalid email and password" });
     }
 
     login(email, password, res);
@@ -28,7 +28,7 @@ adminRouter.post("/excelUpload", (req, res) => {
     const fullPath = `${filePath}/${fileName}`
 
     if (!file && fileName) {
-        return res.json({ success: false, msg: "File not found" })
+        return res.status(404).json({ success: false, msg: "File not found" })
     }
 
     uploadExcelToDB(res, test1);
@@ -41,19 +41,19 @@ adminRouter.post("/getTestDetails", async (req, res) => {
         const user = await userModal.find().lean().select({ __v: 0 });
         const test = await testModel.find().lean().select({ Questions: 0, email: 0, __v: 0 })
 
-        if (!user || !test) return res.json({ success: false, msg: "Cannot find user and his test details" });
+        if (!user || !test) return res.status(404).json({ success: false, msg: "Cannot find user and his test details" });
 
         const userDataArr = user.map(userDetails => {
             const testDetails = test.find(t => t.userID === userDetails._id.toString());
             return { ...userDetails, ...testDetails }
         });
 
-        if (!userDataArr.length > 0) return res.json({ success: false, msg: "Failed to find any test details" });
+        if (!userDataArr.length > 0) return res.status(404).json({ success: false, msg: "Failed to find any test details" });
 
         return res.json({ success: true, user: userDataArr })
     }
     catch (error) {
-        return res.json({ success: false, msg: "Internal server error occurred" })
+        return res.status(500).json({ success: false, msg: "Internal server error occurred" })
     }
 });
 
@@ -67,13 +67,13 @@ adminRouter.post("/getUserPaper", async (req, res) => {
         const user = await userModal.findOne({ _id: id }, { _id: 0, __v: 0, });
         const userFeedback = await feedbackModal.findOne({ userID: id }, { text: 1 });
 
-        if (!test || !user) return res.json({ success: false, msg: "Failed to find the user or his test" });
+        if (!test || !user) return res.status(404).json({ success: false, msg: "Failed to find the user or his test" });
 
         const { fullName, email, phone, country, language, position, experience, file } = user;
         const { score, questionsAttempted, correctAnswers, averageTime, accuracy, updatedAt: date } = test;
 
         let feedback = "";
-        if(userFeedback?.text) {
+        if (userFeedback?.text) {
             feedback = userFeedback.text;
         }
 
@@ -83,10 +83,12 @@ adminRouter.post("/getUserPaper", async (req, res) => {
             feedback
         };
 
-        return res.json({ success: true, UserPaper: test.userQuestionsAndAnswers, user: User })
+        return res.status(200).json({ success: true, UserPaper: test.userQuestionsAndAnswers, user: User })
     }
     catch (error) {
         console.log(error);
-        return res.json({ success: false, msg: "Internal server error occurred" })
+        return res.status(500).json({ success: false, msg: "Internal server error occurred" })
     }
 })
+
+export default adminRouter;

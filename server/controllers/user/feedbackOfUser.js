@@ -6,17 +6,17 @@ export const FeedBack = {
     createfeedback: async (req, res) => {
         const { text, userID } = req.body;
 
-        console.log(req.body);
+        // console.log(req.body);
 
         if (!text || !userID) {
-            return res.json({ success: false, msg: 'Feedback cannot be empty' })
+            return res.status(403).json({ success: false, msg: 'Feedback cannot be empty' })
         }
 
         await userModal.findOne({ userID }).then(
             async (user) => {
-                console.log(user);
+                // console.log(user);
                 if (!user) {
-                    return res.json({ success: false, msg: 'User not found' })
+                    return res.status(404).json({ success: false, msg: 'User not found' })
                 }
                 else {
                     await feedbackModal.create(
@@ -30,7 +30,7 @@ export const FeedBack = {
                 }
             }
         ).catch(err => {
-            res.json({ success: false, msg: 'Unexpected Error Occured' })
+            res.status(500).json({ success: false, msg: 'Unexpected Error Occured' })
         })
 
     },
