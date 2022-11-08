@@ -44,18 +44,18 @@ const CalculateScore = async (userID, userQuestions, res) => {
     test.userQuestionsAndAnswers = userQuestionsAndAnswers;
 
     await test.save(async function (err) {
-      if (err) return res.send({ success: false, msg: 'Failed to save test' });
+      if (err) return res.status(400).send({ success: false, msg: 'Failed to save test' });
 
       else {
         const isMsgSentToSlack = await sendUserDetailsToSlack(userID);
 
-        if (isMsgSentToSlack) return res.send({ success: true, msg: `Test submitted successfully` });
-        else return res.send({ success: true, msg: `Test submitted successfully but your exam information is not sent to examiner` });
+        if (isMsgSentToSlack) return res.status(200).send({ success: true, msg: `Test submitted successfully` });
+        else return res.status(400).send({ success: true, msg: `Test submitted successfully but your exam information is not sent to examiner` });
       }
     });
   }
   catch (error) {
-    return res.json({ success: false, msg: "Unexpected error occurred" })
+    return res.status(500).json({ success: false, msg: "Unexpected error occurred" })
   }
 }
 

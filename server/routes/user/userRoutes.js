@@ -7,7 +7,7 @@ import { testModel } from '../../models/testSchema.js';
 import CalculateScore from '../../controllers/user/CalculateScore.js';
 import { userTestSchema } from '../../utils/YupSchemas.js';
 import { FeedBack } from '../../controllers/user/feedbackOfUser.js';
-export const userRouter = express.Router();
+const userRouter = express.Router();
 
 userRouter.post("/userCV", (req, res) => {
     try {
@@ -15,7 +15,7 @@ userRouter.post("/userCV", (req, res) => {
         const file = req.files?.file;
 
         if (file) {
-            if (file.size > 500000) return res.json({ success: false, msg: "File too big" })
+            if (file.size > 500000) return res.status(400).json({ success: false, msg: "File too big" })
 
             data = { ...data, file }
             userCV(data, req, res);
@@ -27,7 +27,7 @@ userRouter.post("/userCV", (req, res) => {
     }
     catch (error) {
         console.log(error)
-        return res.json({ success: false, msg: "Unexpected error occurred!" })
+        return res.status(500).json({ success: false, msg: "Unexpected error occurred!" })
     }
 });
 
@@ -39,12 +39,12 @@ userRouter.post("/StartTest", async (req, res) => {
         const user = await userModal.findOne({ email: email, _id: userID });
         const test = await testModel.findOne({ email: email, userID: userID });
 
-        if (!user) return res.json({ success: false, msg: "User not found!!" });
+        if (!user) return res.status(401).json({ success: false, msg: "User not found!!" });
 
-        else if (test?.isTestCompleted) return res.json({ success: false, msg: "Test already given!!", testCompleted: true });
+        else if (test?.isTestCompleted) return res.status(403).json({ success: false, msg: "Test already given!!", testCompleted: true });
 
         else if (test?.retest >= 3) {
-            return res.json({ success: false, msg: 'You have exhausted your retest limit, please contact the admin', retestExhausted: true })
+            return res.status(403).json({ success: false, msg: 'You have exhausted your retest limit, please contact the admin', retestExhausted: true })
         }
 
         else if (test?.isTestStarted) {
@@ -56,7 +56,7 @@ userRouter.post("/StartTest", async (req, res) => {
     }
     catch (error) {
         console.log(error)
-        return res.json({ success: false, msg: "Unexpected error occurred, or user not found" })
+        return res.status(500).json({ success: false, msg: "Unexpected error occurred, or user not found" })
     }
 });
 
@@ -64,17 +64,17 @@ userRouter.post("/StartTest", async (req, res) => {
 userRouter.post("/getQuestionFromId", async (req, res) => {
     try {
         const { testID, userID } = req.body;
-        if (!testID || !userID) return res.json({ success: false, msg: 'Cannot find the user or his test' });
+        if (!testID || !userID) return res.status(404).json({ success: false, msg: 'Cannot find the user or his test' });
 
         const userTestDoc = await testModel.find({ _id: testID, userID: userID }).select({ Questions: 1, retest: 1, isTestStarted: 1 });
         const { Questions, retest, isTestStarted } = userTestDoc[0];
 
         if (retest >= 3) {
-            return res.json({ success: false, msg: 'You have exhausted your retest limit, please contact the admin', retestExhausted: true })
+            return res.status(429).json({ success: false, msg: 'You have exhausted your retest limit, please contact the admin', retestExhausted: true })
         }
 
         if (isTestStarted) {
-            return res.json({ success: false, msg: 'You already started the test', isTestStarted: isTestStarted })
+            return res.status(406).json({ success: false, msg: 'You already started the test', isTestStarted: isTestStarted })
         }
 
         else {
@@ -86,12 +86,12 @@ userRouter.post("/getQuestionFromId", async (req, res) => {
             userTestDoc[0].retest += 1;
             userTestDoc[0].isTestStarted = true;
             await userTestDoc[0].save();
-            return res.json({ success: true, data: questionsWithOptions })
+            return res.status(200).json({ success: true, data: questionsWithOptions })
         }
     }
     catch (error) {
         console.log(error)
-        return res.json({ success: false, msg: "Unexpected error occurred" })
+        return res.status(500).json({ success: false, msg: "Unexpected error occurred" })
     }
 });
 
@@ -101,8 +101,8 @@ userRouter.post("/submitTest", (req, res) => {
         let { userID, questions } = req.body.data;
         questions = questions.filter(question => question.answer !== 0)
 
-        if (!userID) return res.json({ success: false, msg: "Test not found" });
-        else if (!questions || !questions.length > 0) return res.json({ success: false, msg: "No question was answered" });
+        if (!userID) return res.status(404).json({ success: false, msg: "Test not found" });
+        else if (!questions || !questions.length > 0) return res.status(404).json({ success: false, msg: "No question was answered" });
 
         userTestSchema.validate({ questions })
             .then(response => {
@@ -110,14 +110,16 @@ userRouter.post("/submitTest", (req, res) => {
                 CalculateScore(userID, userQuestions, res);
             })
             .catch(err => {
-                return res.json({ success: false, msg: "Validation error occurred", errror: err.message })
+                return res.status(404).json({ success: false, msg: "Validation error occurred", errror: err.message })
             })
     }
     catch (error) {
-        return res.json({ success: false, msg: "Unexpected error occurred" })
+        return res.status(500).json({ success: false, msg: "Unexpected error occurred" })
     }
 })
 
 // feedback..
 userRouter.post('/createfeedback', FeedBack.createfeedback);
 userRouter.get('/getfeedback', FeedBack.getAll);
+
+export default userRouter;
