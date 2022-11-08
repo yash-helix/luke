@@ -11,7 +11,7 @@ import Tracing from "@sentry/tracing";
 const app = express();
 
 Sentry.init({
-    dsn: "https://aa0079cd08704f8a98cc8aeda2e42e8f@o4504100922130432.ingest.sentry.io/4504121992347648",
+    dsn: process.env.REACT_APP_SENTRY_DSN_KEY,
     integrations: [
         // enable HTTP calls tracing
         new Sentry.Integrations.Http({ tracing: true }),
