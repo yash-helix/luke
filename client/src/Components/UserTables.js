@@ -123,10 +123,11 @@ const UserTable = ({ filterData }) => {
     })
   }
 
-  // Search
+  // Filter
   useEffect(() => {
+    let filteredCountryData = [];
     if (filter.country !== "") {
-      let filteredCountryData = duplicateData.filter((item) => item.country === filter.country);
+      filteredCountryData = duplicateData.filter((item) => item.country === filter.country);
       setData(filteredCountryData);
     }
     else {
@@ -134,11 +135,11 @@ const UserTable = ({ filterData }) => {
     }
 
     if (filter.position !== "") {
-      let filteredPositionData = duplicateData.filter((item) => item.position === filter.position);
+      let filteredPositionData = filteredCountryData.filter((item) => item.position === filter.position);
       setData(filteredPositionData);
     }
     else {
-      setData(duplicateData);
+      filteredCountryData.length>0 ? setData(filteredCountryData) : setData(duplicateData);
     }
   }, [filter]);
 
