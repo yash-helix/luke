@@ -12,7 +12,7 @@ function App() {
         fullName: "",
         email: "",
         phone: "",
-        position: "Junior Virtual Assistant",
+        position: "Virtual Assistant",
         language: "English",
         experience: "1",
     });
@@ -128,9 +128,9 @@ function App() {
                         required
                         onChange={handleChange}
                     >
-                        <option value="Junior Virtual Assistant">Junior Virtual Assistant</option>
-                        <option value="Senior Virtual Assistant">Senior Virtual Assistant</option>
-                        <option value="Fresher">Fresher</option>
+                        <option value="Virtual Assistant">Virtual Assistant</option>
+                        {/* <option value="Senior Virtual Assistant">Senior Virtual Assistant</option> */}
+                        {/* <option value="Fresher">Fresher</option> */}
                     </select>
                     <br />
                     <label className="fw-normal">Select Language: *</label>
