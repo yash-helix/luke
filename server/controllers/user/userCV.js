@@ -18,8 +18,8 @@ export const userCV = async (data, req, res) => {
                 const filename = `${Date.now()}_${response.file.name}`;
 
                 // checking if user already submitted the CV
-                const { email } = response;
-                const user = await userModal.findOne({ email });
+                const { email, phone } = response;
+                const user = await userModal.findOne({$or: [{email:email}, {phone:phone}]});
                 if (user) {
                     return res.status(406).json({ success: false, msg: "Already Registered" });
                 }

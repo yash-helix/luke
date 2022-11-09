@@ -8,18 +8,11 @@ export const getCountry = (ip) => {
 
     return new Promise(async (resolve, reject) => {
         try {
-            const res = await axios.get("https://www.cloudflare.com/cdn-cgi/trace");
-            let arr = res.data.split("\n")
-            let ip2 = arr.filter(item => item.includes("ip"))[0].split("=")[1];
-            console.log(ip, ip2)
-
             if (!ip) reject("");
 
             const buffer = fs.readFileSync(`${process.cwd()}/public/GeoLite2-Country.mmdb`);
             const lookup = new Reader(buffer);
             const city = lookup.get(ip);
-            const city2 = lookup.get(ip2);
-            console.log(city.country, city2.country)
             if (city.country.names.en) resolve(city.country.names.en);
             else reject("");
         }
@@ -44,8 +37,8 @@ export const userDetails = async (data, req, res) => {
         .then(async (response) => {
             try {
                 // checking if user already submitted the CV
-                const { email } = response;
-                const user = await userModal.findOne({ email });
+                const { email, phone } = response;
+                const user = await userModal.findOne({ $or: [{ email: email }, { phone: phone }] });
                 if (user) {
                     return res.json({ success: false, msg: "Already Registered" });
                 }
