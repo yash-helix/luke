@@ -17,6 +17,51 @@ const FinalScreen = () => {
     const navigate = useNavigate();
 
 
+    const [count, setCount] = useState(0);
+
+    const focusFUnction = () => {
+
+        // console.log(document.visibilityState);
+
+        if (document.visibilityState === 'visible') {
+            toast.warning('WARNING!!! PLEASE DONT TRY TO SWTICH OR ELSE YOUR TEST WILL BE SUBMITTED AUTOMATICALLY.', {
+                position: toast.POSITION.TOP_CENTER, style: { width: '400px' }
+            });
+        }
+        else {
+            console.log('I am navigate1', count);
+            // if (prevCount + 1 >= 5) {
+            //     //navigate
+            //     console.log('I am navigate');
+            //     navigate('/TestCompleted')
+            // }
+            // else {
+            //     // setCount((prevCount) => {
+            //     //     return prevCount++
+            //     // });
+            setCount((prevCount) => {
+                console.log(document.visibilityState, prevCount);
+                if (prevCount + 1 >= 5) {
+                    //navigate
+                    navigate('/TestCompleted')
+                }
+                return prevCount + 1;
+            })
+        }
+
+    }
+
+    useEffect(() => {
+        if (typeof (window) !== 'undefined')
+            document.addEventListener('visibilitychange', focusFUnction)
+        return () => {
+            document.removeEventListener('visibilitychange', focusFUnction);
+        }
+    }, []);
+
+
+
+
     const getQuestions = async () => {
         try {
             const testID = localStorage.getItem("testID");
@@ -91,9 +136,6 @@ const FinalScreen = () => {
             navigate("/startTest", { replace: true });
         }
     }
-
-
-
 
     return (
         <>
