@@ -132,11 +132,16 @@ const UserTable = ({ filterData }) => {
         return item.position === filter.position;
       });
       setData(filteredPositionData);
+    } else {
+      setData(duplicateData)
     }
 
     if (filter.country !== "") {
       filteredCountryData = duplicateData.filter((item) => item.country === filter.country);
       setData(filteredCountryData);
+    }
+    else {
+      setData(duplicateData)
     }
   }, [filter]);
 
