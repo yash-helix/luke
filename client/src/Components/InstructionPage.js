@@ -1,8 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import "./InstructionPageStyles.css";
 import axios from "axios";
 import Logo from "../Components/Logo/Logo";
-import { Stack, Button, Typography, Box, Container } from "@mui/material";
+import { Stack, Typography, Box, Container } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import { toast, ToastContainer } from "react-toastify";
@@ -139,8 +139,7 @@ const Instruction_Page = () => {
 
             </>)
     );
-};
-
+}
 export default Sentry.withProfiler(Instruction_Page);
 
 

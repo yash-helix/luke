@@ -13,6 +13,7 @@ import { CookiesProvider } from 'react-cookie';
 import { Auth } from "./contexts/auth";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
+import { useEffect, useState } from "react";
 
 
 Sentry.init({
@@ -24,6 +25,7 @@ Sentry.init({
     // We recommend adjusting this value in production
     tracesSampleRate: 1.0,
 });
+
 
 
 const root = ReactDOM.createRoot(document.getElementById("root"));

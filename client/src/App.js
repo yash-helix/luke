@@ -8,6 +8,7 @@ function App() {
     const navigate = useNavigate();
 
     const [selectedFile, setSelectedFile] = useState();
+
     const [data, setData] = useState({
         fullName: "",
         email: "",
