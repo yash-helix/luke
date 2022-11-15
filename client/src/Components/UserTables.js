@@ -21,7 +21,7 @@ const UserTable = ({ filterData }) => {
   const [duplicateData, setduplicateData] = useState([]);
   const [errMsg, setErrMsg] = useState("Loading Tests");
 
-  const [feedback, setFeedback] = useState(null);
+  // const [feedback, setFeedback] = useState(null);
 
 
   const [filter, setFilter] = useState({
@@ -126,20 +126,17 @@ const UserTable = ({ filterData }) => {
   // Filter
   useEffect(() => {
     let filteredCountryData = [];
+
+    if (filter.position !== "") {
+      let filteredPositionData = duplicateData.filter((item) => {
+        return item.position === filter.position;
+      });
+      setData(filteredPositionData);
+    }
+
     if (filter.country !== "") {
       filteredCountryData = duplicateData.filter((item) => item.country === filter.country);
       setData(filteredCountryData);
-    }
-    else {
-      setData(duplicateData);
-    }
-
-    if (filter.position !== "") {
-      let filteredPositionData = filteredCountryData.filter((item) => item.position === filter.position);
-      setData(filteredPositionData);
-    }
-    else {
-      filteredCountryData.length>0 ? setData(filteredCountryData) : setData(duplicateData);
     }
   }, [filter]);
 
@@ -159,11 +156,11 @@ const UserTable = ({ filterData }) => {
     }
   }, [filterData]);
 
-  const handleFeedback = () => {
-    axios.get('http://localhost:5000/user/getfeedback').then((response) => {
-      setFeedback(response.data);
-    });
-  }
+  // const handleFeedback = () => {
+  //   axios.get('http://localhost:5000/user/getfeedback').then((response) => {
+  //     setFeedback(response.data);
+  //   });
+  // }
 
 
 
