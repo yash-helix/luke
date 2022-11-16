@@ -39,14 +39,16 @@ adminRouter.post("/excelUpload", (req, res) => {
 adminRouter.post("/getTestDetails", async (req, res) => {
     try {
         const user = await userModal.find().lean().select({ __v: 0 });
-        const test = await testModel.find().lean().select({ Questions: 0, email: 0, __v: 0 })
+        const test = await testModel.find({ isTestCompleted: true }).lean().select({ Questions: 0, email: 0, __v: 0 })
+
+
 
         if (!user || !test) return res.status(404).json({ success: false, msg: "Cannot find user and his test details" });
 
-        const userDataArr = user.map(userDetails => {
+        let userDataArr = user.map(userDetails => {
             const testDetails = test.find(t => t.userID === userDetails._id.toString());
-            return { ...userDetails, ...testDetails }
-        });
+            return testDetails !== undefined ? { ...userDetails, ...testDetails } : null
+        }).filter(details => details);
 
         if (!userDataArr.length > 0) return res.status(404).json({ success: false, msg: "Failed to find any test details" });
 

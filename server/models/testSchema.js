@@ -48,10 +48,6 @@ const TestSchema = new Schema({
         type: Boolean,
         default: false
     },
-    isSentToSlack: {
-        type: Boolean,
-        default: false
-    }
 },
     { timestamps: true }
 );

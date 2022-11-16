@@ -11,8 +11,8 @@ const Search = () => {
   const [filterData, setFilterData] = useState("");
 
   const Logout = () => {
-    removeCookie("email", { path: "/adminLogin" });
-    removeCookie("password", { path: "/adminLogin" });
+    removeCookie("email", { path: "/" });
+    removeCookie("password", { path: "/" });
     navigate("/adminLogin", { replace: true });
   }
 
