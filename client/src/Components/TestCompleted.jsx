@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import * as Sentry from '@sentry/react';
 
 const TestCompleted = () => {
@@ -29,20 +31,26 @@ const TestCompleted = () => {
     const apibody = {
       text: feedback?.text,
       userID: state?.userID,
-
     }
     try {
       const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/createfeedback`,
         apibody
       );
       if (res.data.success) {
-        navigate('/testCompleted', { replace: true })
+        // navigate('/testCompleted', { replace: true })
+        toast.success(res.data.msg, {
+          position: 'top-center'
+        })
       } else {
-        alert(res.data.msg);
+        toast.error(res.data.msg, {
+          position: 'top-center'
+        })
       }
     }
     catch (err) {
-      console.log(err);
+      toast.error(err.response.data.msg, {
+        position: 'top-center'
+      })
     }
     setFeedback({ text: '' })
   }
@@ -68,13 +76,13 @@ const TestCompleted = () => {
         <p className='mb-0'>
           If you have any comments or questions about the assessment you completed please leave them in the comments section below. If for some reason you had any technical issues while taking the assessment we apologize. Please let us know with as much detail as possible what happened so we can investigate/resolve any potential issues. We may contact you to retake the assessment after completing our investigation.
         </p>
-        <TextField variant='outlined' name='text' value={feedback.text} onChange={changeHandler} className='mt-3' fullWidth multiline small='true' />
+        <TextField variant='outlined' name='text' required value={feedback.text} onChange={changeHandler} className='mt-3' fullWidth multiline small='true' />
       </div>
       <div className='d-flex justify-content-around'>
         <Button type='submit' onClick={(e) => submitHandler(e)} variant='contained'>Submit Feedback</Button>
       </div>
     </div>
-
+    <ToastContainer />
   </div>
 
 }

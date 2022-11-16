@@ -123,26 +123,40 @@ const UserTable = ({ filterData }) => {
     })
   }
 
-  // Filter
-  useEffect(() => {
-    let filteredCountryData = [];
+  // // Filter
+  // useEffect(() => {
+  //   let filteredCountryData = [];
 
+  //   if (filter.position !== "") {
+  //     let filteredPositionData = duplicateData.filter((item) => {
+  //       return item.position === filter.position;
+  //     });
+  //     setData(filteredPositionData);
+  //   }
+  //   // else {
+  //   //   setData(duplicateData)
+  //   // }
+
+  //   if (filter.country !== "") {
+  //     filteredCountryData = duplicateData.filter((item) => item.country === filter.country);
+  //     setData(filteredCountryData);
+  //     console.log(filteredCountryData)
+  //   }
+  // }, [filter]);
+
+
+  useEffect(() => {
+    let filteredCountryData = duplicateData;
     if (filter.position !== "") {
-      let filteredPositionData = duplicateData.filter((item) => {
+      filteredCountryData = filteredCountryData.filter((item) => {
         return item.position === filter.position;
       });
-      setData(filteredPositionData);
-    } else {
-      setData(duplicateData)
     }
-
     if (filter.country !== "") {
-      filteredCountryData = duplicateData.filter((item) => item.country === filter.country);
-      setData(filteredCountryData);
+      filteredCountryData = filteredCountryData.filter((item) => item.country === filter.country);
+      console.log(filteredCountryData)
     }
-    else {
-      setData(duplicateData)
-    }
+    setData(filteredCountryData);
   }, [filter]);
 
 

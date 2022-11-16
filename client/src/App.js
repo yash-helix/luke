@@ -3,6 +3,8 @@ import axios from "axios";
 import "./App.css";
 import { useNavigate } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const navigate = useNavigate();
@@ -56,8 +58,10 @@ function App() {
                 alert(res.data.msg);
             }
         }
-        catch (ex) {
-            console.log(ex);
+        catch (err) {
+            toast.error(err.response.data.msg, {
+                position: 'top-center', style: { width: '28rem' }
+            });
         }
 
         setSelectedFile("");
@@ -94,7 +98,7 @@ function App() {
                         value={data.fullName}
                         required
                         onChange={handleChange}
-                    />{" "}
+                    />
                     <br />
                     <label className="fw-normal">Email:</label>
                     <br />
@@ -106,7 +110,7 @@ function App() {
                         value={data.email}
                         required
                         onChange={handleChange}
-                    />{" "}
+                    />
                     <br />
                     <label className="fw-normal">Phone Number:</label>
                     <br />
@@ -118,7 +122,7 @@ function App() {
                         value={data.phone}
                         required
                         onChange={handleChange}
-                    />{" "}
+                    />
                     <br />
                     <label className="fw-normal">Choose Your Position: *</label>
                     <br />
@@ -181,6 +185,7 @@ function App() {
                     <input className="submit" type="submit" value="Submit" />
                 </form>
             </div>
+            <ToastContainer />
         </div>
     );
 }
