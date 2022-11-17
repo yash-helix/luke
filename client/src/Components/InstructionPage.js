@@ -31,20 +31,33 @@ const Instruction_Page = () => {
                 const { testId } = res.data;
                 if (testId) {
                     localStorage.setItem("testID", testId);
+                    // window.history.pushState(null, null,window.location.href);
                     navigate("/test");
                 }
             }
             else {
                 alert(res.data.msg);
-                if (res.data?.testCompleted) navigate("/TestCompleted");
-                else if (res.data?.retestExhausted) navigate("/retestExhasuted");
+                if (res.data?.testCompleted) {
+                    return navigate("/TestCompleted")
+                }
+                else if (res.data?.retestExhausted) {
+                    throw res.data.msg;
+                }
                 else return navigate("/");
             }
         }
         catch (error) {
-            toast.error('Unexpected error occurred', {
+            console.log(error)
+
+            toast.error(error.response.data.msg, {
                 position: toast.POSITION.TOP_CENTER
             })
+            setTimeout(() => {
+                if (error.response.status === 403) {
+                    return navigate("/retestExhasuted")
+                }
+            }, 6500)
+
         }
     }
 

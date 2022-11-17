@@ -70,6 +70,7 @@ userRouter.post("/getQuestionFromId", async (req, res) => {
         const { Questions, retest, isTestStarted } = userTestDoc[0];
 
         if (retest >= 3) {
+
             return res.status(429).json({ success: false, msg: 'You have exhausted your retest limit, please contact the admin', retestExhausted: true })
         }
 
