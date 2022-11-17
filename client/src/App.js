@@ -59,7 +59,7 @@ function App() {
             }
         }
         catch (err) {
-            toast.error(err.response.data.msg, {
+            toast.error(err.response.data.error, {
                 position: 'top-center', style: { width: '28rem' }
             });
         }
