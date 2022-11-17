@@ -13,7 +13,6 @@ import { CookiesProvider } from 'react-cookie';
 import { Auth } from "./contexts/auth";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
-import { useEffect, useState } from "react";
 
 
 Sentry.init({
