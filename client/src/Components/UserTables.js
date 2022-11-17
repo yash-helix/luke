@@ -94,7 +94,7 @@ const UserTable = ({ filterData }) => {
   const sorting = (col) => {
     if (order === "ASC") {
       const sorted = [...data].sort((a, b) =>
-        a[col].toString().toLowerCase() > b[col].toString().toLowerCase() ? 1 : -1
+        a[col]?.toString().toLowerCase() > b[col]?.toString().toLowerCase() ? 1 : -1
       );
       setData(sorted);
       setOrder("DSC");
@@ -102,7 +102,7 @@ const UserTable = ({ filterData }) => {
       setArrowState({ ...arrowState, [col]: "dsc" });
     } else {
       const sorted = [...data].sort((a, b) =>
-        a[col].toString().toLowerCase() < b[col].toString().toLowerCase() ? 1 : -1
+        a[col]?.toString().toLowerCase() < b[col]?.toString().toLowerCase() ? 1 : -1
       );
       setData(sorted);
       setOrder("ASC");
