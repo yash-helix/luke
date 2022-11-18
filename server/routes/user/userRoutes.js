@@ -119,6 +119,24 @@ userRouter.post("/submitTest", (req, res) => {
     }
 })
 
+// delete api 
+userRouter.delete("/delete", (req, res) => {
+    userModal.deleteOne({ id: req.params.id })
+        .then((result) => {
+            return res.status(200).json({
+                message: "DELETED SUCCESSFULLY!!!",
+            });
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(404).json({
+                message: "Something went Wrong",
+            });
+        });
+});
+
+
+
 // feedback..
 userRouter.post('/createfeedback', FeedBack.createfeedback);
 userRouter.get('/getfeedback', FeedBack.getAll);
