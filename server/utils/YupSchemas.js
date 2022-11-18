@@ -3,7 +3,7 @@ import * as yup from 'yup';
 export const userDetailsFormSchema = yup.object().shape({
   fullName: yup.string().required("Name is required"),
   email: yup.string().email("Invalid Email").required("Email is required"),
-  phone: yup.string("Invalid phone no").min(8, "Phone number too short.Range between 8 to 12 number").max(12, "Phone number too long.Range between 8 to 12 number").required("Phone no is required"),
+  phone: yup.string("Invalid phone no").min(8, "Phone number too short.Range between 8 to 20 number").max(20, "Phone number too long.Range between 8 to 20 number").required("Phone no is required"),
   language: yup.string().required("Language is required"),
   position: yup.string().required("Position is required"),
   experience: yup.string().required("Experience is required"),
@@ -16,7 +16,7 @@ export const userDetailsFormSchema = yup.object().shape({
 export const userDetailsFormSchemaWithoutCV = yup.object().shape({
   fullName: yup.string().required("Name is required"),
   email: yup.string().email("Invalid Email").required("Email is required"),
-  phone: yup.string("Invalid phone no").min(8, "Phone number too short.Range between 8 to 12 number").max(12, "Phone number too long.Range between 8 to 12 number").required("Phone no is required"),
+  phone: yup.string("Invalid phone no").min(8, "Phone number too short.Range between 8 to 20 number").max(20, "Phone number too long.Range between 8 to 20 number").required("Phone no is required"),
   language: yup.string().required("Language is required"),
   position: yup.string().required("Position is required"),
   experience: yup.string().required("Experience is required"),
