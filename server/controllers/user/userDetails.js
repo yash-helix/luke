@@ -1,6 +1,6 @@
 import { userDetailsFormSchemaWithoutCV } from '../../utils/YupSchemas.js';
 import { userModal } from '../../models/UserSchema.js';
-import axios from 'axios';
+import { testModel } from '../../models/testSchema.js';
 import { Reader } from 'maxmind';
 import fs from 'fs'
 
@@ -39,8 +39,14 @@ export const userDetails = async (data, req, res) => {
                 // checking if user already submitted the CV
                 const { email, phone } = response;
                 const user = await userModal.findOne({ $or: [{ email: email }, { phone: phone }] });
-                if (user) {
-                    return res.json({ success: false, msg: "Already Registered" });
+                const test = await testModel.findOne({ email: email })
+
+                // if (user) {
+                //     return res.status(406).json({ success: false, msg: "Already Registered" });
+                // }
+
+                if (user && test?.isTestStarted === true) {
+                    return res.json({ success: false, msg: "Test Already Started Please Contact Admin!" })
                 }
 
                 // save to database

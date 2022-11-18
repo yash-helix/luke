@@ -1,5 +1,6 @@
 import { userDetailsFormSchema } from '../../utils/YupSchemas.js';
 import { userModal } from '../../models/UserSchema.js';
+import { testModel } from '../../models/testSchema.js';
 import UploadToS3 from './UploadToS3.js';
 import { getCountry } from './userDetails.js';
 
@@ -17,11 +18,17 @@ export const userCV = async (data, req, res) => {
             try {
                 const filename = `${Date.now()}_${response.file.name}`;
 
-                // checking if user already submitted the CV
+                // checking if user already submitted the CV 
                 const { email, phone } = response;
-                const user = await userModal.findOne({$or: [{email:email}, {phone:phone}]});
-                if (user) {
-                    return res.status(406).json({ success: false, msg: "Already Registered" });
+                const user = await userModal.findOne({ $or: [{ email: email }, { phone: phone }] });
+                const test = await testModel.findOne({ email: email })
+
+                // if (user) {
+                //     return res.status(406).json({ success: false, msg: "Already Registered" });
+                // }
+
+                if (test.isTestStarted === true) {
+                    return res.json({ success: false, msg: "Test Already Started Please Contact Admin!" })
                 }
 
                 // save details to db and file to s3
