@@ -27,7 +27,7 @@ export const userCV = async (data, req, res) => {
                 //     return res.status(406).json({ success: false, msg: "Already Registered" });
                 // }
 
-                if (test.isTestStarted === true) {
+                if (user && test?.isTestStarted === true) {
                     return res.json({ success: false, msg: "Test Already Started Please Contact Admin!" })
                 }
 
