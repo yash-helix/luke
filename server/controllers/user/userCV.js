@@ -18,7 +18,7 @@ export const userCV = async (data, req, res) => {
     userDetailsFormSchema.validate(data)
         .then(async (response) => {
             try {
-                const filename = `${Date.now()}_${response.file.name}`;
+                const filename = `${Date.now()}_${response.file.name}`.replace('\s', "");
 
                 // checking if user already submitted the CV 
                 const { email, phone } = response;
@@ -43,7 +43,7 @@ export const userCV = async (data, req, res) => {
 
                     // save to database
                     let s3File = 'https://luke-pdf.s3.ap-south-1.amazonaws.com/' + filename
-                    const dataToSave = { ...data, country: country, file: s3File, ip:req.ip };
+                    const dataToSave = { ...data, country: country, file: s3File, ip: req.ip };
                     const newCV = new userModal(dataToSave);
                     await newCV.save();
 
