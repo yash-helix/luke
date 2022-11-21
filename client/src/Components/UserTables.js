@@ -10,6 +10,7 @@ import "./UserTable.css";
 import * as Sentry from '@sentry/react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Button } from "@mui/material";
 
 const UserTable = ({ filterData }) => {
   const { logged, setLogged, UpdateAuth } = useContext(AuthContext);
@@ -79,7 +80,7 @@ const UserTable = ({ filterData }) => {
     catch (error) {
       toast.error(error.response.data.msg, {
         position: "top-center",
-        style:{width:"28rem"}
+        style: { width: "28rem" }
       })
     }
   }
@@ -254,31 +255,33 @@ const UserTable = ({ filterData }) => {
             <tbody>
               {data.map((val, key) => {
                 return (
-                  <tr key={key}>
-                    <td>
-                      <NavLink to={`/questionPaper/${val.fullName}/${val.userID}`} className="fw-semibold text-decoration-none">
-                        {val.fullName}
-                      </NavLink>
-                    </td>
-                    <td>{val.position}</td>
-                    <td>{val?.country || ""}</td>
-                    <td>{val.score}</td>
-                    <td>{val.questionsAttempted}</td>
-                    <td>{val.correctAnswers}</td>
-                    <td>{val.averageTime}</td>
-                    <td>{val.accuracy}</td>
-                    <td>
-                      {
-                        val?.file ?
-                          <a href={val.file} target="_blank" rel="noopener noreferrer" className="fw-semibold text-decoration-none">
-                            Click to view
-                          </a>
-                          :
-                          <p>Not Found</p>
-                      }
-                    </td>
-                    <td>{moment(val.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</td>
-                  </tr>
+                  <>
+                    <tr key={key}>
+                      <td>
+                        <NavLink to={`/questionPaper/${val.fullName}/${val.userID}`} target="_blank" rel="noopener noreferrer" className="fw-semibold text-decoration-none">
+                          {val.fullName}
+                        </NavLink>
+                      </td>
+                      <td>{val.position}</td>
+                      <td>{val?.country || ""}</td>
+                      <td>{val.score}</td>
+                      <td>{val.questionsAttempted}</td>
+                      <td>{val.correctAnswers}</td>
+                      <td>{val.averageTime}</td>
+                      <td>{val.accuracy}</td>
+                      <td>
+                        {
+                          val?.file ?
+                            <a href={val.file} target="_blank" rel="noopener noreferrer" className="fw-semibold text-decoration-none">
+                              Click to view
+                            </a>
+                            :
+                            <p>Not Found</p>
+                        }
+                      </td>
+                      <td>{moment(val.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</td>
+                    </tr>
+                  </>
                 );
               })}
             </tbody>
