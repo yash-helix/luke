@@ -39,6 +39,12 @@ function App() {
         const formData = new FormData();
         if (selectedFile) {
             formData.append("file", selectedFile);
+            if (selectedFile.size > 500000) {
+                toast.warning("Please upload a file smaller than 5 MB", {
+                    position: 'top-center', style: { width: '28rem' }
+                });
+                return false;
+            }
         }
         formData.append("data", JSON.stringify(data));
         try {

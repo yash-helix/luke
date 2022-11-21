@@ -15,7 +15,8 @@ userRouter.post("/userCV", (req, res) => {
         const file = req.files?.file;
 
         if (file) {
-            if (file.size > 500000) return res.status(400).json({ success: false, msg: "File too big" })
+            if (file.size > 500000) return res.status(400).json({ success: false, error: "File too big" })
+
 
             data = { ...data, file }
             userCV(data, req, res);
