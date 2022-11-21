@@ -71,7 +71,7 @@ adminRouter.post("/getUserPaper", async (req, res) => {
 
         if (!test || !user) return res.status(404).json({ success: false, msg: "Failed to find the user or his test" });
 
-        const { fullName, email, phone, country, language, position, experience, file } = user;
+        const { fullName, email, phone, country, language, position, experience, file, ip } = user;
         const { score, questionsAttempted, correctAnswers, averageTime, accuracy, updatedAt: date } = test;
 
         let feedback = "";
@@ -82,7 +82,7 @@ adminRouter.post("/getUserPaper", async (req, res) => {
         const User = {
             fullName, email, phone, country, language, position, experience, file,
             score, questionsAttempted, correctAnswers, averageTime, accuracy, date,
-            feedback
+            feedback, ip
         };
 
         return res.status(200).json({ success: true, UserPaper: test.userQuestionsAndAnswers, user: User })

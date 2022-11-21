@@ -29,7 +29,8 @@ export const userSchema = new Schema({
         type:String,
         required:true
     },
-    file: String
+    file: String,
+    ip:String
 });
 
 export const userModal = new mongoose.model('user', userSchema);

@@ -50,7 +50,7 @@ export const userDetails = async (data, req, res) => {
                 }
 
                 // save to database
-                data = { ...data, country: country }
+                data = { ...data, country: country, ip: req.ip }
                 const newCV = new userModal(data);
                 await newCV.save();
 
