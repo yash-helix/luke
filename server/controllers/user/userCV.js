@@ -7,11 +7,13 @@ import { getCountry } from './userDetails.js';
 export const userCV = async (data, req, res) => {
     let country;
     try {
-        country = await getCountry();
+        const ip = req.ip
+        country = await getCountry(ip);
     }
     catch (error) {
         country = "";
     }
+
 
     userDetailsFormSchema.validate(data)
         .then(async (response) => {
@@ -41,7 +43,7 @@ export const userCV = async (data, req, res) => {
 
                     // save to database
                     let s3File = 'https://luke-pdf.s3.ap-south-1.amazonaws.com/' + filename
-                    const dataToSave = { ...data, country: country, file: s3File };
+                    const dataToSave = { ...data, country: country, file: s3File, ip:req.ip };
                     const newCV = new userModal(dataToSave);
                     await newCV.save();
 

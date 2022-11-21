@@ -77,8 +77,9 @@ const UserTable = ({ filterData }) => {
       }
     }
     catch (error) {
-      toast.error("Unexpected error occurred", {
-
+      toast.error(error.response.data.msg, {
+        position: "top-center",
+        style:{width:"28rem"}
       })
     }
   }
