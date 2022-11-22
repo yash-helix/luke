@@ -96,16 +96,25 @@ const UserTable = ({ filterData }) => {
   const sorting = (col) => {
     if (order === "ASC") {
       const sorted = [...data].sort((a, b) =>
-        a[col]?.toString().toLowerCase() > b[col]?.toString().toLowerCase() ? 1 : -1
+        //   a[col]?.toString().toLowerCase() > b[col]?.toString().toLowerCase() ? 1 : -1
+        // );
+
+        typeof a[col] === 'number' ? a[col] - b[col] :
+          a[col].toString().toLowerCase() > b[col].toString().toLowerCase() ? 1 : -1
       );
+
       setData(sorted);
       setOrder("DSC");
       setArrowState({ ...arrowState, [col]: "dsc" });
       setArrowState({ ...arrowState, [col]: "dsc" });
     } else {
-      const sorted = [...data].sort((a, b) =>
-        a[col]?.toString().toLowerCase() < b[col]?.toString().toLowerCase() ? 1 : -1
-      );
+      const sorted = [...data].sort((a, b) => {
+        //   a[col]?.toString().toLowerCase() < b[col]?.toString().toLowerCase() ? 1 : -1
+        // );
+        console.log(typeof a[col]);
+        return typeof a[col] === 'number' ? b[col] - a[col] : a[col].toString().toLowerCase() < b[col].toString().toLowerCase() ? 1 : -1
+      });
+
       setData(sorted);
       setOrder("ASC");
       setArrowState({ ...arrowState, [col]: "asc" });
@@ -230,6 +239,7 @@ const UserTable = ({ filterData }) => {
 
             <thead className="bg-dark text-light border-dark border">
               <tr>
+                <th>Serial Number</th>
                 <th onClick={(e) => sorting("fullName")}>Name {arrowState.fullName === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
                 <th onClick={(e) => sorting("position")}>Position {arrowState.position === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
                 <th onClick={(e) => sorting("country")}>Country {arrowState.country === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
@@ -255,33 +265,34 @@ const UserTable = ({ filterData }) => {
             <tbody>
               {data.map((val, key) => {
                 return (
-                  <>
-                    <tr key={key}>
-                      <td>
-                        <NavLink to={`/questionPaper/${val.fullName}/${val.userID}`} target="_blank" rel="noopener noreferrer" className="fw-semibold text-decoration-none">
-                          {val.fullName}
-                        </NavLink>
-                      </td>
-                      <td>{val.position}</td>
-                      <td>{val?.country || ""}</td>
-                      <td>{val.score}</td>
-                      <td>{val.questionsAttempted}</td>
-                      <td>{val.correctAnswers}</td>
-                      <td>{val.averageTime}</td>
-                      <td>{val.accuracy}</td>
-                      <td>
-                        {
-                          val?.file ?
-                            <a href={val.file} target="_blank" rel="noopener noreferrer" className="fw-semibold text-decoration-none">
-                              Click to view
-                            </a>
-                            :
-                            <p>Not Found</p>
-                        }
-                      </td>
-                      <td>{moment(val.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</td>
-                    </tr>
-                  </>
+
+                  <tr key={key}>
+                    <td>{(key + 1)}</td>
+                    <td>
+                      <NavLink to={`/questionPaper/${val.fullName}/${val.userID}`} target="_blank" rel="noopener noreferrer" className="fw-semibold text-decoration-none">
+                        {val.fullName}
+                      </NavLink>
+                    </td>
+                    <td>{val.position}</td>
+                    <td>{val?.country || ""}</td>
+                    <td>{val.score}</td>
+                    <td>{val.questionsAttempted}</td>
+                    <td>{val.correctAnswers}</td>
+                    <td>{val.averageTime}</td>
+                    <td>{val.accuracy}</td>
+                    <td>
+                      {
+                        val?.file ?
+                          <a href={val.file} target="_blank" rel="noopener noreferrer" className="fw-semibold text-decoration-none">
+                            Click to view
+                          </a>
+                          :
+                          <p>Not Found</p>
+                      }
+                    </td>
+                    <td>{moment(val.updatedAt).format('MMMM Do YYYY, h:mm:ss a')}</td>
+                  </tr>
+
                 );
               })}
             </tbody>
