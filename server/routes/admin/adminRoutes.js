@@ -39,20 +39,24 @@ adminRouter.post("/excelUpload", (req, res) => {
 adminRouter.post("/getTestDetails", async (req, res) => {
     try {
         const user = await userModal.find().lean().select({ __v: 0 });
-        const test = await testModel.find({ isTestCompleted: true }).lean().select({ Questions: 0, email: 0, __v: 0 })
-
-
+        const test = await testModel.find({ isTestCompleted: true }).lean().select({ Questions: 0, email: 0, __v: 0 }).sort({ "updatedAt": -1 })
 
         if (!user || !test) return res.status(404).json({ success: false, msg: "Cannot find user and his test details" });
 
-        let userDataArr = user.map(userDetails => {
-            const testDetails = test.find(t => t.userID === userDetails._id.toString());
-            return testDetails !== undefined ? { ...userDetails, ...testDetails } : null
+        // let userDataArr = user.map(userDetails => {
+        //     const testDetails = test.find(t => t.userID === userDetails._id.toString());
+        //     return testDetails !== undefined ? { ...userDetails, ...testDetails } : null
+        // }).filter(details => details);
+
+        let UserTests = test.map(testDetails => {
+            const userDetails = user.find(u => testDetails.userID === u._id.toString());
+            return userDetails !== undefined ? { ...userDetails, ...testDetails } : null
         }).filter(details => details);
 
-        if (!userDataArr.length > 0) return res.status(404).json({ success: false, msg: "Failed to find any test details" });
 
-        return res.json({ success: true, user: userDataArr })
+        if (!UserTests.length > 0) return res.status(404).json({ success: false, msg: "Failed to find any test details" });
+
+        return res.json({ success: true, user: UserTests })
     }
     catch (error) {
         return res.status(500).json({ success: false, msg: "Internal server error occurred" })
