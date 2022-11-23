@@ -41,12 +41,12 @@ export const userDetails = async (data, req, res) => {
                 const user = await userModal.findOne({ $or: [{ email: email }, { phone: phone }] });
                 const test = await testModel.findOne({ email: email })
 
-                // if (user) {
-                //     return res.status(406).json({ success: false, msg: "Already Registered" });
-                // }
+                if (test?.isTestCompleted === true) {
+                    return res.status(409).json({ success: true, error: "Test Already Submitted!" })
+                }
 
-                if (user && test?.isTestStarted === true) {
-                    return res.json({ success: false, msg: "Test Already Started Please Contact Admin!" })
+                else if (user) {
+                    return res.status(200).json({ success: true, msg: "Welcome Back!", user: { email: email, userID: user?._id } })
                 }
 
                 // save to database

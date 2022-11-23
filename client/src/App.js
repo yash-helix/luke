@@ -61,7 +61,9 @@ function App() {
                 navigate(`/startTest`, { replace: true })
             }
             else {
-                alert(res.data.msg);
+                toast.error(res.data.msg, {
+                    position: 'top-center', style: { width: '28rem' }
+                });
             }
         }
         catch (err) {
