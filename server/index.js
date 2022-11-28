@@ -41,8 +41,8 @@ app.use(
 
 
 app.use(cors());
-app.use(fileupload());
-app.use(express.json());
+app.use(fileupload({limits:{fileSize:25*1024*1024}}));
+app.use(express.json({limit:"50mb"}));
 app.use(Sentry.Handlers.requestHandler());
 app.use(Sentry.Handlers.tracingHandler());
 app.set('trust proxy', 'loopback')
