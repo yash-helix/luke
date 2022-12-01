@@ -57,11 +57,10 @@ export const userDetails = async (data, req, res) => {
                 return res.status(200).json({ success: true, msg: "Data successfully submitted", user: { email: email, userID: newCV?._id } })
             }
             catch (error) {
-                console.log(error)
-                return res.status(500).json({ success: false, msg: "Internal Server Error Occurred!!" })
+                return res.status(500).json({ success: false, error: "Internal Server Error Occurred!!" })
             }
         })
         .catch(err => {
-            return res.status(401).json({ success: false, msg: "Validation error occurred, Please re-check you details", error: err.message?.replace(".mimetype", " type") })
+            return res.status(400).json({ success: false, msg: "Validation error occurred, Please re-check you details", error: err.message?.replace(".mimetype", " type") })
         })
 }

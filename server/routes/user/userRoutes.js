@@ -5,28 +5,22 @@ import { userDetails } from '../../controllers/user/userDetails.js';
 import { userModal } from '../../models/UserSchema.js';
 import { testModel } from '../../models/testSchema.js';
 import CalculateScore from '../../controllers/user/CalculateScore.js';
-import { userTestSchema } from '../../utils/YupSchemas.js';
+import { userDetailsFormSchemaWithoutCV, userTestSchema } from '../../utils/YupSchemas.js';
 import { FeedBack } from '../../controllers/user/feedbackOfUser.js';
+import { createS3PreSignedUrl } from '../../controllers/user/PreSignedUrl.js';
 const userRouter = express.Router();
 
 userRouter.post("/userCV", (req, res) => {
     try {
-        let data = JSON.parse(req.body.data);
-        const file = req.files?.file;
-
-        if (file) {
-            if (file.size > 25e6) return res.status(400).json({ success: false, error: "File too big" })
-
-            data = { ...data, file }
-            userCV(data, req, res);
-        }
-        else {
-            data = { ...data }
+        let data = req.body.data;
+        if (data) {
             userDetails(data, req, res)
+        }
+        else{
+            return res.status(400).json({ success: false, msg: "Invalid user details" })
         }
     }
     catch (error) {
-        console.log(error)
         return res.status(400).json({ success: false, msg: "Unexpected error occurred!" })
     }
 });
@@ -103,7 +97,7 @@ userRouter.post("/submitTest", (req, res) => {
         questions = questions.filter(question => question.answer !== 0)
 
         if (!userID) return res.status(404).json({ success: false, msg: "Test not found" });
-        else if (!questions || !questions.length > 0) return res.status(404).json({ success: false, msg: "No question was answered" });
+        else if (!questions || !questions.length > 0) return res.status(404).json({ success: false, error: "No question was answered" });
 
         userTestSchema.validate({ questions })
             .then(response => {
@@ -111,7 +105,7 @@ userRouter.post("/submitTest", (req, res) => {
                 CalculateScore(userID, userQuestions, res);
             })
             .catch(err => {
-                return res.status(404).json({ success: false, msg: "Validation error occurred", errror: err.message })
+                return res.status(404).json({ success: false, msg: "Validation error occurred", error: err.message })
             })
     }
     catch (error) {
@@ -120,25 +114,38 @@ userRouter.post("/submitTest", (req, res) => {
 })
 
 // delete api 
-userRouter.delete("/delete/:id", (req, res) => {
-    userModal.deleteOne({ _id: req.params.id })
-        .then((result) => {
-            return res.status(200).json({
-                message: "DELETED SUCCESSFULLY!!!",
-            });
-        })
-        .catch((err) => {
-            console.log(err);
-            res.status(404).json({
-                message: "Record Not found!!!",
-            });
-        });
-});
+// userRouter.delete("/delete/:id", (req, res) => {
+//     userModal.deleteOne({ _id: req.params.id })
+//         .then((result) => {
+//             return res.status(200).json({
+//                 message: "DELETED SUCCESSFULLY!!!",
+//             });
+//         })
+//         .catch((err) => {
+//             console.log(err);
+//             res.status(404).json({
+//                 message: "Record Not found!!!",
+//             });
+//         });
+// });
 
 
 
 // feedback..
 userRouter.post('/createfeedback', FeedBack.createfeedback);
 userRouter.get('/getfeedback', FeedBack.getAll);
+
+// preSignedUrl 
+userRouter.post('/url', (req, res) => {
+    const { fileName, data } = req.body;
+
+    userDetailsFormSchemaWithoutCV.validate(data)
+        .then(resp => {
+            createS3PreSignedUrl.createUrl(fileName, res)
+        })
+        .catch(err => {
+            return res.status(401).json({ success: false, msg: "Validation error occurred, Please re-check you details", error: err.message?.replace(".mimetype", " type") })
+        })
+})
 
 export default userRouter;

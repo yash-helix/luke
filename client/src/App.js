@@ -10,6 +10,7 @@ function App() {
     const navigate = useNavigate();
 
     const [selectedFile, setSelectedFile] = useState();
+    const [selectedFileData, setSelectedFileData] = useState(null)
 
     const [data, setData] = useState({
         fullName: "",
@@ -20,10 +21,54 @@ function App() {
         experience: "1",
     });
 
-    const changeHandler = (event) => {
+    // file
+    const changeHandler = async (event) => {
+        const formData = new FormData();
+        formData.append("body", event.target.files[0])
+
         setSelectedFile(event.target.files[0]);
+
+        const reader = new FileReader()
+        reader.onload = async (e) => {
+            const text = (e.target.result)
+            console.log(text);
+            setSelectedFileData(text)
+        };
+        reader.readAsArrayBuffer(event.target.files[0])
     };
 
+
+    // save the user data to database
+    const SaveDataToDataBase = async (isFile, fileLink = "") => {
+        try {
+            let allData = { ...data }
+
+            if (isFile.file) {
+                allData = { ...allData, file: fileLink }
+            }
+
+            let UserDataRes = await axios.post(`${process.env.REACT_APP_SERVER}/user/userCV`, { data: allData });
+            if (UserDataRes.data.success) {
+                const { userID, email } = UserDataRes.data.user;
+                localStorage.setItem("userID", userID);
+                localStorage.setItem("email", email);
+                navigate(`/startTest`, { replace: true })
+            }
+            else {
+                toast.error(UserDataRes.data.error, {
+                    position: 'top-center', style: { width: '28rem' }
+                });
+            }
+        }
+        catch (error) {
+            toast.error(error.response.data.error, {
+                position: 'top-center', style: { width: '28rem' }
+            });
+        }
+    }
+
+
+    // form details
     const handleChange = (e) => {
         const { name, value } = e.target;
         setData((prev) => {
@@ -35,35 +80,52 @@ function App() {
     };
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        const formData = new FormData();
-        if (selectedFile) {
-            formData.append("file", selectedFile);
-            if (selectedFile.size > 25e6) {
-                toast.warning("Please upload a file smaller than 25 MB", {
-                    position: 'top-center', style: { width: '28rem' }
-                });
-                return false;
-            }
-        }
-        formData.append("data", JSON.stringify(data));
+        e.preventDefault()
         try {
-            const res = await axios.post(
-                `${process.env.REACT_APP_SERVER}/user/userCV`,
-                formData
-            );
-            if (res.data.success) {
-                const { userID, email } = res.data.user;
+            if (selectedFile?.name) {
+                let fileName = selectedFile.name.trim().replace(/\s/g, "_")
+                if (!fileName || !selectedFileData) {
+                    return false;
+                }
 
-                localStorage.setItem("userID", userID);
-                localStorage.setItem("email", email);
+                if (selectedFile && selectedFileData) {
+                    if (selectedFile.size > 25e6) {
+                        toast.warning("Please upload a file smaller than 25 MB", {
+                            position: 'top-center', style: { width: '28rem' }
+                        });
+                        return false;
+                    }
+                    else {
+                        // creates a preSigned url
+                        const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/url`, { fileName, data: data });
+                        if (res.data.success) {
+                            const result = await axios.put(res.data.url, {
+                                body: selectedFileData,
+                            }, {
+                                headers: {
+                                    'Content-Type': 'multipart/form-data'
+                                }
+                            }).catch(error => console.error(error.response.data, { request: error.request }));
 
-                navigate(`/startTest`, { replace: true })
+                            if (result?.status) {
+                                SaveDataToDataBase({ file: true }, res.data.file);
+                            }
+                            else {
+                                toast.error("File upload failed", {
+                                    position: 'top-center', style: { width: '28rem' }
+                                });
+                            }
+                        }
+                        else {
+                            toast.error("Unexpected error occurred, Failed to upload file!", {
+                                position: 'top-center', style: { width: '28rem' }
+                            });
+                        }
+                    }
+                }
             }
             else {
-                toast.error(res.data.msg, {
-                    position: 'top-center', style: { width: '28rem' }
-                });
+                SaveDataToDataBase({ file: false })
             }
         }
         catch (err) {
@@ -71,17 +133,7 @@ function App() {
                 position: 'top-center', style: { width: '28rem' }
             });
         }
-
-        setSelectedFile("");
-        // setData({
-        //     fullName: "",
-        //     email: "",
-        //     phone: "",
-        //     position: "",
-        //     language: "",
-        //     experience: "",
-        // });
-    };
+    }
 
 
     return (
@@ -183,7 +235,7 @@ function App() {
                         <input
                             id="fileIp"
                             type="file"
-                            accept=".pdf"
+                            accept=".pdf,.txt"
                             name="file"
                             style={{ display: "none" }}
                             onChange={changeHandler} />
