@@ -8,6 +8,7 @@ import CalculateScore from '../../controllers/user/CalculateScore.js';
 import { userDetailsFormSchemaWithoutCV, userTestSchema } from '../../utils/YupSchemas.js';
 import { FeedBack } from '../../controllers/user/feedbackOfUser.js';
 import { createS3PreSignedUrl } from '../../controllers/user/PreSignedUrl.js';
+import { getCountry } from '../../controllers/user/userDetails.js';
 const userRouter = express.Router();
 
 userRouter.post("/userCV", (req, res) => {
@@ -16,7 +17,7 @@ userRouter.post("/userCV", (req, res) => {
         if (data) {
             userDetails(data, req, res)
         }
-        else{
+        else {
             return res.status(400).json({ success: false, msg: "Invalid user details" })
         }
     }
@@ -147,5 +148,36 @@ userRouter.post('/url', (req, res) => {
             return res.status(401).json({ success: false, msg: "Validation error occurred, Please re-check you details", error: err.message?.replace(".mimetype", " type") })
         })
 })
+
+// get All records of specific country
+
+userRouter.route("/getposition").post(async (req, res) => {
+    let country;
+    let positionIndia = ['IT Recruiter'];
+    let positionOtherCountries = ['Virtual Assistant', 'Senior Virtual Assistant']
+
+    try {
+        const ip = req.ip
+        country = await getCountry(ip);
+
+        if (country.toLowerCase() === 'india') {
+            return res.json({ data: positionIndia, success: true });
+        } else {
+            return res.json({ data: positionOtherCountries, success: true })
+        }
+    }
+    catch (error) {
+        return res.status(400).json({ success: false, msg: 'Failed to find your country' })
+    }
+
+    // userModal.find({}, { country: "India" }, function (err, result) {
+    //     if (err) {
+    //         console.log(err);
+    //     } else {
+    //         res.json(result);
+    //     }
+    // });
+});
+
 
 export default userRouter;

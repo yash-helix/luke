@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import "./App.css";
 import { useNavigate } from 'react-router-dom';
@@ -10,7 +10,10 @@ function App() {
     const navigate = useNavigate();
 
     const [selectedFile, setSelectedFile] = useState();
-    const [selectedFileData, setSelectedFileData] = useState(null)
+    const [selectedFileData, setSelectedFileData] = useState(null);
+    const [mount, setMount] = useState(false);
+
+    const [positions, setPositons] = useState([]);
 
     const [data, setData] = useState({
         fullName: "",
@@ -20,6 +23,34 @@ function App() {
         language: "English",
         experience: "1",
     });
+
+    const getPositions = async () => {
+
+        try {
+            const positionRes = await axios.post(`${process.env.REACT_APP_SERVER}/user/getposition`)
+            if (positionRes.data.success)
+                setPositons(positionRes.data.data);
+            else
+                setPositons([])
+
+        } catch (error) {
+            setPositons(error.response.data.data)
+            toast.error(error.response.data.msg, {
+                position: 'top-center', style: { width: '28rem' }
+            });
+        }
+    }
+
+    // using only to get Positions
+    useEffect(() => {
+        if (mount) {
+            getPositions();
+        }
+        else {
+            setMount(true)
+        }
+    }, [mount]);
+
 
     // file
     const changeHandler = async (event) => {
@@ -193,9 +224,7 @@ function App() {
                         required
                         onChange={handleChange}
                     >
-                        <option value="Virtual Assistant">Virtual Assistant</option>
-                        {/* <option value="Senior Virtual Assistant">Senior Virtual Assistant</option> */}
-                        {/* <option value="Fresher">Fresher</option> */}
+                        {positions.map((p, index) => <option key={index} value={p}>{p}</option>)}
                     </select>
                     <br />
                     <label className="fw-normal">Select Language: *</label>
