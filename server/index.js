@@ -4,9 +4,8 @@ import userRouter from './routes/user/userRoutes.js';
 import dotenv from 'dotenv';
 import mongoose from "mongoose";
 import fileupload from 'express-fileupload'
-import adminRouter from './routes/admin/adminRoutes.js';
-import Sentry from "@sentry/node";
-import Tracing from "@sentry/tracing";
+import { adminRouter } from './routes/admin/adminRoutes.js';
+import { testModel } from './models/testSchema.js';
 
 const app = express();
 
@@ -57,9 +56,15 @@ app.use("/user", userRouter);
 app.use("/admin", adminRouter);
 
 
-app.get("/", function (req, res) {
+app.get("/", async(req, res) => {
     // main()
-    console.log(req.ip)
+    console.log(req.ip);
+
+    const response = await testModel.find(
+        {"Questions._id" : new mongoose.Types.ObjectId("635a917ebd4c767f4045e493")},
+        {email:1});
+    console.log(response);
+
     return res.status(200).send("<h1>Hello World</h1>")
 })
 
