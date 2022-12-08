@@ -129,7 +129,10 @@ const FinalScreen = () => {
 
         const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/submitTest`, { data: data1 });
         if (res.data.success) {
-            navigate("/testCompleted", { replace: true, state: { userID } });
+            if(res.data.navigateToTypingTest)
+                navigate("/typing-test", { replace: true, state: { userID } });
+            else 
+                navigate("/testCompleted", { replace: true, state: { userID } });
         }
         else {
             alert(res.data.msg);

@@ -13,6 +13,7 @@ import { CookiesProvider } from 'react-cookie';
 import { Auth } from "./contexts/auth";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
+import Typing from "./Components/TypingTest/TextField/TypingTest";
 
 
 Sentry.init({
@@ -53,6 +54,14 @@ root.render(
                     {<Auth>
                         <CookiesProvider>
                             <Login />
+                        </CookiesProvider>
+                    </Auth>
+                    } />
+
+                <Route path="/typing-test" element=
+                    {<Auth>
+                        <CookiesProvider>
+                            <Typing />
                         </CookiesProvider>
                     </Auth>
                     } />
