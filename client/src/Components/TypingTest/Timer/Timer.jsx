@@ -53,9 +53,13 @@ const Timer = (props) => {
             </Dialog>
 
         ) : (
-            <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'flex-end' }}>
-                <Button variant="contained" size="large">Time: {timeElapsed}</Button>
-                <Button variant="contained" size="large">Speed : {((correctWords / minutes) || 0).toFixed(0)} WPM</Button>
+            <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center', }}>
+                <Stack>
+                    <Button variant="contained" size="large">Time: {timeElapsed}</Button>
+                </Stack>
+                <Stack>
+                    <Button variant="contained" size="large">Speed : {((correctWords / minutes) || 0).toFixed(0)} WPM</Button>
+                </Stack>
             </Stack>
         )
     )

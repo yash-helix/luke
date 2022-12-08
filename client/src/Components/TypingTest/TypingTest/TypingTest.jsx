@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { TextField } from '@mui/material';
-import '../TextField/TextField.css';
+import './TypingTest.css';
 import { Stack, Container } from "@mui/system";
 import Timer from "../Timer/Timer";
 import { useLocation, useNavigate } from "react-router";
@@ -9,7 +9,7 @@ import axios from "axios";
 const TextBox = () => {
 
     const { state } = useLocation();
-    console.log(state)
+    // console.log(state)
     const navigate = useNavigate();
 
     const getWords = () => `water away good want over going where would took school think home know bear again long things after wanted eat everyone play thought well find more round tree magic shouted other food through been stop must door right these began animals next first work baby fish mouse something`.toLowerCase().split(' ').sort(() => Math.random() > 0.5 ? 1 : -1)
@@ -69,15 +69,15 @@ const TextBox = () => {
     }
 
     //submit the typing test
-    const SubmitTest = async() => {
+    const SubmitTest = async () => {
         try {
-            const res = await axios.post(`${process.env.SERVER_URL}/user/submitTypingTest`, 
-            {userID:state.userID, score:correctWordArray.filter(Boolean).length});
+            const res = await axios.post(`${process.env.SERVER_URL}/user/submitTypingTest`,
+                { userID: state.userID, score: correctWordArray.filter(Boolean).length });
 
-            if(res.data.success){
-                navigate("/testCompleted", { replace: true, state: { userID:state.userID } });
+            if (res.data.success) {
+                navigate("/testCompleted", { replace: true, state: { userID: state.userID } });
             }
-            else{
+            else {
                 alert(res.data.msg)
             }
         }
@@ -86,26 +86,28 @@ const TextBox = () => {
         }
     }
 
-    function setTimeUpFun(timeup) { 
+    function setTimeUpFun(timeup) {
         setTimeUp(timeup);
         SubmitTest();
     }
 
     return (
-        <Container>
-            <h2>Speed Typing Test</h2>
-            <p className="para">{cloud.current.map((word, index) => {
-                return <Word key={index} text={word} active={index === activeWordIndex} correct={correctWordArray[index]} />
-            })}</p>
-            <Stack sx={{ justifyContent: 'left' }}>
-                <Stack>
-                    <TextField sx={{ width: '50%', backgroundColor: 'white', border: 'none' }} type='text' value={userInput} disabled={timeup} onChange={(e) => processInput(e.target.value)} />
+        <Stack sx={{ backgroundColor: '#add5ff', height: "100vh", paddingTop: "5rem", width: "100vw" }}>
+            <Container>
+                <h2>Speed Typing Test</h2>
+                <p className="para">{cloud.current.map((word, index) => {
+                    return <Word key={index} text={word} active={index === activeWordIndex} correct={correctWordArray[index]} />
+                })}</p>
+                <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
+                    <Stack Stack width='50%'>
+                        <TextField sx={{ backgroundColor: 'white', border: 'none' }} type='text' value={userInput} disabled={timeup} onChange={(e) => processInput(e.target.value)} />
+                    </Stack>
+                    <Stack width='30%'>
+                        <Timer startCounting={startCounting} correctWords={correctWordArray.filter(Boolean).length} setTimeUp={setTimeUpFun} />
+                    </Stack>
                 </Stack>
-                <Stack>
-                    <Timer startCounting={startCounting} correctWords={correctWordArray.filter(Boolean).length} setTimeUp={setTimeUpFun} />
-                </Stack>
-            </Stack>
-        </Container>
+            </Container>
+        </Stack>
     )
 }
 

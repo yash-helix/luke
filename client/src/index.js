@@ -13,8 +13,7 @@ import { CookiesProvider } from 'react-cookie';
 import { Auth } from "./contexts/auth";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
-import Typing from "./Components/TypingTest/TextField/TypingTest";
-
+import Typing from './Components/TypingTest/TypingTest/TypingTest';
 
 Sentry.init({
     dsn: process.env.REACT_APP_DSN_KEY,

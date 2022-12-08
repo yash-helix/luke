@@ -167,14 +167,14 @@ userRouter.route("/getposition").post(async (req, res) => {
         }
     }
     catch (error) {
-        return res.status(400).json({ success: false, msg: 'Failed to find your country' })
+        return res.status(400).json({ data: positionOtherCountries, success: false, msg: 'Failed to find your country' })
     }
 });
 
 
 userRouter.post("/submitTypingTest", (req, res) => {
-    const {userID, score} = req.body;
-    if(!userID || !score) return res.status(400).json({error:"Invalid user details", success:false})
+    const { userID, score } = req.body;
+    if (!userID || !score) return res.status(400).json({ error: "Invalid user details", success: false })
 
     SubmitTypingTest(userID, score, res);
 })

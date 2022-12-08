@@ -224,7 +224,7 @@ function App() {
                         required
                         onChange={handleChange}
                     >
-                        {positions.map((p, index) => <option key={index} value={p}>{p}</option>)}
+                        {positions?.map((p, index) => <option key={index} value={p}>{p}</option>)}
                     </select>
                     <br />
                     <label className="fw-normal">Select Language: *</label>
