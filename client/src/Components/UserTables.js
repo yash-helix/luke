@@ -60,11 +60,11 @@ const UserTable = ({ filterData }) => {
         if (res.data.user.length > 0) {
           const allCountries = res.data.user.map(user => {
             return user.country
-          });
+          }).filter(country => country !== "");
 
           const allPositions = res.data.user.map(user => {
             return user.position
-          });
+          }).filter(position => position !== "");
 
           let allC = [...new Set(allCountries)]
           let allP = [...new Set(allPositions)]

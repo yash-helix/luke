@@ -4,6 +4,9 @@ import axios from 'axios';
 
 const CalculateScore = async (userID, userQuestions, res) => {
   try {
+    const userData = await userModal.findOne({ _id: userID }, 'fullName email file country');
+    let navigateToTypingTest = userData?.country?.toLowerCase() == "india" ? true : false;
+
     const test = await testModel.findOne({ userID }, 'Questions _id');
     if (!test) return res.json({ success: false, msg: "Failed to find the test" });
 
@@ -39,19 +42,21 @@ const CalculateScore = async (userID, userQuestions, res) => {
     test.correctAnswers = correctAnswers;
     test.accuracy = Number(accuracy);
     test.averageTime = Number(averageTime);
-    test.isTestCompleted = true;
+
+    // update only if country is other than india
+    test.isTestCompleted = navigateToTypingTest ? true : false;
 
     test.userQuestionsAndAnswers = userQuestionsAndAnswers;
+
 
     await test.save(async function (err) {
       if (err) return res.status(400).send({ success: false, msg: 'Failed to save test' });
 
       else {
-        const isMsgSentToSlack = await sendUserDetailsToSlack(userID);
+        const isMsgSentToSlack = await sendUserDetailsToSlack(userID, userData);
 
-        if (isMsgSentToSlack) return res.status(200).send({ success: true, msg: `Test submitted successfully` });
-        // Slack 
-        else return res.status(200).send({ success: true, msg: `Test submitted successfully but your exam information is not sent to examiner` });
+        if (isMsgSentToSlack) return res.status(200).send({ success: true, msg: `Test submitted successfully`, navigateToTypingTest });
+        else return res.status(200).send({ success: true, msg: `Test submitted successfully but server failed to send your test results to the admin`,navigateToTypingTest });
       }
     });
   }
@@ -62,10 +67,9 @@ const CalculateScore = async (userID, userQuestions, res) => {
 
 
 // send the qualified users list to slack
-const sendUserDetailsToSlack = async (userID) => {
+const sendUserDetailsToSlack = async (userID, userData) => {
   try {
     const testData = await testModel.findOne({ userID }, 'score')
-    const userData = await userModal.findOne({ _id: userID }, 'fullName email file')
 
     if (!testData || !userData) return false
 

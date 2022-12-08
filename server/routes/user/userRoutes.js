@@ -167,17 +167,17 @@ userRouter.route("/getposition").post(async (req, res) => {
         }
     }
     catch (error) {
-        return res.status(400).json({ success: false, msg: 'Failed to find your country' })
+        return res.status(400).json({ data: positionOtherCountries, success: false, msg: 'Failed to find your country' })
     }
-
-    // userModal.find({}, { country: "India" }, function (err, result) {
-    //     if (err) {
-    //         console.log(err);
-    //     } else {
-    //         res.json(result);
-    //     }
-    // });
 });
+
+
+userRouter.post("/submitTypingTest", (req, res) => {
+    const { userID, score } = req.body;
+    if (!userID || !score) return res.status(400).json({ error: "Invalid user details", success: false })
+
+    SubmitTypingTest(userID, score, res);
+})
 
 
 export default userRouter;

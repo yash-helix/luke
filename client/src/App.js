@@ -61,11 +61,11 @@ function App() {
 
         const reader = new FileReader()
         reader.onload = async (e) => {
-            const text = (e.target.result)
-            console.log(text);
+            let text = (e.target.result)
+            text = Buffer.from(text).toString('base64')
             setSelectedFileData(text)
         };
-        reader.readAsArrayBuffer(event.target.files[0])
+        reader.readAsText(event.target.files[0])
     };
 
 
@@ -224,7 +224,7 @@ function App() {
                         required
                         onChange={handleChange}
                     >
-                        {positions.map((p, index) => <option key={index} value={p}>{p}</option>)}
+                        {positions?.map((p, index) => <option key={index} value={p}>{p}</option>)}
                     </select>
                     <br />
                     <label className="fw-normal">Select Language: *</label>
