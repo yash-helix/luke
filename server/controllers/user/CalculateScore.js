@@ -44,7 +44,7 @@ const CalculateScore = async (userID, userQuestions, res) => {
     test.averageTime = Number(averageTime);
 
     // update only if country is other than india
-    test.isTestCompleted = navigateToTypingTest ? true : false;
+    test.isTestCompleted = navigateToTypingTest ? false : true;
 
     test.userQuestionsAndAnswers = userQuestionsAndAnswers;
 
@@ -56,7 +56,7 @@ const CalculateScore = async (userID, userQuestions, res) => {
         const isMsgSentToSlack = await sendUserDetailsToSlack(userID, userData);
 
         if (isMsgSentToSlack) return res.status(200).send({ success: true, msg: `Test submitted successfully`, navigateToTypingTest });
-        else return res.status(200).send({ success: true, msg: `Test submitted successfully but server failed to send your test results to the admin`,navigateToTypingTest });
+        else return res.status(200).send({ success: true, msg: `Test submitted successfully but server failed to send your test results to the admin`, navigateToTypingTest });
       }
     });
   }
@@ -91,6 +91,5 @@ const sendUserDetailsToSlack = async (userID, userData) => {
     return false;
   }
 }
-
 
 export default CalculateScore;

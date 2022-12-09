@@ -15,7 +15,7 @@ const Timer = (props) => {
     const [open, setOpen] = useState(true);
 
 
-    const timeOut = () => {
+    const TimeOut = () => {
 
         if (startCounting) {
             countRef.current = setInterval(() => {
@@ -27,12 +27,19 @@ const Timer = (props) => {
     useEffect(() => {
         if (timeElapsed < 60) return;
         clearInterval(countRef.current);
-        setTimeUp(true);
+
+        const timeOut = setTimeout(() => {
+            setTimeUp(true);
+        }, 3000);
+
+        return () => {
+            clearTimeout(timeOut)
+        }
 
     }, [timeElapsed])
 
     useEffect(() => {
-        timeOut();
+        TimeOut();
     }, [startCounting])
 
     const minutes = timeElapsed / 60;

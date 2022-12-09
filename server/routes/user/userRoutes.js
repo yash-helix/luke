@@ -9,6 +9,7 @@ import { userDetailsFormSchemaWithoutCV, userTestSchema } from '../../utils/YupS
 import { FeedBack } from '../../controllers/user/feedbackOfUser.js';
 import { createS3PreSignedUrl } from '../../controllers/user/PreSignedUrl.js';
 import { getCountry } from '../../controllers/user/userDetails.js';
+import SubmitTypingTest from '../../controllers/user/TypingTest.js';
 const userRouter = express.Router();
 
 userRouter.post("/userCV", (req, res) => {
@@ -46,7 +47,7 @@ userRouter.post("/StartTest", async (req, res) => {
             isTestAlreadyAvailable = true;
         };
 
-        const size = 50;
+        const size = 10;
         StartTest(userID, email, res, size, { isTestAlreadyAvailable, testID: test?._id });
     }
     catch (error) {

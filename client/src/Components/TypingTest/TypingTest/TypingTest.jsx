@@ -71,7 +71,7 @@ const TextBox = () => {
     //submit the typing test
     const SubmitTest = async () => {
         try {
-            const res = await axios.post(`${process.env.SERVER_URL}/user/submitTypingTest`,
+            const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/submitTypingTest`,
                 { userID: state.userID, score: correctWordArray.filter(Boolean).length });
 
             if (res.data.success) {
