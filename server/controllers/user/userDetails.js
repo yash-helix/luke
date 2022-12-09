@@ -46,7 +46,7 @@ export const userDetails = async (data, req, res) => {
                 }
 
                 else if (user) {
-                    return res.status(200).json({ success: true, msg: "Welcome Back!", user: { email: email, userID: user?._id } })
+                    return res.status(200).json({ success: true, msg: "Welcome Back!", user: { email: user.email, userID: user?._id } })
                 }
 
                 // save to database
