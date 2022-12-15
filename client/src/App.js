@@ -5,13 +5,15 @@ import { useNavigate } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { Buffer } from 'buffer';
+import CircularProgress from '@mui/material/CircularProgress';
 
 function App() {
     const navigate = useNavigate();
-
     const [selectedFile, setSelectedFile] = useState();
     const [selectedFileData, setSelectedFileData] = useState(null);
     const [mount, setMount] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const [positions, setPositons] = useState([]);
 
@@ -54,20 +56,31 @@ function App() {
 
     // file
     const changeHandler = async (event) => {
-        const formData = new FormData();
-        formData.append("body", event.target.files[0])
+        const fileSize = parseInt(event.target.files?.[0].size / 1000000);
+        if (fileSize > 25) {
+            toast.warning("Please upload a file smaller than 25 MB", {
+                position: 'top-center', style: { width: '28rem' }
+            });
+            return;
+        }
+        try {
+            const formData = new FormData();
+            formData.append("body", event.target.files[0])
 
-        setSelectedFile(event.target.files[0]);
+            setSelectedFile(event.target.files[0]);
 
-        const reader = new FileReader()
-        reader.onload = async (e) => {
-            let text = (e.target.result)
-            text = Buffer.from(text).toString('base64')
-            setSelectedFileData(text)
-        };
-        reader.readAsText(event.target.files[0])
+            const reader = new FileReader()
+            reader.readAsText(event.target.files[0]);
+            reader.onload = async (e) => {
+                let text = (e.target.result)
+                text = Buffer.from(text).toString('base64')
+                setSelectedFileData(text)
+            };
+        }
+        catch (error) {
+            console.log(error);
+        }
     };
-
 
     // save the user data to database
     const SaveDataToDataBase = async (isFile, fileLink = "") => {
@@ -75,11 +88,13 @@ function App() {
             let allData = { ...data }
 
             if (isFile.file) {
+                console.log('data set');
                 allData = { ...allData, file: fileLink }
             }
 
             let UserDataRes = await axios.post(`${process.env.REACT_APP_SERVER}/user/userCV`, { data: allData });
             if (UserDataRes.data.success) {
+                console.log('data success ');
                 const { userID, email } = UserDataRes.data.user;
                 localStorage.setItem("userID", userID);
                 localStorage.setItem("email", email);
@@ -90,11 +105,13 @@ function App() {
                     position: 'top-center', style: { width: '28rem' }
                 });
             }
+            setLoading(false);
         }
         catch (error) {
             toast.error(error.response.data.error, {
                 position: 'top-center', style: { width: '28rem' }
             });
+            setLoading(false);
         }
     }
 
@@ -111,6 +128,7 @@ function App() {
     };
 
     const handleSubmit = async (e) => {
+        setLoading(true);
         e.preventDefault()
         try {
             if (selectedFile?.name) {
@@ -120,39 +138,39 @@ function App() {
                 }
 
                 if (selectedFile && selectedFileData) {
-                    if (selectedFile.size > 25e6) {
-                        toast.warning("Please upload a file smaller than 25 MB", {
-                            position: 'top-center', style: { width: '28rem' }
-                        });
-                        return false;
-                    }
-                    else {
-                        // creates a preSigned url
-                        const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/url`, { fileName, data: data });
-                        if (res.data.success) {
-                            const result = await axios.put(res.data.url, {
-                                body: selectedFileData,
-                            }, {
-                                headers: {
-                                    'Content-Type': 'multipart/form-data'
-                                }
-                            }).catch(error => console.error(error.response.data, { request: error.request }));
 
-                            if (result?.status) {
-                                SaveDataToDataBase({ file: true }, res.data.file);
-                            }
-                            else {
-                                toast.error("File upload failed", {
-                                    position: 'top-center', style: { width: '28rem' }
+                    // creates a preSigned url
+                    await axios.post(`${process.env.REACT_APP_SERVER}/user/url`, { fileName, data: data })
+                        .then((res) => {
+                            if (res.data.success) {
+                                axios.put(res.data.url, {
+                                    body: selectedFileData,
+                                }, {
+                                    headers: {
+                                        'Content-Type': 'multipart/form-data'
+                                    }
+                                }).then((result) => {
+                                    if (result?.status) {
+
+                                        SaveDataToDataBase({ file: true }, res.data.file);
+                                    }
+                                }).catch(error => {
+
+                                    toast.error("File upload failed", {
+                                        position: 'top-center', style: { width: '28rem' }
+                                    })
+                                    setLoading(false);
                                 });
                             }
+
                         }
-                        else {
+                        ).catch((error) => {
+                            console.log(error)
                             toast.error("Unexpected error occurred, Failed to upload file!", {
                                 position: 'top-center', style: { width: '28rem' }
                             });
-                        }
-                    }
+                            setLoading(false);
+                        })
                 }
             }
             else {
@@ -163,6 +181,7 @@ function App() {
             toast.error(err.response.data.error, {
                 position: 'top-center', style: { width: '28rem' }
             });
+            setLoading(false);
         }
     }
 
@@ -178,7 +197,6 @@ function App() {
                     <p className="info text-center fs-5">
                         Please verify or enter your personal information
                     </p>
-                    <br />
                     <label className="fw-normal">Full Name:</label>
                     <br />
                     <input
@@ -269,12 +287,21 @@ function App() {
                             style={{ display: "none" }}
                             onChange={changeHandler} />
                     </div>
-
-                    <br />
-                    <input className="submit" type="submit" value="Submit" />
+                    {loading ?
+                        (
+                            <div className="d-flex justify-content-center">
+                                <CircularProgress color="success" />
+                            </div>
+                        ) :
+                        (
+                            <input className="submit" type="submit" value="Submit" />
+                        )
+                    }
                 </form>
+
             </div>
             <ToastContainer />
+
         </div>
     );
 }
