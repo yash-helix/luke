@@ -55,8 +55,8 @@ const CalculateScore = async (userID, userQuestions, res) => {
       else {
         const isMsgSentToSlack = await sendUserDetailsToSlack(userID, userData);
 
-        if (isMsgSentToSlack) return res.status(200).send({ success: true, msg: `Test submitted successfully`, navigateToTypingTest });
-        else return res.status(200).send({ success: true, msg: `Test submitted successfully but server failed to send your test results to the admin`, navigateToTypingTest });
+        if (isMsgSentToSlack) return res.status(200).send({ success: true, msg: `Test submitted successfully`, navigateToTypingTest: false });
+        else return res.status(200).send({ success: true, msg: `Test submitted successfully but server failed to send your test results to the admin`, navigateToTypingTest: false });
       }
     });
   }

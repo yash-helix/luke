@@ -129,9 +129,13 @@ const FinalScreen = () => {
 
         const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/submitTest`, { data: data1 });
         if (res.data.success) {
-            if(res.data.navigateToTypingTest)
-                navigate("/typing-test", { replace: true, state: { userID } });
-            else 
+            if (res.data.navigateToTypingTest) {
+                navigate('/WaitingComponent');
+                setTimeout(() => {
+                    navigate("/typing-test", { replace: true, state: { userID } });
+                }, 5000)
+            }
+            else
                 navigate("/testCompleted", { replace: true, state: { userID } });
         }
         else {

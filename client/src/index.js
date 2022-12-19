@@ -14,6 +14,7 @@ import { Auth } from "./contexts/auth";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import Typing from './Components/TypingTest/TypingTest/TypingTest';
+import WaitingComponent from "./Components/WaitingComponent";
 
 Sentry.init({
     dsn: process.env.REACT_APP_DSN_KEY,
@@ -44,6 +45,7 @@ root.render(
                     } />
                 <Route path="/TestCompleted" element={<TestCompleted />} />
                 <Route path="/retestExhasuted" element={<RetestExhausted />} />
+                <Route path="/waitingComponent" element={<WaitingComponent />} />
                 <Route path="/questionPaper/:name/:id" element=
                     {<Auth>
                         <UserQuestionPaper />

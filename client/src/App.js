@@ -287,11 +287,16 @@ function App() {
                             style={{ display: "none" }}
                             onChange={changeHandler} />
                     </div>
-                    {loading ?
+                    {loading && selectedFile ?
                         (
-                            <div className="d-flex justify-content-center">
-                                <CircularProgress color="success" />
-                            </div>
+                            <>
+                                <div className="d-flex justify-content-center">
+                                    <CircularProgress color="success" />
+                                </div>
+                                <div className="d-flex justify-content-center">
+                                    <p>Please Wait.. your file is being uploaded</p>
+                                </div>
+                            </>
                         ) :
                         (
                             <input className="submit" type="submit" value="Submit" />
