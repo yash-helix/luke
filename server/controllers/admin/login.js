@@ -1,5 +1,4 @@
 import { adminModal } from "../../models/AdminSchema.js";
-import { createdTestModel } from "../../models/CreatedTestSchema.js";
 import bcrypt from "bcrypt";
 
 const login = async (email, password, res) => {
@@ -20,8 +19,3 @@ const login = async (email, password, res) => {
 }
 
 export default login;
-export const addJobs = async (data, res) => {
-
-    const jobCreated = await createdTestModel.create({ ...data })
-    return res.status(200).json({ success: true, ...jobCreated })
-}

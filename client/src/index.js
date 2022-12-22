@@ -9,7 +9,6 @@ import TestCompleted from "./Components/TestCompleted";
 import RetestExhausted from "./Components/RetestExhausted";
 import UserQuestionPaper from "./Components/UserQuestionPaper";
 import Login from "./Components/Admin/Login";
-import AdminCreatesTestComponent from "./Components/Admin/AdminCreatesTestComponent";
 import { CookiesProvider } from 'react-cookie';
 import { Auth } from "./contexts/auth";
 import * as Sentry from "@sentry/react";
@@ -42,13 +41,7 @@ root.render(
                     </CookiesProvider>
                 </Auth>
                 } />
-                <Route path="/jobs" element=
-                    {<Auth>
-                        <CookiesProvider>
-                            <AdminCreatesTestComponent />
-                        </CookiesProvider>
-                    </Auth>
-                    } />
+
                 <Route path="/TestCompleted" element={<TestCompleted />} />
                 <Route path="/retestExhasuted" element={<RetestExhausted />} />
                 <Route path="/questionPaper/:name/:id" element=
