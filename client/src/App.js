@@ -30,13 +30,20 @@ function App() {
 
         try {
             const positionRes = await axios.post(`${process.env.REACT_APP_SERVER}/user/getposition`)
-            if (positionRes.data.success)
+            if (positionRes.data.success) {
                 setPositons(positionRes.data.data);
+                setData((prev) => {
+                    return {
+                        ...prev,
+                        position: positionRes.data.data[0],
+                    };
+                })
+            }
             else
                 setPositons([])
 
         } catch (error) {
-            setPositons(error.response.data.data)
+            setPositons(error.response.data?.data)
             toast.error(error.response.data.msg, {
                 position: 'top-center', style: { width: '28rem' }
             });
@@ -68,14 +75,8 @@ function App() {
             formData.append("body", event.target.files[0])
 
             setSelectedFile(event.target.files[0]);
+            setSelectedFileData(event.target.files[0])
 
-            const reader = new FileReader()
-            reader.readAsText(event.target.files[0]);
-            reader.onload = async (e) => {
-                let text = (e.target.result)
-                text = Buffer.from(text).toString('base64')
-                setSelectedFileData(text)
-            };
         }
         catch (error) {
             console.log(error);
@@ -147,11 +148,12 @@ function App() {
                                     body: selectedFileData,
                                 }, {
                                     headers: {
-                                        'Content-Type': 'multipart/form-data'
+                                        'Content-Type': 'multipart/form-data',
+                                        //'Content-Encoding': 'base64'
                                     }
                                 }).then((result) => {
+                                    console.log(result)
                                     if (result?.status) {
-
                                         SaveDataToDataBase({ file: true }, res.data.file);
                                     }
                                 }).catch(error => {
@@ -285,7 +287,10 @@ function App() {
                             accept=".pdf,.txt"
                             name="file"
                             style={{ display: "none" }}
-                            onChange={changeHandler} />
+                            onChange={changeHandler}
+
+                        />
+
                     </div>
                     {loading ?
                         (

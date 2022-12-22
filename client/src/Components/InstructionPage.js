@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { typeOfTest, routeTypeTest } from "../testTypeModal"
 
 const Instruction_Page = () => {
     const navigate = useNavigate();
@@ -27,12 +28,18 @@ const Instruction_Page = () => {
             }
 
             const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/StartTest`, data);
+
             if (res.data.success) {
-                const { testId } = res.data;
+                const { testId, testType } = res.data;
                 if (testId) {
                     localStorage.setItem("testID", testId);
-                    // window.history.pushState(null, null,window.location.href);
-                    navigate("/test");
+                    //2 || 4 
+                    if (testType === typeOfTest.Typing || testType === typeOfTest.Typing_MCQs) {
+                        navigate(routeTypeTest.Typing)// + "?type=" + testType);
+                        return;
+                    }
+                    //else navigate("/test");
+                    else navigate(routeTypeTest.MCQs);
                 }
             }
             else {
@@ -43,7 +50,7 @@ const Instruction_Page = () => {
                 else if (res.data?.retestExhausted) {
                     throw res.data.msg;
                 }
-                else return navigate("/");
+                // else return navigate("/");
             }
         }
         catch (error) {

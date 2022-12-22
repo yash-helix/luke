@@ -8,7 +8,15 @@ const TestSchema = new Schema({
     score: {
         type: Number,
         default: 0
-    }
+    },
+    testID: {
+        type: String,
+        required: true
+    },
+    testType: {
+        type: Number,
+        default: 0
+    },
 },
     { timestamps: true }
 );

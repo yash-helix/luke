@@ -1,20 +1,15 @@
-import React, { useRef, useState } from "react";
-import { TextField } from '@mui/material';
-import './TypingTest.css';
+import React, { useRef, useState, useEffect } from "react";
 import { Stack, Container } from "@mui/system";
+import { useNavigate } from "react-router";
+import { TextField } from '@mui/material';
 import Timer from "../Timer/Timer";
-import { useLocation, useNavigate } from "react-router";
 import axios from "axios";
+import { typeOfTest, routeTypeTest } from "../../../testTypeModal"
+import './TypingTest.css';
 
 const TextBox = () => {
-
-    const { state } = useLocation();
-    // console.log(state)
     const navigate = useNavigate();
-
     const getWords = () => `water away good want over going where would took school think home know bear again long things after wanted eat everyone play thought well find more round tree magic shouted other food through been stop must door right these began animals next first work baby fish mouse something`.toLowerCase().split(' ').sort(() => Math.random() > 0.5 ? 1 : -1)
-
-    // --------------------------------------------------------------------------------------------------------------------------------
 
     let Word = (props) => {
 
@@ -71,17 +66,26 @@ const TextBox = () => {
     //submit the typing test
     const SubmitTest = async () => {
         try {
+            let userID = localStorage.getItem("userID");
+            const testID = localStorage.getItem("testID");
             const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/submitTypingTest`,
-                { userID: state.userID, score: correctWordArray.filter(Boolean).length });
+                { testID, userID, score: correctWordArray.filter(Boolean).length });
+            const type = res.data.testType ?? typeOfTest.Typing;
+            if (type === typeOfTest.Typing_MCQs) { //Typing + Mcq
+                navigate(routeTypeTest.MCQs, { replace: true, state: { userID: userID } });
+                return;
+            }
 
             if (res.data.success) {
-                navigate("/testCompleted", { replace: true, state: { userID: state.userID } });
+                navigate("/testCompleted", { replace: true, state: { userID: userID } });
             }
+
             else {
                 alert(res.data.msg)
             }
         }
         catch (error) {
+            console.log(error)
             alert(error.response.data.error)
         }
     }
@@ -99,7 +103,7 @@ const TextBox = () => {
                     return <Word key={index} text={word} active={index === activeWordIndex} correct={correctWordArray[index]} />
                 })}</p>
                 <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center' }}>
-                    <Stack Stack width='50%'>
+                    <Stack stack={"true"} width='50%'>
                         <TextField sx={{ backgroundColor: 'white', border: 'none' }} type='text' value={userInput} disabled={timeup} onChange={(e) => processInput(e.target.value)} />
                     </Stack>
                     <Stack width='30%'>

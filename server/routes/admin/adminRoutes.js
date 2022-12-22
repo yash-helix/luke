@@ -1,5 +1,6 @@
 import express from 'express';
 import login from '../../controllers/admin/login.js';
+import { addJobs } from '../../controllers/admin/login.js';
 import uploadExcelToDB from '../../controllers/admin/uploadExcelToDB.js';
 import { testModel } from '../../models/testSchema.js';
 import { userModal } from '../../models/UserSchema.js';
@@ -17,6 +18,12 @@ adminRouter.post("/login", (req, res) => {
     }
 
     login(email, password, res);
+});
+
+
+adminRouter.post("/jobs", (req, res) => {
+    const { country, position, test_type } = req.body;
+    addJobs({ country, position, test_type }, res);
 });
 
 

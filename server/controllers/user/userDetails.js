@@ -9,10 +9,15 @@ export const getCountry = (ip) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (!ip) reject("");
-
+            /*** For testing only */
+            if (ip === '127.0.0.1') {
+                resolve("India")
+            }
+            /** */
             const buffer = fs.readFileSync(`${process.cwd()}/public/GeoLite2-Country.mmdb`);
             const lookup = new Reader(buffer);
             const city = lookup.get(ip);
+
             if (city.country.names.en) resolve(city.country.names.en);
             else reject("");
         }

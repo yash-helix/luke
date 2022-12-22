@@ -1,31 +1,47 @@
 import { excelModal } from "../../models/ExcelSchema.js";
 import { testModel } from '../../models/testSchema.js';
 
-const StartTest = async (userID, email, res, size, testObj) => {
-  try {
-    const records = await excelModal.aggregate([{ $sample: { size: size } }]); //random questions
 
-    if (records.length === size) {
-      let testResponse;
+const countryCode = {
+    'india': "IN",
+    'usa': "US",
+    'uk': "UK"
+}
 
-      if (testObj.isTestAlreadyAvailable === false) {
-        testResponse = await testModel.create({ userID, email, Questions: records, isTestStarted: false });
+const StartTest = async (userID, country, email, res, size, testObj) => {
+    try {
 
-        return res.status(200).json({ success: true, msg: `${records.length} questions available for test`, testId: testResponse?._id.toString() })
-      }
+        // const records = await excelModal.aggregate([{ $sample: { size: size } }]); //random questions
+        let records = await excelModal.find().limit(size); //delete it once done
 
-      testResponse = await testModel.findOneAndUpdate({ _id: testObj.testID },
-        { Questions: records, isTestStarted: false });
+        if (records.length === size) {
+            let testResponse;
 
-      return res.status(200).json({ success: true, msg: `${records.length} questions available for test`, testId: testResponse?._id.toString() });
+            records = records.map(re => {
+                let newObj = { ...re._doc, Question: re._doc.QuestionsArr[countryCode[country.toLowerCase()]] }
+                delete newObj['QuestionsArr'];
+                return newObj;
+            });
+
+            // return res.status(200).json({ ...records })
+
+            if (testObj.isTestAlreadyAvailable === false) {
+                testResponse = await testModel.create({ userID, email, Questions: records, isTestStarted: false, testType: testObj?.testType });
+                return res.status(200).json({ success: true, msg: `${records.length} questions available for test`, testId: testResponse?._id.toString(), testType: testObj.testType })
+            }
+
+            testResponse = await testModel.findOneAndUpdate({ _id: testObj.testID },
+                { Questions: records, isTestStarted: false, testType: testObj.testType });
+
+            return res.status(200).json({ success: true, msg: `${records.length} questions available for test`, testId: testResponse?._id.toString(), testType: testObj.testType });
+        }
+        else {
+            return res.status(404).json({ success: false, msg: "Cannot not find all the questions" })
+        }
     }
-    else {
-      return res.status(404).json({ success: false, msg: "Cannot not find all the questions" })
+    catch (error) {
+        return res.status(500).json({ success: false, msg: "Internal server error occurred" })
     }
-  }
-  catch (error) {
-    return res.status(500).json({ success: false, msg: "Internal server error occurred" })
-  }
 }
 
 export default StartTest;

@@ -9,13 +9,14 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
 import { useNavigate } from "react-router";
-
+import { typeOfTest, routeTypeTest } from "../../testTypeModal"
 
 const FinalScreen = () => {
     const [data, setData] = useState([]);
     const [mount, setMount] = useState(false);
     const navigate = useNavigate();
 
+    // const type = searchParams?.get('type');
 
     // const [count, setCount] = useState(0);
 
@@ -58,9 +59,6 @@ const FinalScreen = () => {
     //         document.removeEventListener('visibilitychange', focusFUnction);
     //     }
     // }, []);
-
-
-
 
     const getQuestions = async () => {
         try {
@@ -128,10 +126,15 @@ const FinalScreen = () => {
         }
 
         const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/submitTest`, { data: data1 });
+
         if (res.data.success) {
-            if(res.data.navigateToTypingTest)
-                navigate("/typing-test", { replace: true, state: { userID } });
-            else 
+            const type = res?.data?.testType || typeOfTest.MCQs;
+
+            if (type === typeOfTest.MCQs_Typing) {//Mcq + Testing
+                navigate(routeTypeTest.Typing, { replace: true, state: { userID } });
+                return;
+            }
+            else
                 navigate("/testCompleted", { replace: true, state: { userID } });
         }
         else {
