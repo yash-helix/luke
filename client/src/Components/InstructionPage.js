@@ -33,7 +33,7 @@ const Instruction_Page = () => {
                 const { testId, testType } = res.data;
                 if (testId) {
                     localStorage.setItem("testID", testId);
-                    //2 || 4 
+                    //                               2 || 4 
                     if (testType === typeOfTest.Typing || testType === typeOfTest.Typing_MCQs) {
                         navigate(routeTypeTest.Typing)// + "?type=" + testType);
                         return;

@@ -99,7 +99,9 @@ userRouter.post("/getQuestionFromId", async (req, res) => {
 
             userTestDoc[0].retest += 1;
             userTestDoc[0].isTestStarted = true;
+            console.log("before save" + userTestDoc)
             await userTestDoc[0].save();
+            console.log("after save" + userTestDoc)
             return res.status(200).json({ success: true, data: questionsWithOptions })
         }
     }

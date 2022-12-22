@@ -5,9 +5,24 @@ import { testModel } from '../../models/testSchema.js';
 import { userModal } from '../../models/UserSchema.js';
 import { feedbackModal } from '../../models/FeedbackSchema.js';
 const adminRouter = express.Router();
+import { addJobs, getJobs, deleteJob } from '../../controllers/admin/jobs.js';
 import { test1 } from '../../utils/json/test1.js';
 
 
+/**Jobs */
+adminRouter.post("/jobs", (req, res) => {
+    const { country, position, test_type } = req.body;
+    addJobs({ country, position, test_type }, res);
+});
+adminRouter.get("/jobs", (req, res) => {
+    getJobs(res);
+});
+
+adminRouter.delete("/job/:id", (req, res) => {
+    const { id } = req.params;
+    deleteJob(id, res)
+});
+///////////////////////////////////////////////
 adminRouter.post("/login", (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -16,6 +31,7 @@ adminRouter.post("/login", (req, res) => {
 
     login(email, password, res);
 });
+
 
 
 adminRouter.post("/excelUpload", (req, res) => {

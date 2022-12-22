@@ -9,11 +9,13 @@ import TestCompleted from "./Components/TestCompleted";
 import RetestExhausted from "./Components/RetestExhausted";
 import UserQuestionPaper from "./Components/UserQuestionPaper";
 import Login from "./Components/Admin/Login";
+import AdminCreatesTestComponent from "./Components/Admin/AdminCreatesTestComponent";
 import { CookiesProvider } from 'react-cookie';
 import { Auth } from "./contexts/auth";
 import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import Typing from './Components/TypingTest/TypingTest/TypingTest';
+import WaitingComponent from "./Components/WaitingComponent";
 
 Sentry.init({
     dsn: process.env.REACT_APP_DSN_KEY,
@@ -35,17 +37,28 @@ root.render(
                 <Route index element={<App />} />
                 <Route path="/startTest" element={<InstructionPage />} />
                 <Route path="/test" element={<FinalScreen />} />
-                <Route path="/table" element={<Auth>
-                    <CookiesProvider>
-                        <Search />
-                    </CookiesProvider>
-                </Auth>
-                } />
-
+                <Route path="/table" element=
+                    {<Auth>
+                        <CookiesProvider>
+                            <Search />
+                        </CookiesProvider>
+                    </Auth>
+                    } />
+                <Route path="/jobs" element=
+                    {<Auth>
+                        <CookiesProvider>
+                            <AdminCreatesTestComponent />
+                        </CookiesProvider>
+                    </Auth>
+                    } />
                 <Route path="/TestCompleted" element={<TestCompleted />} />
                 <Route path="/retestExhasuted" element={<RetestExhausted />} />
+                <Route path="/waitingComponent" element={<WaitingComponent />} />
                 <Route path="/questionPaper/:name/:id" element=
-                    {<Auth><UserQuestionPaper /></Auth>} />
+                    {<Auth>
+                        <UserQuestionPaper />
+                    </Auth>
+                    } />
                 <Route path="/adminLogin" element=
                     {<Auth>
                         <CookiesProvider>
@@ -61,7 +74,6 @@ root.render(
                         </CookiesProvider>
                     </Auth>
                     } />
-
             </Routes>
         </BrowserRouter>
     </React.StrictMode>
