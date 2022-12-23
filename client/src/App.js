@@ -63,6 +63,8 @@ function App() {
 
     // file
     const changeHandler = async (event) => {
+
+
         const fileSize = parseInt(event.target.files?.[0].size / 1000000);
         if (fileSize > 25) {
             toast.warning("Please upload a file smaller than 25 MB", {
@@ -129,9 +131,11 @@ function App() {
     };
 
     const handleSubmit = async (e) => {
-        setLoading(true);
         e.preventDefault()
+        setLoading(true);
         try {
+            await axios.get(`${process.env.REACT_APP_SERVER}/admin/jobs/${data?.position}`);
+
             if (selectedFile?.name) {
                 let fileName = selectedFile.name.trim().replace(/\s/g, "_")
                 if (!fileName || !selectedFileData) {
@@ -180,6 +184,7 @@ function App() {
             }
         }
         catch (err) {
+            console.log(err)
             toast.error(err.response.data.error, {
                 position: 'top-center', style: { width: '28rem' }
             });

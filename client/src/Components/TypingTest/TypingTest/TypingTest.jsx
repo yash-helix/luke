@@ -29,6 +29,22 @@ const TextBox = () => {
         return <span>{text} </span>
     }
 
+    const testID = localStorage.getItem("testID");
+    const userID = localStorage.getItem("userID");
+    const [mount, setMount] = useState(false);
+    useEffect(() => {
+        if (mount) {
+            const data = { testID, userID, isTypingTest: true }
+
+            const res = axios.post(`${process.env.REACT_APP_SERVER}/user/getQuestionFromId`, data)
+                .then(res => console.log(res));
+        }
+
+        setMount(true);
+
+    }, [mount]);
+
+
     Word = React.memo(Word)
     // --------------------------------------------------------------------------------------------------------------------------------
 

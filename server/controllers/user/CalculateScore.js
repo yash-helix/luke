@@ -45,10 +45,10 @@ const CalculateScore = async (userID, userQuestions, res) => {
 
         // update only if country is other than india
         test.isTestCompleted = (test.testType === 1 || test.testType === 4) ? true : false;
-
+        console.log((test.testType === 1 || test.testType === 4) ? true : false)
         test.userQuestionsAndAnswers = userQuestionsAndAnswers;
 
-        await test.save(async function (err) {
+        const t = await test.save(async function (err) {
             if (err) return res.status(400).send({ success: false, msg: 'Failed to save test' });
 
             else {
@@ -58,6 +58,7 @@ const CalculateScore = async (userID, userQuestions, res) => {
                 else return res.status(200).send({ success: true, msg: `Test submitted successfully but server failed to send your test results to the admin`, navigateToTypingTest, testType: test.testType });
             }
         });
+        console.log(t)
     }
     catch (error) {
         return res.status(500).json({ success: false, msg: "Unexpected error occurred" })

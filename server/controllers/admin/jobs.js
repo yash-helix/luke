@@ -1,12 +1,17 @@
 import { createdTestModel } from "../../models/CreatedTestSchema.js";
 
-export const addJobs = async (data, res) => {
-    const findJobs = await createdTestModel.findOne({ ...data })
+export const addJobs = async (job) => {
+
+    //return res.status(200).json(data.length)
+    const findJobs = await createdTestModel.findOne({ ...job })
+    //const newdata = data.filter(d => findJobs.indexOf(d) === -1);
+    //return res.status(200).json(findJobs)
     if (!findJobs) {
-        const jobCreated = await createdTestModel.create({ ...data })
-        return res.status(200).json({ success: true, msg: "Job Created !!" })
+        const jobCreated = await createdTestModel.create(job)
+        return true;
     }
-    else return res.status(200).json({ success: false, msg: "Job Already Exits" })
+    //else return res.status(200).json({ success: false, msg: "Job Already Exits", findJobs })
+    else return `Job created NOT for ${job.country} with ${job.position}`
 }
 
 export const getJobs = async (res) => {
@@ -15,6 +20,16 @@ export const getJobs = async (res) => {
         return res.status(200).json({ success: false, msg: "No Jobs Found !!" })
 
     else return res.status(200).json({ success: true, msg: "Jobs", findJobs })
+}
+
+export const getJobsForAUser = async ({ country, position }, res) => {
+    try {
+        const findJobs = await createdTestModel.findOne({ country, position })
+        console.log(findJobs, country, position)
+        if (!findJobs)
+            return res.status(404).json({ success: false, error: "No Test found for your location/position" });
+        else return res.status(200).json({ success: true, msg: "Jobs", findJobs })
+    } catch (e) { return res.status(404).json({ success: false, msg: e.toString() }) }
 }
 
 export const deleteJob = async (id, res) => {

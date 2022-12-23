@@ -5,14 +5,21 @@ import { testModel } from '../../models/testSchema.js';
 import { userModal } from '../../models/UserSchema.js';
 import { feedbackModal } from '../../models/FeedbackSchema.js';
 const adminRouter = express.Router();
-import { addJobs, getJobs, deleteJob } from '../../controllers/admin/jobs.js';
+import { addJobs, getJobs, deleteJob, getJobsForAUser } from '../../controllers/admin/jobs.js';
+import { addCountry, getCountries, deleteCountry } from '../../controllers/admin/country.js';
 import { test1 } from '../../utils/json/test1.js';
+import { getCountry } from '../../controllers/user/userDetails.js';
+import { getPosition, addPosition, deletePositoin } from '../../controllers/admin/position.js';
 
 
 /**Jobs */
-adminRouter.post("/jobs", (req, res) => {
-    const { country, position, test_type } = req.body;
-    addJobs({ country, position, test_type }, res);
+adminRouter.post("/jobs", async (req, res) => {
+    const { data } = req.body;
+    const response = data.map(async d => await addJobs(d))
+    const promises = await Promise.all(response)//.then(res => console.log(res));
+    console.log(promises)
+    res.status(200).json({ success: true, msg: promises.filter(d => d !== true) })
+
 });
 adminRouter.get("/jobs", (req, res) => {
     getJobs(res);
@@ -22,7 +29,48 @@ adminRouter.delete("/job/:id", (req, res) => {
     const { id } = req.params;
     deleteJob(id, res)
 });
+
+adminRouter.get("/jobs/:position", async (req, res) => {
+    const { position } = req.params;
+    const ip = req.ip
+    try {
+        let country = await getCountry(ip);
+        getJobsForAUser({ country, position }, res)
+    } catch (e) { console.log("err", e) }
+});
 ///////////////////////////////////////////////
+/**Country */
+adminRouter.post("/country", (req, res) => {
+    const { country, country_code } = req.body;
+    addCountry({ country, country_code }, res);
+});
+
+adminRouter.get("/country", (req, res) => {
+    getCountries(res);
+});
+
+adminRouter.delete("/country/:country", (req, res) => {
+    const { country } = req.params;
+    deleteCountry(country, res)
+});
+///////////////////////////////////////////////
+
+/**Positon */
+adminRouter.post("/position", (req, res) => {
+    const { position, position_code } = req.body;
+    addPosition({ position, position_code }, res);
+});
+
+adminRouter.get("/position", (req, res) => {
+    getPosition(res);
+});
+
+adminRouter.delete("/position/:id", (req, res) => {
+    const { id } = req.params;
+    deletePositoin(id, res)
+});
+///////////////////////////////////////////////
+
 adminRouter.post("/login", (req, res) => {
     const { email, password } = req.body;
     if (!email || !password) {
