@@ -25,7 +25,6 @@ export const getJobs = async (res) => {
 export const getJobsForAUser = async ({ country, position }, res) => {
     try {
         const findJobs = await createdTestModel.findOne({ country, position })
-        console.log(findJobs, country, position)
         if (!findJobs)
             return res.status(404).json({ success: false, error: "No Test found for your location/position" });
         else return res.status(200).json({ success: true, msg: "Jobs", findJobs })
@@ -41,7 +40,6 @@ export const deleteJob = async (id, res) => {
         const deletedObj = await createdTestModel.deleteOne({ _id: id })
 
         // if (deletedObj > 0)
-        console.log(deletedObj)
         return res.status(200).json({ success: true, msg: "Job removed !!", ...deletedObj })
         // else res.status(400).json({ success: false, msg: "Job Not removed !!", })
     }

@@ -25,11 +25,12 @@ export default function AddPosition() {
     const handleDelete = async (id, _e) => {
         setData(data.filter((v) => v._id !== id));
         const res = await deletePosition(id);
-        console.log(id)
+        //console.log(id)
     }
     const handleAddPosition = async () => {
         const res = await addPosition({ position: testFieldRef.current.value });
-        console.log(res)
+        //console.log(res)
+        testFieldRef.current.value = "";
         await getPositon();
     }
     return (
@@ -40,7 +41,6 @@ export default function AddPosition() {
                 <IconButton color="primary" aria-label="add positon" component="label"
                     size='large'
                     onClick={handleAddPosition}
-                //onClick={e => console.log(testFieldRef.current.value)}
                 >
                     <AddCircleRoundedIcon sx={{ fontSize: "2.5rem" }} />
                 </IconButton>

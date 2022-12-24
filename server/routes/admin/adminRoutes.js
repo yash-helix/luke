@@ -6,18 +6,17 @@ import { userModal } from '../../models/UserSchema.js';
 import { feedbackModal } from '../../models/FeedbackSchema.js';
 const adminRouter = express.Router();
 import { addJobs, getJobs, deleteJob, getJobsForAUser } from '../../controllers/admin/jobs.js';
-import { addCountry, getCountries, deleteCountry } from '../../controllers/admin/country.js';
 import { test1 } from '../../utils/json/test1.js';
 import { getCountry } from '../../controllers/user/userDetails.js';
 import { getPosition, addPosition, deletePositoin } from '../../controllers/admin/position.js';
+// import { addCountry, getCountries, deleteCountry } from '../../controllers/admin/country.js';
 
 
 /**Jobs */
 adminRouter.post("/jobs", async (req, res) => {
     const { data } = req.body;
     const response = data.map(async d => await addJobs(d))
-    const promises = await Promise.all(response)//.then(res => console.log(res));
-    console.log(promises)
+    const promises = await Promise.all(response)
     res.status(200).json({ success: true, msg: promises.filter(d => d !== true) })
 
 });
@@ -39,7 +38,7 @@ adminRouter.get("/jobs/:position", async (req, res) => {
     } catch (e) { console.log("err", e) }
 });
 ///////////////////////////////////////////////
-/**Country */
+/**Country 
 adminRouter.post("/country", (req, res) => {
     const { country, country_code } = req.body;
     addCountry({ country, country_code }, res);
@@ -52,7 +51,7 @@ adminRouter.get("/country", (req, res) => {
 adminRouter.delete("/country/:country", (req, res) => {
     const { country } = req.params;
     deleteCountry(country, res)
-});
+});*/
 ///////////////////////////////////////////////
 
 /**Positon */

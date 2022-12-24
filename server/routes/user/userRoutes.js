@@ -109,7 +109,7 @@ userRouter.post("/getQuestionFromId", async (req, res) => {
         }
     }
     catch (error) {
-        console.log(error)
+        console.error(error)
         return res.status(500).json({ success: false, msg: "Unexpected error occurred" })
     }
 });
@@ -178,7 +178,7 @@ userRouter.route("/getposition").post(async (req, res) => {
     let country;
 
     //let positionIndia = ['IT Recrutier', 'Company Secretary', 'Web Developer', 'Assistant'];
-    let positionIndia = ['IT Recrutier', 'Company Secretary', 'Web Developer', 'Mcq', 'Typing'];
+    let positionIndia = ['IT Recrutier', 'Company Secretary', 'Web Developer',];//'Mcq', 'Typing'
     let positionOtherCountries = ['Virtual Assistant', 'Senior Virtual Assistant', 'IT Recrutier', 'Company Secretary', 'Web Developer', 'Assistant']
 
     try {

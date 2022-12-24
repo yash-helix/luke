@@ -12,32 +12,22 @@ import DataTable from "../components/DataTable";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+const testType = {
+    "MCQ's": 1,
+    "Typing Test": 2,
+    "MCQ's + Typing Test": 3,
+    "Typing Test + MCQ's": 4,
+}
+
+const testTypeValue = {
+    1: "MCQ's",
+    2: "Typing Test",
+    3: "MCQ's + Typing Test",
+    4: "Typing Test + MCQ's",
+}
 
 const AdminCreatesTest = () => {
 
-
-    const positionData = [
-        { Position: 'Company Secretary', id: '1' },
-        { Position: 'IT Recrutier', id: '2' },
-        { Position: 'Web Developer', id: '3' },
-        { Position: 'Assistant', id: '4' },
-        { Position: 'Typing', id: '5' },
-        { Position: 'Typing_MCQs', id: '6' },
-    ];
-
-    const testType = {
-        "MCQ's": 1,
-        "Typing Test": 2,
-        "MCQ's + Typing Test": 3,
-        "Typing Test + MCQ's": 4,
-    }
-
-    const testTypeValue = {
-        1: "MCQ's",
-        2: "Typing Test",
-        3: "MCQ's + Typing Test",
-        4: "Typing Test + MCQ's",
-    }
     const [data, setData] = useState([]);
     const testTypeNew = [{ type: "MCQ's", checked: false }, { type: "Typing Test", checked: false }];
     useEffect(
@@ -47,8 +37,7 @@ const AdminCreatesTest = () => {
                 setData(data.map(item => { delete item.__v; return { ...item } }))
                 const position = await getAllPosition();
                 setPositionOptions(position);
-                console.log(data)
-
+                // console.log(position)
             })()
         }, []);
     const handleDelete = async (id, _e) => {
@@ -81,7 +70,7 @@ const AdminCreatesTest = () => {
         const data1 = await getAllJobs();
         setData(data1.map(item => { delete item.__v; return { ...item } }))
 
-        console.log(data);
+        // console.log(data);
 
         if (data.success) {
             data.msg.forEach((m) =>
@@ -101,6 +90,7 @@ const AdminCreatesTest = () => {
         /**Reset Value */
         setNewType(null)
         setType(testTypeNew)
+        //positionRef.current.value = ""
         multiselectRef.current.resetSelectedValues();
 
     }
@@ -129,17 +119,20 @@ const AdminCreatesTest = () => {
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
                         <FormControl sx={{ m: 3 }}>
-                            {/* <FormLabel>Position</FormLabel> */}
                             <InputLabel id="demo-simple-select-label">Position</InputLabel>
                             <Select labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 label="Position"
                                 sx={{ width: '10rem' }}
                                 inputRef={positionRef}
-                                value={positionOptions?.[0]}
+                                //value={positionOptions?.[0]}
                                 onChange={(e) => handlePositionChange(e.target.value)}
                             >
-                                {positionData.map(position => <MenuItem key={position.id} value={position.Position}>{position.Position}</MenuItem>)}
+                                {positionOptions?.map(position =>
+                                    <MenuItem key={position.id} value={position.position}>
+                                        {position.position}</MenuItem>)
+                                    ?? <MenuItem key={"ak"}>NO Position available</MenuItem>
+                                }
                             </Select>
                         </FormControl>
                     </Grid>
