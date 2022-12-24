@@ -8,22 +8,13 @@ import Multiselect from "multiselect-react-dropdown"
 import { FormLabel, TextField, Checkbox, FormGroup, Grid, FormControlLabel, Radio, MenuItem, FormControl, InputLabel, Select, Stack, Button, Typography, TableContainer, Table, TableHead, TableBody, TableCell, TableRow } from '@mui/material';
 import DataTable from "../components/DataTable";
 
-import DeleteIcon from '@mui/icons-material/Delete';
+// import DeleteIcon from '@mui/icons-material/Delete';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
 const AdminCreatesTest = () => {
 
-    const data3 = [
-        { Country: 'India', id: 1 },
-        { Country: 'USA', id: 2 },
-        { Country: 'UK', id: 3 },
-        { Country: 'Russia', id: 4 },
-        { Country: 'Nepal', id: 5 },
-        { Country: 'Sweden', id: 6 },
-        { Country: 'Africa', id: 7 },
-    ];
 
     const positionData = [
         { Position: 'Company Secretary', id: '1' },
@@ -47,15 +38,7 @@ const AdminCreatesTest = () => {
         3: "MCQ's + Typing Test",
         4: "Typing Test + MCQ's",
     }
-    const [data, setData] = useState([
-        //         {country: 'India', position: 'IT Recruiter', test_type: 2, _id:"63a44c0cb9ec00378822716c"},
-        //         {country: 'India', position: 'IT Recruiter', test_type: 2, _id:"63a44c0cb9ec00378822716c"},
-        //         { country: 'Spain', position: 'Chartered Accountant', test_type: 3 },
-        //         { country: 'Germany', position: 'Company Secretary', test_type: 1 },
-        //         { country: 'USA', position: 'IT Recruiter', test_type: 4 },
-        //         { country: 'UK', position: 'Web Developer', test_type: 1 },
-        //         { country: 'Russia', position: 'Virtual Assistant', test_type: 2 },
-    ]);
+    const [data, setData] = useState([]);
     const testTypeNew = [{ type: "MCQ's", checked: false }, { type: "Typing Test", checked: false }];
     useEffect(
         () => {
@@ -65,6 +48,7 @@ const AdminCreatesTest = () => {
                 const position = await getAllPosition();
                 setPositionOptions(position);
                 console.log(data)
+
             })()
         }, []);
     const handleDelete = async (id, _e) => {
@@ -88,13 +72,31 @@ const AdminCreatesTest = () => {
     const [selectedCountries, setSelectedCountries] = React.useState([]);
     const [newType, setNewType] = useState(null);
     const positionRef = useRef();
-    const countryRef = useRef();
+    // const countryRef = useRef();
     const multiselectRef = useRef();
+
     async function submit() {
 
         const data = await addJobs({ Countries: selectedCountries, positionOptions: positionRef.current.value, testType: testType[newType] })
         const data1 = await getAllJobs();
         setData(data1.map(item => { delete item.__v; return { ...item } }))
+
+        console.log(data);
+
+        if (data.success) {
+            data.msg.forEach((m) =>
+                toast.error(m, {
+                    position: 'top-center'
+                }))
+            toast.success(data.msg, {
+                position: 'top-center'
+            })
+        } else {
+            toast.error(data.msg, {
+                position: 'top-center'
+            })
+        }
+
 
         /**Reset Value */
         setNewType(null)
@@ -117,7 +119,7 @@ const AdminCreatesTest = () => {
         if (!data1[0].checked && !data1[1].checked) setNewType(null);
 
     }
-    const [options] = useState(data3);
+    const [options] = useState(countryData);
     return (
         <>
             <Container sx={{ width: '100%', mt: 10 }}>
@@ -127,11 +129,12 @@ const AdminCreatesTest = () => {
                 <Grid container spacing={2}>
                     <Grid item xs={4}>
                         <FormControl sx={{ m: 3 }}>
-                            {/* <FormLabel component="legend">Position</FormLabel> */}
+                            {/* <FormLabel>Position</FormLabel> */}
                             <InputLabel id="demo-simple-select-label">Position</InputLabel>
                             <Select labelId="demo-simple-select-label"
                                 id="demo-simple-select"
                                 label="Position"
+                                sx={{ width: '10rem' }}
                                 inputRef={positionRef}
                                 value={positionOptions?.[0]}
                                 onChange={(e) => handlePositionChange(e.target.value)}
@@ -183,6 +186,7 @@ const AdminCreatesTest = () => {
                     handleDelete={handleDelete}
                 />
             </Container>
+            <ToastContainer />
         </>
     )
 

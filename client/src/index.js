@@ -78,8 +78,15 @@ root.render(
                         </CookiesProvider>
                     </Auth>
                     } />
-                <Route path="/DataTable" element={<AddPosition />} />
+                <Route path="/positions" element={
+                    <Auth>
+                        <CookiesProvider>
+                            <AddPosition />
+                        </CookiesProvider>
+                    </Auth>
+                } />
             </Routes>
         </BrowserRouter>
     </React.StrictMode>
 );
+

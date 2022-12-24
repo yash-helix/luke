@@ -25,7 +25,7 @@ const Timer = (props) => {
     }
 
     useEffect(() => {//change these
-        if (timeElapsed < 10) return;
+        if (timeElapsed < 60) return;
         clearInterval(countRef.current);
 
         const timeOut = setTimeout(() => {

@@ -3,7 +3,7 @@ import { createdTestModel } from "../../models/CreatedTestSchema.js";
 export const addJobs = async (job) => {
 
     //return res.status(200).json(data.length)
-    const findJobs = await createdTestModel.findOne({ ...job })
+    const findJobs = await createdTestModel.findOne({ country: job.country, position: job.position })
     //const newdata = data.filter(d => findJobs.indexOf(d) === -1);
     //return res.status(200).json(findJobs)
     if (!findJobs) {
@@ -11,7 +11,7 @@ export const addJobs = async (job) => {
         return true;
     }
     //else return res.status(200).json({ success: false, msg: "Job Already Exits", findJobs })
-    else return `Job created NOT for ${job.country} with ${job.position}`
+    else return `Job already exists for ${job.country} with ${job.position}`
 }
 
 export const getJobs = async (res) => {

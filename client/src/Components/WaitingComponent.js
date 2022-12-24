@@ -9,7 +9,7 @@ const WaitingComponent = () => {
 
     return (
         <>
-            {(state.type == 3) ?
+            {(state.type === 3) ?
                 <div className="container-fluid d-flex flex-column justify-content-center align-items-center" style={{ marginTop: '10%' }}>
                     <h1>Please Wait...</h1>
                     <h6>You will be redirected to Typing test...</h6>
