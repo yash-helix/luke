@@ -17,6 +17,8 @@ import { BrowserTracing } from "@sentry/tracing";
 import Typing from './Components/TypingTest/TypingTest/TypingTest';
 import WaitingComponent from "./Components/WaitingComponent";
 import AddPosition from "./Components/Admin/AddPosition";
+// import MultiSelect from "./Components/Multiselect";
+
 
 Sentry.init({
     dsn: process.env.REACT_APP_DSN_KEY,
@@ -55,6 +57,7 @@ root.render(
                 <Route path="/TestCompleted" element={<TestCompleted />} />
                 <Route path="/retestExhasuted" element={<RetestExhausted />} />
                 <Route path="/waitingComponent" element={<WaitingComponent />} />
+                {/* <Route path="/multiselect" element={<MultiSelect />} /> */}
                 <Route path="/questionPaper/:name/:id" element=
                     {<Auth>
                         <UserQuestionPaper />

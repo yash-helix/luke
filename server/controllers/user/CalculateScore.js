@@ -5,7 +5,6 @@ import axios from 'axios';
 const CalculateScore = async (userID, userQuestions, res) => {
     try {
         const userData = await userModal.findOne({ _id: userID }, 'fullName email file country');
-        let navigateToTypingTest = userData?.country?.toLowerCase() == "india" ? true : false;
 
         const test = await testModel.findOne({ userID })//, 'Questions _id');
         if (!test) return res.json({ success: false, msg: "Failed to find the test" });
@@ -54,8 +53,8 @@ const CalculateScore = async (userID, userQuestions, res) => {
             else {
                 const isMsgSentToSlack = await sendUserDetailsToSlack(userID, userData);
 
-                if (isMsgSentToSlack) return res.status(200).send({ success: true, msg: `Test submitted successfully`, navigateToTypingTest });
-                else return res.status(200).send({ success: true, msg: `Test submitted successfully but server failed to send your test results to the admin`, navigateToTypingTest, testType: test.testType });
+                if (isMsgSentToSlack) return res.status(200).send({ success: true, msg: `Test submitted successfully` });
+                else return res.status(200).send({ success: true, msg: `Test submitted successfully but server failed to send your test results to the admin`, testType: test.testType });
             }
         });
         console.log(t)

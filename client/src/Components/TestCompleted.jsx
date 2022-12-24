@@ -41,8 +41,11 @@ const TestCompleted = () => {
                 toast.success(res.data.msg, {
                     position: 'top-center'
                 })
-                navigate('/', { replace: true })
-                localStorage.clear();//delete it
+                setTimeout(() => {
+                    navigate('/', { replace: true })
+                    localStorage.clear();//delete it
+
+                }, 6500)
 
             } else {
                 toast.error(res.data.msg, {

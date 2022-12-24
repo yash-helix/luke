@@ -41,6 +41,7 @@ userRouter.post("/StartTest", async (req, res) => {
 
         const test = await testModel.findOne({ email: email, userID: userID });
 
+
         if (!user) return res.status(401).json({ success: false, msg: "User not found!!" });
         else if (test?.isTestCompleted)
             return res.status(403).json({
@@ -48,7 +49,7 @@ userRouter.post("/StartTest", async (req, res) => {
                 testCompleted: true
             });
 
-        else if (test?.retest >= 30) {//change once done to 3
+        else if (test?.retest >= 3) {//change once done to 3
             return res.status(403).json({
                 success: false,
                 msg: 'You have exhausted your retest limit, please contact the admin',
@@ -59,6 +60,7 @@ userRouter.post("/StartTest", async (req, res) => {
         else if (test?.isTestStarted) {
             isTestAlreadyAvailable = true;
         };
+
 
         const size = 4; //change once done to 50
         StartTest(userID, user.country, email, res, size, {
@@ -197,6 +199,7 @@ userRouter.route("/getposition").post(async (req, res) => {
 
 userRouter.post("/submitTypingTest", (req, res) => {
     const { userID, score, testID } = req.body;
+
 
     if (!userID || !score) return res.status(400).json({ error: "Invalid user details", success: false })
 

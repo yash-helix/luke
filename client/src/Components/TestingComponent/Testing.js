@@ -131,7 +131,11 @@ const FinalScreen = () => {
             const type = res?.data?.testType || typeOfTest.MCQs;
 
             if (type === typeOfTest.MCQs_Typing) {//Mcq + Testing
-                navigate(routeTypeTest.Typing, { replace: true, state: { userID } });
+                navigate('/WaitingComponent', { replace: true, state: { type } });
+                setTimeout(() => {
+                    navigate(routeTypeTest.Typing, { replace: true, state: { userID } });
+                    // navigate("/typing-test", { replace: true, state: { userID } });
+                }, 5000)
                 return;
             }
             else

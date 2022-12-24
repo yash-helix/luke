@@ -2,10 +2,16 @@ import { Container } from "@mui/system";
 import React, { useState, useEffect, useRef } from "react";
 import { addJobs, getAllJobs, deleteJob } from "../../apis/admin/jobs";
 import { getAllPosition } from "../../apis/admin/position";
+import { countryData } from "../CountryData";
 
 import Multiselect from "multiselect-react-dropdown"
 import { FormLabel, TextField, Checkbox, FormGroup, Grid, FormControlLabel, Radio, MenuItem, FormControl, InputLabel, Select, Stack, Button, Typography, TableContainer, Table, TableHead, TableBody, TableCell, TableRow } from '@mui/material';
 import DataTable from "../components/DataTable";
+
+import DeleteIcon from '@mui/icons-material/Delete';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const AdminCreatesTest = () => {
 
@@ -43,6 +49,7 @@ const AdminCreatesTest = () => {
     }
     const [data, setData] = useState([
         //         {country: 'India', position: 'IT Recruiter', test_type: 2, _id:"63a44c0cb9ec00378822716c"},
+        //         {country: 'India', position: 'IT Recruiter', test_type: 2, _id:"63a44c0cb9ec00378822716c"},
         //         { country: 'Spain', position: 'Chartered Accountant', test_type: 3 },
         //         { country: 'Germany', position: 'Company Secretary', test_type: 1 },
         //         { country: 'USA', position: 'IT Recruiter', test_type: 4 },
@@ -63,7 +70,17 @@ const AdminCreatesTest = () => {
     const handleDelete = async (id, _e) => {
         setData(data.filter((v) => v._id !== id));
         const res = await deleteJob(id);
-        console.log(res)
+
+        if (res.success) {
+            toast.success(res.msg, {
+                position: 'top-center'
+            })
+        } else {
+            toast.error(data.msg, {
+                position: 'top-center'
+            })
+        }
+
     }
 
     const [positionOptions, setPositionOptions] = useState();
