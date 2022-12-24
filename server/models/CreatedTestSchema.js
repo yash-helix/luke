@@ -6,4 +6,4 @@ const CreatedTestSchema = new Schema({
     test_type: { type: Number }
 });
 
-export const createdTestModel = new mongoose.model("created-tests", CreatedTestSchema);
+export const createdTestModel = new mongoose.model("create_jobs", CreatedTestSchema);

@@ -7,6 +7,7 @@ import { feedbackModal } from '../../models/FeedbackSchema.js';
 const adminRouter = express.Router();
 import { addJobs, getJobs, deleteJob } from '../../controllers/admin/jobs.js';
 import { test1 } from '../../utils/json/test1.js';
+// import { typingTest } from '../models/TypingTest.js';
 
 
 /**Jobs */
@@ -32,8 +33,6 @@ adminRouter.post("/login", (req, res) => {
     login(email, password, res);
 });
 
-
-
 adminRouter.post("/excelUpload", (req, res) => {
     const file = req.files?.file;
     const filePath = "public/excels";
@@ -47,12 +46,13 @@ adminRouter.post("/excelUpload", (req, res) => {
     uploadExcelToDB(res, test1);
 });
 
-
-
+// get score details on table 
 adminRouter.post("/getTestDetails", async (req, res) => {
     try {
         const user = await userModal.find().lean().select({ __v: 0 });
         const test = await testModel.find({ isTestCompleted: true }).lean().select({ Questions: 0, email: 0, __v: 0 }).sort({ "updatedAt": -1 })
+
+        // const typingtest = await typingTest.find(_id,)
 
         if (!user || !test) return res.status(404).json({ success: false, msg: "Cannot find user and his test details" });
 
@@ -77,7 +77,7 @@ adminRouter.post("/getTestDetails", async (req, res) => {
 });
 
 
-
+// get full detials about user on name click
 adminRouter.post("/getUserPaper", async (req, res) => {
     try {
         const { id, name } = req.body;

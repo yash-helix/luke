@@ -29,6 +29,22 @@ const TextBox = () => {
         return <span>{text} </span>
     }
 
+    const testID = localStorage.getItem("testID");
+    const userID = localStorage.getItem("userID");
+    const [mount, setMount] = useState(false);
+    useEffect(() => {
+        if (mount) {
+            const data = { testID, userID, isTypingTest: true }
+
+            const res = axios.post(`${process.env.REACT_APP_SERVER}/user/getQuestionFromId`, data)
+                .then(res => console.log(res));
+        }
+
+        setMount(true);
+
+    }, [mount]);
+
+
     Word = React.memo(Word)
     // --------------------------------------------------------------------------------------------------------------------------------
 
@@ -72,7 +88,10 @@ const TextBox = () => {
                 { testID, userID, score: correctWordArray.filter(Boolean).length });
             const type = res.data.testType ?? typeOfTest.Typing;
             if (type === typeOfTest.Typing_MCQs) { //Typing + Mcq
-                navigate(routeTypeTest.MCQs, { replace: true, state: { userID: userID } });
+                navigate('/WaitingComponent', { replace: true, state: { type } });
+                setTimeout(() => {
+                    navigate(routeTypeTest.MCQs, { replace: true, state: { userID } });
+                }, 5000)
                 return;
             }
 

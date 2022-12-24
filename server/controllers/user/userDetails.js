@@ -12,6 +12,7 @@ export const getCountry = (ip) => {
             /*** For testing only */
             if (ip === '127.0.0.1') {
                 resolve("India")
+                // resolve("spain")
             }
             /** */
             const buffer = fs.readFileSync(`${process.cwd()}/public/GeoLite2-Country.mmdb`);

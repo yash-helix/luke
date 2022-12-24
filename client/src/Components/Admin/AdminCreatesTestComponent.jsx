@@ -1,30 +1,42 @@
 import { Container } from "@mui/system";
 import React, { useState, useEffect } from "react";
 import { addJobs, getAllJobs, deleteJob } from "../../apis/admin/jobs";
+import { countryData } from "../CountryData";
 
 import { FormLabel, RadioGroup, FormControlLabel, Radio, MenuItem, FormControl, InputLabel, Select, Stack, Button, Typography, TableContainer, Table, TableHead, TableBody, TableCell, TableRow } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 const AdminCreatesTest = () => {
 
-    const countryData = [
-        { Country: 'India', id: '1' },
-        { Country: 'Russia', id: '2' },
-        { Country: 'Germany', id: '3' },
-        { Country: 'Spain', id: '4' }
-    ];
+    // const countryData = [
+    //     { Country: 'India', id: '1' },
+    //     { Country: 'Russia', id: '2' },
+    //     { Country: 'Germany', id: '3' },
+    //     { Country: 'Spain', id: '4' }
+    // ];
 
     const positionData = [
         { Position: 'Company Secretary', id: '1' },
         { Position: 'IT Recrutier', id: '2' },
         { Position: 'Web Developer', id: '3' },
-        { Position: 'Assistant', id: '4' }
+        { Position: 'Assistant', id: '4' },
+        { Position: 'Lawyer', id: '5' },
+        { Position: 'HR Manager', id: '6' },
     ];
 
+    const testType = {
+        1: "MCQ's",
+        2: "Typing Test",
+        3: "MCQ's + Typing Test",
+        4: "Typing Test + MCQ's",
+    }
+
     const [data, setData] = useState([
-        //         {
-        //             country: 'India', position: 'IT Recruiter', test_type: 2, _id:"63a44c0cb9ec00378822716c"
-        // },
+        //         {country: 'India', position: 'IT Recruiter', test_type: 2, _id:"63a44c0cb9ec00378822716c"},
         //         { country: 'Spain', position: 'Chartered Accountant', test_type: 3 },
         //         { country: 'Germany', position: 'Company Secretary', test_type: 1 },
         //         { country: 'USA', position: 'IT Recruiter', test_type: 4 },
@@ -43,16 +55,36 @@ const AdminCreatesTest = () => {
     const handleDelete = async (id, _e) => {
         setData(data.filter((v) => v._id !== id));
         const res = await deleteJob(id);
-        console.log(res)
+
+        if (res.success) {
+            toast.success(res.msg, {
+                position: 'top-center'
+            })
+        } else {
+            toast.error(data.msg, {
+                position: 'top-center'
+            })
+        }
+
     }
 
-    const [countryOptions, setCountryOptions] = useState(positionData[0].Position);
-    const [positionOptions, setPositionOptions] = useState(countryData[0].Country);
+    const [countryOptions, setCountryOptions] = useState(countryData[0].Country);
+    const [positionOptions, setPositionOptions] = useState(positionData[0].Position);
     const [type, setType] = useState(1);
 
     async function submit() {
         const data = await addJobs({ countryOptions, positionOptions, type })
-        console.log(data)
+        const data1 = await getAllJobs();
+        setData(data1)
+        if (data.success) {
+            toast.success(data.msg, {
+                position: 'top-center'
+            })
+        } else {
+            toast.error(data.msg, {
+                position: 'top-center'
+            })
+        }
     }
 
     return (
@@ -107,10 +139,12 @@ const AdminCreatesTest = () => {
                             name="radio-buttons-group"
                             onChange={(e) => setType(parseInt(e.target.value))}
                         >
-                            <FormControlLabel value={1} control={<Radio />} label="MCQ's" />
+                            {/* <FormControlLabel value={1} control={<Radio />} label="MCQ's" />
                             <FormControlLabel value={2} control={<Radio />} label="Typing Test" />
                             <FormControlLabel value={3} control={<Radio />} label="MCQ's + Typing Test" />
-                            <FormControlLabel value={4} control={<Radio />} label="Typing Test + MCQ's" />
+                            <FormControlLabel value={4} control={<Radio />} label="Typing Test + MCQ's" /> */}
+                            {/* {testType.map(test => <FormControlLabel value={test.id} key={test.id} control={<Radio />} label={test.type} />)} */}
+                            {Object.keys(testType)?.map(key => <FormControlLabel value={key} key={key} control={<Radio />} label={testType[key]} />)}
                         </RadioGroup>
                     </FormControl>
 
@@ -136,7 +170,7 @@ const AdminCreatesTest = () => {
                                 <TableRow key={item?._id}>
                                     <TableCell>{item?.country}</TableCell>
                                     <TableCell align="center">{item?.position}</TableCell>
-                                    <TableCell align="center">{item?.test_type}</TableCell>
+                                    <TableCell align="center">{testType?.[item.test_type]}</TableCell>
                                     <TableCell align="center"><DeleteIcon sx={{ color: 'red', cursor: 'pointer' }} onClick={e => handleDelete(item?._id, e)} /></TableCell>
                                 </TableRow>
                             ))}
@@ -144,6 +178,7 @@ const AdminCreatesTest = () => {
                     </Table>
                 </TableContainer>
             </Container>
+            <ToastContainer />
         </>
     )
 

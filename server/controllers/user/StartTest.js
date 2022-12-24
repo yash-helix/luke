@@ -18,12 +18,11 @@ const StartTest = async (userID, country, email, res, size, testObj) => {
             let testResponse;
 
             records = records.map(re => {
-                let newObj = { ...re._doc, Question: re._doc.QuestionsArr[countryCode[country.toLowerCase()]] }
+                let newObj = { ...re._doc, Question: re._doc?.QuestionsArr?.[countryCode[country.toLowerCase()]] ?? re._doc.Question }
                 delete newObj['QuestionsArr'];
                 return newObj;
             });
 
-            // return res.status(200).json({ ...records })
 
             if (testObj.isTestAlreadyAvailable === false) {
                 testResponse = await testModel.create({ userID, email, Questions: records, isTestStarted: false, testType: testObj?.testType });
@@ -40,6 +39,7 @@ const StartTest = async (userID, country, email, res, size, testObj) => {
         }
     }
     catch (error) {
+        console.log(error.toString())
         return res.status(500).json({ success: false, msg: "Internal server error occurred" })
     }
 }

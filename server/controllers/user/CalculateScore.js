@@ -5,7 +5,6 @@ import axios from 'axios';
 const CalculateScore = async (userID, userQuestions, res) => {
     try {
         const userData = await userModal.findOne({ _id: userID }, 'fullName email file country');
-        let navigateToTypingTest = userData?.country?.toLowerCase() == "india" ? true : false;
 
         const test = await testModel.findOne({ userID })//, 'Questions _id');
         if (!test) return res.json({ success: false, msg: "Failed to find the test" });
@@ -45,19 +44,20 @@ const CalculateScore = async (userID, userQuestions, res) => {
 
         // update only if country is other than india
         test.isTestCompleted = (test.testType === 1 || test.testType === 4) ? true : false;
-
+        console.log((test.testType === 1 || test.testType === 4) ? true : false)
         test.userQuestionsAndAnswers = userQuestionsAndAnswers;
 
-        await test.save(async function (err) {
+        const t = await test.save(async function (err) {
             if (err) return res.status(400).send({ success: false, msg: 'Failed to save test' });
 
             else {
                 const isMsgSentToSlack = await sendUserDetailsToSlack(userID, userData);
 
-                if (isMsgSentToSlack) return res.status(200).send({ success: true, msg: `Test submitted successfully`, navigateToTypingTest });
-                else return res.status(200).send({ success: true, msg: `Test submitted successfully but server failed to send your test results to the admin`, navigateToTypingTest, testType: test.testType });
+                if (isMsgSentToSlack) return res.status(200).send({ success: true, msg: `Test submitted successfully` });
+                else return res.status(200).send({ success: true, msg: `Test submitted successfully but server failed to send your test results to the admin`, testType: test.testType });
             }
         });
+        console.log(t)
     }
     catch (error) {
         return res.status(500).json({ success: false, msg: "Unexpected error occurred" })
