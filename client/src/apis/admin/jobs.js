@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export async function addJobs({ Countries, positionOptions, testType }) {
+    console.log(Countries)
     const data = Countries.map(c => ({
         country: c.Country, position: positionOptions, test_type: testType
     }))

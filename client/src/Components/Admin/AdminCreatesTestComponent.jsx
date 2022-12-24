@@ -1,10 +1,12 @@
 import { Container } from "@mui/system";
 import React, { useState, useEffect, useRef } from "react";
 import { addJobs, getAllJobs, deleteJob } from "../../apis/admin/jobs";
+import { getAllPosition } from "../../apis/admin/position";
+
 import Multiselect from "multiselect-react-dropdown"
 import { FormLabel, TextField, Checkbox, FormGroup, Grid, FormControlLabel, Radio, MenuItem, FormControl, InputLabel, Select, Stack, Button, Typography, TableContainer, Table, TableHead, TableBody, TableCell, TableRow } from '@mui/material';
+import DataTable from "../components/DataTable";
 
-import DeleteIcon from '@mui/icons-material/Delete';
 const AdminCreatesTest = () => {
 
     const data3 = [
@@ -32,6 +34,13 @@ const AdminCreatesTest = () => {
         "MCQ's + Typing Test": 3,
         "Typing Test + MCQ's": 4,
     }
+
+    const testTypeValue = {
+        1: "MCQ's",
+        2: "Typing Test",
+        3: "MCQ's + Typing Test",
+        4: "Typing Test + MCQ's",
+    }
     const [data, setData] = useState([
         //         {country: 'India', position: 'IT Recruiter', test_type: 2, _id:"63a44c0cb9ec00378822716c"},
         //         { country: 'Spain', position: 'Chartered Accountant', test_type: 3 },
@@ -40,12 +49,15 @@ const AdminCreatesTest = () => {
         //         { country: 'UK', position: 'Web Developer', test_type: 1 },
         //         { country: 'Russia', position: 'Virtual Assistant', test_type: 2 },
     ]);
-
+    const testTypeNew = [{ type: "MCQ's", checked: false }, { type: "Typing Test", checked: false }];
     useEffect(
         () => {
             (async () => {
                 const data = await getAllJobs();
-                setData(data)
+                setData(data.map(item => { delete item.__v; return { ...item } }))
+                const position = await getAllPosition();
+                setPositionOptions(position);
+                console.log(data)
             })()
         }, []);
     const handleDelete = async (id, _e) => {
@@ -54,31 +66,28 @@ const AdminCreatesTest = () => {
         console.log(res)
     }
 
-    const [positionOptions, setPositionOptions] = useState(positionData[0].Position);
-    const [type, setType] = useState([{ type: "MCQ's", checked: false }, { type: "Typing Test", checked: false }]);
+    const [positionOptions, setPositionOptions] = useState();
+    const [type, setType] = useState(testTypeNew);
     const [selectedCountries, setSelectedCountries] = React.useState([]);
     const [newType, setNewType] = useState(null);
+    const positionRef = useRef();
+    const countryRef = useRef();
+    const multiselectRef = useRef();
     async function submit() {
-        const data = await addJobs({ Countries: selectedCountries, positionOptions, testType: testType[newType] })
+
+        const data = await addJobs({ Countries: selectedCountries, positionOptions: positionRef.current.value, testType: testType[newType] })
         const data1 = await getAllJobs();
-        setData(data1)
+        setData(data1.map(item => { delete item.__v; return { ...item } }))
+
+        /**Reset Value */
+        setNewType(null)
+        setType(testTypeNew)
+        multiselectRef.current.resetSelectedValues();
+
     }
-    useEffect(() => {
-        console.log(testType[newType])
-    }, [newType])
 
-
-    const handleChange = (country) => {
-        // setSelectedCountries(
-        //     selectedCountries.map(selected => selected.country === event.target.name ? { ...selected, checked: event.target.checked } : selected)
-        // );
-        setSelectedCountries(c => [...c, country])
-    };
-
-    const handleRemoveChange = (country) => {
-        console.log(country);
-
-        setSelectedCountries(country)
+    const handlePositionChange = (position) => {
+        positionRef.current.value = (position)
     }
     const handleChangeTestType = (e, i) => {
         let data1 = [...type];
@@ -86,65 +95,59 @@ const AdminCreatesTest = () => {
             e.target.checked ? `${t} + ${e.target.name}` :
                 i === 0 ? data1[1].type : data1[0].type
         )
-
         data1[i].checked = e.target.checked
         setType(data1)
         if (!data1[0].checked && !data1[1].checked) setNewType(null);
 
     }
-
-
     const [options] = useState(data3);
-
     return (
         <>
             <Container sx={{ width: '100%', mt: 10 }}>
-
                 <Stack sx={{ justifyContent: 'center', alignItems: 'center' }}>
                     <Typography sx={{ fontSize: 'larger', fontWeight: '700' }}>Admin Creates Test</Typography>
                 </Stack>
                 <Grid container spacing={2}>
-                    <Grid item xs={8}>
-                        <FormControl sx={{ m: 2 }}>
+                    <Grid item xs={4}>
+                        <FormControl sx={{ m: 3 }}>
+                            {/* <FormLabel component="legend">Position</FormLabel> */}
                             <InputLabel id="demo-simple-select-label">Position</InputLabel>
                             <Select labelId="demo-simple-select-label"
                                 id="demo-simple-select"
-                                label="Position" value={positionOptions}
-                                onChange={(e) => setPositionOptions(e.target.value)}
+                                label="Position"
+                                inputRef={positionRef}
+                                value={positionOptions?.[0]}
+                                onChange={(e) => handlePositionChange(e.target.value)}
                             >
                                 {positionData.map(position => <MenuItem key={position.id} value={position.Position}>{position.Position}</MenuItem>)}
                             </Select>
                         </FormControl>
-                        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
-                            <FormLabel component="legend">Countries</FormLabel>
-                            {/*  <FormGroup>
-                               {selectedCountries.map(country => <FormControlLabel key={country.country_code}
-                                    control={
-                                        <Checkbox checked={country.checked} onChange={handleChange} name={country.country} />
-                                    }
-                                    label={country.country}
-                                />)}
-                            </FormGroup>*/}
-
-                            <Multiselect options={options}
-                                onSelect={handleChange}
-                                onRemove={handleRemoveChange}
-                                displayValue='Country' />
-                        </FormControl>
-
                     </Grid>
                     <Grid item xs={4}>
-                        <FormControl sx={{ m: 2 }}>
+                        <FormControl sx={{ m: 3 }} component="fieldset" variant="standard">
+                            <FormLabel component="legend">Countries</FormLabel>
+                            <Multiselect options={options}
+                                // onSelect={(country) => countryRef.current.value = (country)}
+                                // onRemove={(country) => countryRef.current.value = (country)}
+                                onSelect={(country) => setSelectedCountries(country)}
+                                onRemove={(country) => setSelectedCountries(country)}
+                                ref={multiselectRef}
+                                displayValue='Country' />
+                        </FormControl>
+                    </Grid>
+                    <Grid item xs={4}>
+                        <FormControl sx={{ m: 3 }}>
                             <FormLabel id="demo-radio-buttons-group-label" sx={{ fontWeight: '700', fontSize: 'larger' }}>Test Type</FormLabel>
                             <FormGroup>
                                 {type.map((key, i) => <FormControlLabel value={key.type} key={key.type}
                                     control={
-                                        <Checkbox checked={key.checked} onChange={(e) => handleChangeTestType(e, i)} name={key.type} />
+                                        <Checkbox checked={key.checked} name={key.type}
+                                            onChange={(e) => handleChangeTestType(e, i)} />
                                     }
                                     label={key.type}
                                 />)}
                             </FormGroup>
-                            <TextField id="standard-basic" label={newType} variant="standard" />
+                            <TextField id="standard-basic" label={newType} variant="standard" disabled />
                         </FormControl>
                     </Grid>
                 </Grid>
@@ -156,28 +159,12 @@ const AdminCreatesTest = () => {
             </Container>
             <br />
             <Container sx={{ mb: 5 }}>
-                <TableContainer>
-                    <Table aria-label="simple table">
-                        <TableHead>
-                            <TableRow>
-                                <TableCell sx={{ fontWeight: '700' }}>Country</TableCell>
-                                <TableCell align="center" sx={{ fontWeight: '700' }}>Position</TableCell>
-                                <TableCell align="center" sx={{ fontWeight: '700' }}>Test-Type</TableCell>
-                                <TableCell align="center" sx={{ fontWeight: '700' }}>Delete</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {data?.map((item) => (
-                                <TableRow key={item?._id}>
-                                    <TableCell>{item?.country}</TableCell>
-                                    <TableCell align="center">{item?.position}</TableCell>
-                                    <TableCell align="center">{testType?.[item.test_type]}</TableCell>
-                                    <TableCell align="center"><DeleteIcon sx={{ color: 'red', cursor: 'pointer' }} onClick={e => handleDelete(item?._id, e)} /></TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                </TableContainer>
+                <DataTable header={["Country", "Position", "Test-Type"]}
+                    data={data.map(item => {
+                        return { ...item, test_type: testTypeValue[item.test_type] }
+                    })}
+                    handleDelete={handleDelete}
+                />
             </Container>
         </>
     )
@@ -186,3 +173,28 @@ const AdminCreatesTest = () => {
 }
 
 export default AdminCreatesTest;
+
+/**
+<TableContainer>
+<Table aria-label="simple table">
+    <TableHead>
+        <TableRow>
+            <TableCell sx={{ fontWeight: '700' }}>Country</TableCell>
+            <TableCell align="center" sx={{ fontWeight: '700' }}>Position</TableCell>
+            <TableCell align="center" sx={{ fontWeight: '700' }}>Test-Type</TableCell>
+            <TableCell align="center" sx={{ fontWeight: '700' }}>Delete</TableCell>
+        </TableRow>
+    </TableHead>
+    <TableBody>
+        {data?.map((item) => (
+            <TableRow key={item?._id}>
+                <TableCell>{item?.country}</TableCell>
+                <TableCell align="center">{item?.position}</TableCell>
+                <TableCell align="center">{testType?.[item.test_type]}</TableCell>
+                <TableCell align="center"><DeleteIcon sx={{ color: 'red', cursor: 'pointer' }} onClick={e => handleDelete(item?._id, e)} /></TableCell>
+            </TableRow>
+        ))}
+    </TableBody>
+</Table>
+</TableContainer>
+ */

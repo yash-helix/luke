@@ -80,8 +80,6 @@ adminRouter.post("/login", (req, res) => {
     login(email, password, res);
 });
 
-
-
 adminRouter.post("/excelUpload", (req, res) => {
     const file = req.files?.file;
     const filePath = "public/excels";
@@ -94,8 +92,6 @@ adminRouter.post("/excelUpload", (req, res) => {
 
     uploadExcelToDB(res, test1);
 });
-
-
 
 adminRouter.post("/getTestDetails", async (req, res) => {
     try {
@@ -123,8 +119,6 @@ adminRouter.post("/getTestDetails", async (req, res) => {
         return res.status(500).json({ success: false, msg: "Internal server error occurred" })
     }
 });
-
-
 
 adminRouter.post("/getUserPaper", async (req, res) => {
     try {

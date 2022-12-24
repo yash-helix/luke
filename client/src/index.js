@@ -16,6 +16,7 @@ import * as Sentry from "@sentry/react";
 import { BrowserTracing } from "@sentry/tracing";
 import Typing from './Components/TypingTest/TypingTest/TypingTest';
 import WaitingComponent from "./Components/WaitingComponent";
+import AddPosition from "./Components/Admin/AddPosition";
 
 Sentry.init({
     dsn: process.env.REACT_APP_DSN_KEY,
@@ -74,6 +75,7 @@ root.render(
                         </CookiesProvider>
                     </Auth>
                     } />
+                <Route path="/DataTable" element={<AddPosition />} />
             </Routes>
         </BrowserRouter>
     </React.StrictMode>
