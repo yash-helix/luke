@@ -25,11 +25,11 @@ export default function AddPosition() {
     const handleDelete = async (id, _e) => {
         setData(data.filter((v) => v._id !== id));
         const res = await deletePosition(id);
-        //console.log(id)
+        console.log(id)
     }
     const handleAddPosition = async () => {
         const res = await addPosition({ position: testFieldRef.current.value });
-        //console.log(res)
+        console.log(res)
         testFieldRef.current.value = "";
         await getPositon();
     }
