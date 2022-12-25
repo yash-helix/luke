@@ -184,15 +184,17 @@ userRouter.route("/getposition").post(async (req, res) => {
     try {
         const ip = req.ip
         country = await getCountry(ip);
-
-        if (country.toLowerCase() === 'india') {
-            return res.json({ data: positionIndia, success: true });
-        } else {
-            return res.json({ data: positionOtherCountries, success: true })
-        }
+        let createdTest = await createdTestModel.find({ country }).select({ position: 1 })
+        //console.log(createdTest)
+        return res.json({ data: createdTest, success: true });
+        // if (country.toLowerCase() === 'india') {
+        // } else {
+        //     return res.json({ data: createdTest, success: true })
+        // }
     }
     catch (error) {
-        return res.status(400).json({ data: positionOtherCountries, success: false, msg: 'Failed to find your country' })
+        console.log(error)
+        return res.status(400).json({ data: [], success: false, msg: 'Failed to find your country' })
     }
 });
 

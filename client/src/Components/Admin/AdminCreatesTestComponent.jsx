@@ -5,7 +5,7 @@ import { getAllPosition } from "../../apis/admin/position";
 import { countryData } from "../CountryData";
 
 import Multiselect from "multiselect-react-dropdown"
-import { FormLabel, TextField, Checkbox, FormGroup, Grid, FormControlLabel, Radio, MenuItem, FormControl, InputLabel, Select, Stack, Button, Typography, TableContainer, Table, TableHead, TableBody, TableCell, TableRow } from '@mui/material';
+import { FormLabel, TextField, Checkbox, FormGroup, Grid, FormControlLabel, MenuItem, FormControl, InputLabel, Select, Stack, Button, Typography, } from '@mui/material';
 import DataTable from "../components/DataTable";
 
 // import DeleteIcon from '@mui/icons-material/Delete';
@@ -27,9 +27,16 @@ const testTypeValue = {
 }
 
 const AdminCreatesTest = () => {
-
-    const [data, setData] = useState([]);
     const testTypeNew = [{ type: "MCQ's", checked: false }, { type: "Typing Test", checked: false }];
+
+    const [data, setData] = useState([]); //position in table
+    const [positionOptions, setPositionOptions] = useState();
+    const [type, setType] = useState(testTypeNew); //check boxes
+    const [newType, setNewType] = useState(null);
+
+    const positionRef = useRef();
+    const multiselectRef = useRef();
+
     useEffect(
         () => {
             (async () => {
@@ -56,17 +63,17 @@ const AdminCreatesTest = () => {
 
     }
 
-    const [positionOptions, setPositionOptions] = useState();
-    const [type, setType] = useState(testTypeNew);
-    const [selectedCountries, setSelectedCountries] = React.useState([]);
-    const [newType, setNewType] = useState(null);
-    const positionRef = useRef();
+
+
     // const countryRef = useRef();
-    const multiselectRef = useRef();
+    //const [selectedCountries, setSelectedCountries] = React.useState([]);
+
 
     async function submit() {
-
-        const data = await addJobs({ Countries: selectedCountries, positionOptions: positionRef.current.value, testType: testType[newType] })
+        const data = await addJobs({
+            Countries: multiselectRef.current.state.selectedValues,
+            positionOptions: positionRef.current.value, testType: testType[newType]
+        })
         const data1 = await getAllJobs();
         setData(data1.map(item => { delete item.__v; return { ...item } }))
 
@@ -142,8 +149,8 @@ const AdminCreatesTest = () => {
                             <Multiselect options={options}
                                 // onSelect={(country) => countryRef.current.value = (country)}
                                 // onRemove={(country) => countryRef.current.value = (country)}
-                                onSelect={(country) => setSelectedCountries(country)}
-                                onRemove={(country) => setSelectedCountries(country)}
+                                // onSelect={(country) => setSelectedCountries(country)}
+                                // onRemove={(country) => setSelectedCountries(country)}
                                 ref={multiselectRef}
                                 displayValue='Country' />
                         </FormControl>
