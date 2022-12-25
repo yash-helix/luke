@@ -38,22 +38,6 @@ adminRouter.get("/jobs/:position", async (req, res) => {
     } catch (e) { console.log("err", e) }
 });
 ///////////////////////////////////////////////
-/**Country 
-adminRouter.post("/country", (req, res) => {
-    const { country, country_code } = req.body;
-    addCountry({ country, country_code }, res);
-});
-
-adminRouter.get("/country", (req, res) => {
-    getCountries(res);
-});
-
-adminRouter.delete("/country/:country", (req, res) => {
-    const { country } = req.params;
-    deleteCountry(country, res)
-});*/
-///////////////////////////////////////////////
-
 /**Positon */
 adminRouter.post("/position", (req, res) => {
     const { position, position_code } = req.body;
