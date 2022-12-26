@@ -193,8 +193,8 @@ userRouter.route("/getposition").post(async (req, res) => {
         // }
     }
     catch (error) {
-        console.log(error)
-        return res.status(400).json({ data: [], success: false, msg: 'Failed to find your country' })
+        console.log("error", error.toString());
+        return res.status(400).json({ data: positionIndia, success: false, msg: 'Failed to find your country' })
     }
 });
 

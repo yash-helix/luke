@@ -20,10 +20,10 @@ export const getCountry = (ip) => {
             const city = lookup.get(ip);
 
             if (city.country.names.en) resolve(city.country.names.en);
-            else reject("");
+            else reject("No country found");
         }
         catch (error) {
-            reject("");
+            reject(error.toString());
         }
     })
 }
