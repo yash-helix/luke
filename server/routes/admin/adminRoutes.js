@@ -35,7 +35,7 @@ adminRouter.get("/jobs/:position", async (req, res) => {
     try {
         let country = await getCountry(ip);
         getJobsForAUser({ country, position }, res)
-    } catch (e) { console.log("err", e) }
+    } catch (e) { console.log("err", e.toString()) }
 });
 ///////////////////////////////////////////////
 /**Positon */

@@ -31,11 +31,14 @@ function App() {
         try {
             const positionRes = await axios.post(`${process.env.REACT_APP_SERVER}/user/getposition`)
             if (positionRes.data.success) {
-                setPositons(positionRes.data.data);
+                let { data } = positionRes.data;
+                data = data.map(d => d.position)
+                //console.log(data)
+                setPositons(data);
                 setData((prev) => {
                     return {
                         ...prev,
-                        position: positionRes.data.data[0],
+                        position: data[0],
                     };
                 })
             }
@@ -43,7 +46,7 @@ function App() {
                 setPositons([])
 
         } catch (error) {
-            setPositons(error.response.data?.data)
+            setPositons(data)
             toast.error(error.response.data.msg, {
                 position: 'top-center', style: { width: '28rem' }
             });

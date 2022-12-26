@@ -11,8 +11,8 @@ const countryCode = {
 const StartTest = async (userID, country, email, res, size, testObj) => {
     try {
 
-        // const records = await excelModal.aggregate([{ $sample: { size: size } }]); //random questions
-        let records = await excelModal.find().limit(size); //delete it once done
+        const records = await excelModal.aggregate([{ $sample: { size: size } }]); //random questions
+        //let records = await excelModal.find().limit(size); //delete it once done
 
         if (records.length === size) {
             let testResponse;
