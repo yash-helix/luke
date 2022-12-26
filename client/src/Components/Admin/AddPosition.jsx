@@ -4,7 +4,8 @@ import DataTable from "../components/DataTable";
 import { Container } from "@mui/system";
 import AddCircleRoundedIcon from '@mui/icons-material/AddCircleRounded';
 import { getAllPosition, deletePosition, addPosition } from "../../apis/admin/position";
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function AddPosition() {
     const [data, setData] = useState([]);
@@ -28,6 +29,12 @@ export default function AddPosition() {
         console.log(id)
     }
     const handleAddPosition = async () => {
+        if (testFieldRef.current.value === "") {
+            toast.warning("Empty position", {
+                position: 'top-center'
+            })
+            return;
+        }
         const res = await addPosition({ position: testFieldRef.current.value });
         console.log(res)
         testFieldRef.current.value = "";
@@ -51,6 +58,7 @@ export default function AddPosition() {
                     handleDelete={handleDelete}
                 />
             </Stack>
+            <ToastContainer />
         </Container>
     )
 }

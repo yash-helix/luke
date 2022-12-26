@@ -70,6 +70,25 @@ const AdminCreatesTest = () => {
 
 
     async function submit() {
+        if (multiselectRef.current.state.selectedValues.length == 0) {
+            toast.warning("Please select country", {
+                position: 'top-center'
+            })
+            return;
+        }
+        if (positionRef.current.value == "") {
+            toast.warning("Please select position", {
+                position: 'top-center'
+            })
+            return;
+        }
+        if (newType == null) {
+            toast.warning("Please select type of test", {
+                position: 'top-center'
+            })
+            return;
+        }
+
         const data = await addJobs({
             Countries: multiselectRef.current.state.selectedValues,
             positionOptions: positionRef.current.value, testType: testType[newType]
