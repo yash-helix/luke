@@ -185,7 +185,7 @@ userRouter.route("/getposition").post(async (req, res) => {
         const ip = req.ip
         country = await getCountry(ip);
         let createdTest = await createdTestModel.find({ country }).select({ position: 1 })
-        //console.log(createdTest)
+        console.log("country ==", country);
         return res.json({ data: createdTest, success: true });
         // if (country.toLowerCase() === 'india') {
         // } else {
