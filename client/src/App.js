@@ -246,13 +246,15 @@ function App() {
                     <label className="fw-normal">Choose Your Position: *</label>
                     <br />
                     <select
-                        value={data.position}
+                        value={data?.position}
                         name="position"
                         className="text"
                         required
                         onChange={handleChange}
                     >
-                        {positions?.map((p, index) => <option key={index} value={p}>{p}</option>)}
+                        {positions.length > 0 ? positions?.map((p, index) => <option key={index} value={p}>{p}</option>) :
+                            <option key={'no-position'} disabled>NO position </option>
+                        }
                     </select>
                     <br />
                     <label className="fw-normal">Select Language: *</label>
