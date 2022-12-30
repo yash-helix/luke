@@ -41,22 +41,20 @@ const getWords = () => `water away good want over going where would took school 
 know bear again long things after wanted eat everyone play thought well find more 
 round tree magic shouted other food through been stop must door right these began 
 animals next first work baby fish mouse something`.toLowerCase().split(' ').sort(() => Math.random() > 0.5 ? 1 : -1)
+const getRandomSentences = () => {
+    let quotes_array1 = words.sort(() => Math.random() > 0.5 ? 1 : -1).join(" ").toLowerCase();
+    let line1 = (quotes_array1.substring(0, 80))
+    let line2 = (quotes_array1.substring(80, 150))
+    return line1 + line2;
+}
 const FingerFast = () => {
 
 
 
-
-    let quotes_array1 = words.sort(() => Math.random() > 0.5 ? 1 : -1).join(" ").toLowerCase();
-    // console.log(quotes_array1.substring(0, 200))
-    // console.log(quotes_array1.substring(200, 400))
-
-
-
     const [wordIndex, setIndex] = useState(0);
-    const cloud = useRef((quotes_array[wordIndex] + quotes_array[wordIndex + 1]).split(' '));
+    const cloud = useRef(getRandomSentences().split(' '));
     Word = React.memo(Word)
     const navigate = useNavigate();
-    const [userInput, setUserInput] = useState('');
     const [startCounting, setStartCounting] = useState(false);
     const [activeWordIndex, setActiveWordIndex] = useState(0);
     const [correctWordArray, setCorrectWordArray] = useState([]);
@@ -64,10 +62,9 @@ const FingerFast = () => {
     const testID = localStorage.getItem("testID");
     const userID = localStorage.getItem("userID");
     const [mount, setMount] = useState(false);
+    const inputRef = useRef();
     useEffect(() => {
         if (mount) {
-            // console.log(quotes_array1)
-
             const data = { testID, userID, isTypingTest: true }
             const res = axios.post(`${process.env.REACT_APP_SERVER}/user/getQuestionFromId`, data)
                 .then(res => console.log(res));
@@ -92,12 +89,10 @@ const FingerFast = () => {
             setActiveWordIndex(index => index + 1)
             if (cloud.current.length - 2 == activeWordIndex) {
                 setIndex(i => i + 1);
-                let ind = wordIndex + 1;
-                cloud.current = (quotes_array[ind + 1] + quotes_array[ind + 2]).split(' ')
+                cloud.current = (getRandomSentences()).split(' ')
             }
-            //  console.log(activeWordIndex, cloud.current.length - 2, cloud.current.length - 2 == activeWordIndex)
-            setUserInput('')
 
+            inputRef.current.value = "";
             // Correct Word
             setCorrectWordArray(data => {
                 const word = value.trim()
@@ -106,7 +101,7 @@ const FingerFast = () => {
                 return newResult
             })
         } else {
-            setUserInput(value)
+            // setUserInput(value)
         }
     }
     //submit the typing test
@@ -166,6 +161,7 @@ const FingerFast = () => {
                                 borderRadius: "4px",
                             },
                         }}
+                        inputRef={inputRef}
                         sx={{
                             width: '75%', marginRight: '6px',
                             backgroundColor: 'white', border: 'none', borderRadius: "8px",
@@ -174,12 +170,10 @@ const FingerFast = () => {
                             },
 
                         }}
-                        type='text' value={userInput}
+                        type='text' //value={userInput}
                         disabled={timeup} onChange={(e) => processInput(e.target.value)} />
-                    {/* </Stack> */}
-                    {/* <Stack width='30%'> */}
+
                     <Timer startCounting={startCounting} correctWords={correctWordArray.filter(Boolean).length} setTimeUp={setTimeUpFun} />
-                    {/* </Stack> */}
                 </Stack>
             </Container>
         </Stack>
