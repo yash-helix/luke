@@ -10,6 +10,8 @@ export async function addJobs({ Countries, positionOptions, testType }) {
         headers: { "Content-Type": "application/json" }
     });
 
+    // console.log(res , 'avshgcvh')
+
     if (res.status !== 200)
         return res
 

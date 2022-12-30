@@ -13,11 +13,12 @@ import Login from "./Components/Admin/Login";
 import AdminCreatesTestComponent from "./Components/Admin/AdminCreatesTestComponent";
 import { Auth } from "./contexts/auth";
 import Typing from './Components/TypingTest/TypingTest/TypingTest';
+import FingerFast from './Components/TypingTest/TypingTest/FingerFast';
 import WaitingComponent from "./Components/WaitingComponent";
 import AddPosition from "./Components/Admin/AddPosition";
 import * as Sentry from "@sentry/react";
 import App from "./App";
-// import MultiSelect from "./Components/Multiselect";
+import AdminLayout from "./Layouts/AdminLayout";
 
 
 Sentry.init({
@@ -41,50 +42,44 @@ root.render(
                 <Route path="/startTest" element={<InstructionPage />} />
                 <Route path="/test" element={<FinalScreen />} />
                 <Route path="/table" element=
-                    {<Auth>
-                        <CookiesProvider>
-                            <Search />
-                        </CookiesProvider>
-                    </Auth>
+                    {<AdminLayout>
+                        <Search />
+                    </AdminLayout>
                     } />
                 <Route path="/jobs" element=
-                    {<Auth>
-                        <CookiesProvider>
-                            <AdminCreatesTestComponent />
-                        </CookiesProvider>
-                    </Auth>
+                    {<AdminLayout>
+                        <AdminCreatesTestComponent />
+                    </AdminLayout>
+                    } />
+
+                <Route path="/positions" element={
+                    <AdminLayout>
+                        <AddPosition />
+                    </AdminLayout>
+                } />
+                <Route path="/questionPaper/:name/:id" element=
+                    {<CookiesProvider>
+                        <UserQuestionPaper />
+                    </CookiesProvider>
                     } />
                 <Route path="/TestCompleted" element={<TestCompleted />} />
                 <Route path="/retestExhasuted" element={<RetestExhausted />} />
                 <Route path="/waitingComponent" element={<WaitingComponent />} />
-                {/* <Route path="/multiselect" element={<MultiSelect />} /> */}
-                <Route path="/questionPaper/:name/:id" element=
-                    {<Auth>
-                        <UserQuestionPaper />
-                    </Auth>
-                    } />
+                {/* <Route path="/testing" element={<FingerFast />} /> */}
+
                 <Route path="/adminLogin" element=
-                    {<Auth>
-                        <CookiesProvider>
-                            <Login />
-                        </CookiesProvider>
-                    </Auth>
+                    {<CookiesProvider>
+                        <Login />
+                    </CookiesProvider>
                     } />
 
                 <Route path="/typing-test" element=
                     {<Auth>
                         <CookiesProvider>
-                            <Typing />
+                            <FingerFast />
                         </CookiesProvider>
                     </Auth>
                     } />
-                <Route path="/positions" element={
-                    <Auth>
-                        <CookiesProvider>
-                            <AddPosition />
-                        </CookiesProvider>
-                    </Auth>
-                } />
             </Routes>
         </BrowserRouter>
     </React.StrictMode>

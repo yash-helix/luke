@@ -1,6 +1,6 @@
 import { createdTestModel } from "../../models/CreatedTestSchema.js";
 
-export const addJobs = async (job) => {
+export const addJobs = async (job, res) => {
 
     //return res.status(200).json(data.length)
     const findJobs = await createdTestModel.findOne({ country: job.country, position: job.position })
@@ -8,10 +8,14 @@ export const addJobs = async (job) => {
     //return res.status(200).json(findJobs)
     if (!findJobs) {
         const jobCreated = await createdTestModel.create(job)
-        return true;
+        // console.log(jobCreated);
+        // return res.status(200).json({ success: true, msg: 'Job Created !!' });
+        return { exits: false, msg: `Job created for ${job.country} with ${job.position}` };
     }
     //else return res.status(200).json({ success: false, msg: "Job Already Exits", findJobs })
-    else return `Job already exists for ${job.country} with ${job.position}`
+    else return {
+        exits: true, msg: `Job already exists for ${job.country} with ${job.position}`
+    }
 }
 
 export const getJobs = async (res) => {

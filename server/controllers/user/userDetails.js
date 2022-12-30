@@ -9,7 +9,7 @@ export const getCountry = (ip) => {
     return new Promise(async (resolve, reject) => {
         try {
             if (!ip) reject("");
-            /*** For testing only 
+            /*** For testing only */
             if (ip === '127.0.0.1') {
                 resolve("India")
                 // resolve("spain")

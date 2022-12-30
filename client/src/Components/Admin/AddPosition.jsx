@@ -27,6 +27,17 @@ export default function AddPosition() {
         setData(data.filter((v) => v._id !== id));
         const res = await deletePosition(id);
         console.log(id)
+
+
+        if (res.success) {
+            toast.success(res.msg, {
+                position: 'top-center'
+            })
+        } else {
+            toast.error(res.msg, {
+                position: 'top-center'
+            })
+        }
     }
     const handleAddPosition = async () => {
         if (testFieldRef.current.value === "") {
@@ -37,6 +48,17 @@ export default function AddPosition() {
         }
         const res = await addPosition({ position: testFieldRef.current.value });
         console.log(res)
+
+        if (res.success) {
+            toast.success(res.msg, {
+                position: 'top-center'
+            })
+        } else {
+            toast.error(res.msg, {
+                position: 'top-center'
+            })
+        }
+
         testFieldRef.current.value = "";
         await getPositon();
     }

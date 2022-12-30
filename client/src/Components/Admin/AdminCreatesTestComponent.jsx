@@ -19,7 +19,7 @@ const testType = {
     "Typing Test + MCQ's": 4,
 }
 
-const testTypeValue = {
+export const testTypeValue = {
     1: "MCQ's",
     2: "Typing Test",
     3: "MCQ's + Typing Test",
@@ -56,28 +56,26 @@ const AdminCreatesTest = () => {
                 position: 'top-center'
             })
         } else {
-            toast.error(data.msg, {
+            toast.error(res.msg, {
                 position: 'top-center'
             })
         }
 
     }
 
-
-
     // const countryRef = useRef();
     //const [selectedCountries, setSelectedCountries] = React.useState([]);
 
-
     async function submit() {
-        if (multiselectRef.current.state.selectedValues.length == 0) {
-            toast.warning("Please select country", {
+
+        if (positionRef.current.value == "" || positionRef.current.value === undefined) {
+            toast.warning("Please select position", {
                 position: 'top-center'
             })
             return;
         }
-        if (positionRef.current.value == "") {
-            toast.warning("Please select position", {
+        if (multiselectRef.current.state.selectedValues.length == 0) {
+            toast.warning("Please select country", {
                 position: 'top-center'
             })
             return;
@@ -89,28 +87,30 @@ const AdminCreatesTest = () => {
             return;
         }
 
+
         const data = await addJobs({
             Countries: multiselectRef.current.state.selectedValues,
             positionOptions: positionRef.current.value, testType: testType[newType]
         })
-        const data1 = await getAllJobs();
-        setData(data1.map(item => { delete item.__v; return { ...item } }))
-
-        // console.log(data);
 
         if (data.success) {
-            data.msg.forEach((m) =>
-                toast.error(m, {
+            data.msg.map(d => {
+                if (d.exits)
+                    return toast.error(d.msg, {
+                        position: 'top-center'
+                    })
+                return toast.success(d.msg, {
                     position: 'top-center'
-                }))
-            toast.success(data.msg, {
-                position: 'top-center'
+                })
             })
         } else {
             toast.error(data.msg, {
                 position: 'top-center'
             })
         }
+
+        const data1 = await getAllJobs();
+        setData(data1.map(item => { delete item.__v; return { ...item } }))
 
 
         /**Reset Value */

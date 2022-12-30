@@ -19,7 +19,7 @@ export async function getAllPosition() {
         return res
     else if (res.data.success) {
         //console.log("hsd", res.data.findPositoin)
-        return res.data.findPositoin
+        return res.data.findPosition
     }
     else return res.data
 }

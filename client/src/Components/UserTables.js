@@ -13,7 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Button } from "@mui/material";
 
 const UserTable = ({ filterData }) => {
-    const { logged, setLogged, UpdateAuth } = useContext(AuthContext);
+    //const { logged, setLogged, UpdateAuth } = useContext(AuthContext);
 
     const navigate = useNavigate();
 
@@ -33,6 +33,7 @@ const UserTable = ({ filterData }) => {
     const [positions, setPositions] = useState([]);
 
     const [arrowState, setArrowState] = useState({
+        testType: 'asc',
         updatedAt: 'asc',
         fullName: 'asc',
         position: 'asc',
@@ -86,8 +87,8 @@ const UserTable = ({ filterData }) => {
     }
 
     useEffect(() => {
-        if (!logged) navigate("/adminLogin", { replace: true })
-        else getTestDetails();
+        //        if (!logged) navigate("/adminLogin", { replace: true })       else
+        getTestDetails();
     }, []);
 
 
@@ -191,7 +192,12 @@ const UserTable = ({ filterData }) => {
     //     setFeedback(response.data);
     //   });
     // }
-
+    const testTypeValue = {
+        1: "MCQ's",
+        2: "Typing Test",
+        3: "MCQ's + Typing Test",
+        4: "Typing Test + MCQ's",
+    }
 
 
     return (
@@ -234,6 +240,7 @@ const UserTable = ({ filterData }) => {
                             <tr>
                                 <th>Serial Number</th>
                                 <th onClick={(e) => sorting("fullName")}>Name {arrowState.fullName === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
+                                <th onClick={(e) => sorting("testType")}>Test Type {arrowState.testType === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
                                 <th onClick={(e) => sorting("position")}>Position {arrowState.position === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
                                 <th onClick={(e) => sorting("country")}>Country {arrowState.country === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
                                 <th onClick={(e) => sorting("score")}>Total Score {arrowState.score === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
@@ -266,6 +273,7 @@ const UserTable = ({ filterData }) => {
                                                 {val.fullName}
                                             </NavLink>
                                         </td>
+                                        <td>{testTypeValue[val.testType]}</td>
                                         <td>{val.position}</td>
                                         <td>{val?.country || ""}</td>
                                         <td>{val.score}</td>

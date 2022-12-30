@@ -3,21 +3,24 @@ import login from '../../controllers/admin/login.js';
 import uploadExcelToDB from '../../controllers/admin/uploadExcelToDB.js';
 import { testModel } from '../../models/testSchema.js';
 import { userModal } from '../../models/UserSchema.js';
+import { typingTest } from "../../models/TypingTest.js"
+
 import { feedbackModal } from '../../models/FeedbackSchema.js';
 const adminRouter = express.Router();
 import { addJobs, getJobs, deleteJob, getJobsForAUser } from '../../controllers/admin/jobs.js';
 import { test1 } from '../../utils/json/test1.js';
 import { getCountry } from '../../controllers/user/userDetails.js';
-import { getPosition, addPosition, deletePositoin } from '../../controllers/admin/position.js';
+import { getPosition, addPosition, deletePosition } from '../../controllers/admin/position.js';
 // import { addCountry, getCountries, deleteCountry } from '../../controllers/admin/country.js';
 
 
 /**Jobs */
 adminRouter.post("/jobs", async (req, res) => {
     const { data } = req.body;
+    // const response = data.map(async d => await addJobs(d, res))
     const response = data.map(async d => await addJobs(d))
     const promises = await Promise.all(response)
-    res.status(200).json({ success: true, msg: promises.filter(d => d !== true) })
+    res.status(200).json({ success: true, msg: promises })
 
 });
 adminRouter.get("/jobs", (req, res) => {
@@ -50,7 +53,7 @@ adminRouter.get("/position", (req, res) => {
 
 adminRouter.delete("/position/:id", (req, res) => {
     const { id } = req.params;
-    deletePositoin(id, res)
+    deletePosition(id, res)
 });
 ///////////////////////////////////////////////
 
@@ -81,6 +84,7 @@ adminRouter.post("/getTestDetails", async (req, res) => {
     try {
         const user = await userModal.find().lean().select({ __v: 0 });
         const test = await testModel.find({ isTestCompleted: true }).lean().select({ Questions: 0, email: 0, __v: 0 }).sort({ "updatedAt": -1 })
+        const typingTest1 = await typingTest.find().lean().select({ score: 1, userID: 1, testID: 1 }).sort({ "updatedAt": -1 })
 
         // const typingtest = await typingTest.find(_id,)
 
@@ -90,9 +94,12 @@ adminRouter.post("/getTestDetails", async (req, res) => {
         //     const testDetails = test.find(t => t.userID === userDetails._id.toString());
         //     return testDetails !== undefined ? { ...userDetails, ...testDetails } : null
         // }).filter(details => details);
-
+        // console.log({ typingTest1 })
         let UserTests = test.map(testDetails => {
+
             const userDetails = user.find(u => testDetails.userID === u._id.toString());
+            const typingTestScore = typingTest1.find(u => testDetails._id.toString() === u.testID);
+            //console.log({ wpm: typingTestScore.score })
             return userDetails !== undefined ? { ...userDetails, ...testDetails } : null
         }).filter(details => details);
 

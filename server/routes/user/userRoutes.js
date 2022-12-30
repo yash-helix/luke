@@ -185,7 +185,8 @@ userRouter.route("/getposition").post(async (req, res) => {
         const ip = req.ip
         country = await getCountry(ip);
         let createdTest = await createdTestModel.find({ country }).select({ position: 1 })
-        console.log("country ==", country);
+        console.log("country ==", country, ip);
+
         return res.json({ data: createdTest, success: true });
         // if (country.toLowerCase() === 'india') {
         // } else {
@@ -198,7 +199,20 @@ userRouter.route("/getposition").post(async (req, res) => {
     }
 });
 
+userRouter.route("/getTestType").post(async (req, res) => {
+    const { userID } = req.body;
+    try {
+        const user = await userModal.findOne({ _id: userID });
+        let createdTest = await createdTestModel.findOne({ country: user.country, position: user.position }).select({ test_type: 1 })
 
+        if (createdTest) {
+            return res.json({ data: createdTest.test_type, success: true });
+        }
+        else res.status(400).json({ success: false, msg: 'No test type exits' })
+    } catch (error) {
+        console.log(error)
+    }
+});
 userRouter.post("/submitTypingTest", (req, res) => {
     const { userID, score, testID } = req.body;
 
