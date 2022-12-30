@@ -39,6 +39,7 @@ const UserTable = ({ filterData }) => {
         position: 'asc',
         country: 'asc',
         score: 'asc',
+        wps: 'asc',
         averageTime: 'asc',
         accuracy: 'asc',
         questionsAttempted: 'asc',
@@ -244,6 +245,7 @@ const UserTable = ({ filterData }) => {
                                 <th onClick={(e) => sorting("position")}>Position {arrowState.position === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
                                 <th onClick={(e) => sorting("country")}>Country {arrowState.country === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
                                 <th onClick={(e) => sorting("score")}>Total Score {arrowState.score === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
+                                <th onClick={(e) => sorting("wps")}>Typing Score {arrowState.wps === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
                                 <th onClick={(e) => sorting("questionsAttempted")}>Questions Attempted {arrowState.questionsAttempted === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
                                 <th onClick={(e) => sorting("correctAnswers")}>Questions Answered Correctly {arrowState.correctAnswers === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
                                 <th onClick={(e) => sorting("averageTime")}>
@@ -277,6 +279,7 @@ const UserTable = ({ filterData }) => {
                                         <td>{val.position}</td>
                                         <td>{val?.country || ""}</td>
                                         <td>{val.score}</td>
+                                        <td>{val.wps ?? "-"}</td>
                                         <td>{val.questionsAttempted}</td>
                                         <td>{val.correctAnswers}</td>
                                         <td>{val.averageTime}</td>
