@@ -99,8 +99,7 @@ adminRouter.post("/getTestDetails", async (req, res) => {
 
             const userDetails = user.find(u => testDetails.userID === u._id.toString());
             const typingTestScore = typingTest1.find(u => testDetails._id.toString() === u.testID);
-            //console.log({ wpm: typingTestScore.score })
-            return userDetails !== undefined ? { ...userDetails, ...testDetails } : null
+            return userDetails !== undefined ? { ...userDetails, ...testDetails, wps: typingTestScore?.score } : null
         }).filter(details => details);
 
 
@@ -109,6 +108,7 @@ adminRouter.post("/getTestDetails", async (req, res) => {
         return res.json({ success: true, user: UserTests })
     }
     catch (error) {
+        console.log(error)
         return res.status(500).json({ success: false, msg: "Internal server error occurred" })
     }
 });
