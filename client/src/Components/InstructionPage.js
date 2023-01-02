@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./InstructionPageStyles.css";
 import axios from "axios";
 import Logo from "../Components/Logo/Logo";
-import { Stack, Typography, Box, Container } from "@mui/material";
+import { Stack, Typography, Box, Container, CircularProgress } from "@mui/material";
 import { useNavigate } from 'react-router-dom';
 import * as Sentry from '@sentry/react';
 import { toast, ToastContainer } from "react-toastify";
@@ -15,6 +15,8 @@ import { typingData } from "./StaticData/TypingTestData";
 const Instruction_Page = () => {
     const navigate = useNavigate();
     const [testTypeValue, setTestTypeValue] = useState(1);
+    const [loading, setLoading] = useState(true);
+
     const getQuestions = async () => {
         const userID = localStorage.getItem("userID");
         const email = localStorage.getItem("email");
@@ -71,24 +73,6 @@ const Instruction_Page = () => {
         }
     }
 
-    // const data = [
-    //     {
-    //         heading: 'Aptitude Assessment',
-    //         paragraph: "This Aptitude Style reasoning test comprises 50 questions, and you will have 15 minutes in which to correctly answer as many as you can."
-    //     },
-    //     {
-    //         paragraph: "Calculators are NOT permitted for this test, therefore it is recommended you have some rough paper to work on."
-    //     },
-    //     {
-    //         paragraph: "You will have to work quickly and accurately to perform well in this test. If you don't know the answer to a question, move on to the next question.Each question will have multiple answer options, one of which is correct. If the exact correct answer is not provided, select the closest possible answer."
-    //     },
-    //     {
-    //         paragraph: "Given the nature of the test, it is highly unlikely that you will answer all the questions before the time limit is up. The test will automatically be end with the answers you have selected. It is recommended to keep working until the time limit is up."
-    //     },
-    //     {
-    //         paragraph: "Try to find a time and place where you will not be interrupted during the test. The test will start on the next screen."
-    //     }
-    // ]
 
     useEffect(() => {
         const checkIfUser = () => {
@@ -99,9 +83,16 @@ const Instruction_Page = () => {
                 navigate("/", { replace: true });
             }
             else {
+
                 axios.post(`${process.env.REACT_APP_SERVER}/user/getTestType`, { userID })
-                    .then(({ data }) => setTestTypeValue(data.data))
-                    .catch(err => console.log(err))
+                    .then(({ data }) => {
+                        setTestTypeValue(data.data);
+                        setLoading(false)
+                    })
+                    .catch(err => {
+                        setLoading(false);
+                        console.log(err)
+                    })
             }
 
         }
@@ -114,74 +105,74 @@ const Instruction_Page = () => {
 
 
         <>
-            {(testTypeValue === 2 || testTypeValue === 4) ?
-                (
-                    <div className="container">
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', }} padding={"1rem"} id='timer'>
-                            <Logo />
+            {
+                loading ? <Container sx={{ height: '90vh', display: 'grid', placeItems: 'center' }}
 
-                        </Box>
-                        <Container sx={{ justifyContent: 'center', mt: { xs: 7, md: 15 }, color: "#444" }} className="instruction_wrapper">
-                            <h1 className="mb-3 fw-bold">
-                                {typingData[0].heading}
-                            </h1>
-                            {typingData.map((item, index) => (
-                                <Typography key={index} sx={{ marginBottom: '10px' }} fontWeight={600}>
-                                    {item.paragraph}
-                                </Typography>
-                            ))}
+                > <CircularProgress size={'30rem'} color="success" thickness={1} />
+                    <Typography>Loading...</Typography>
+                </Container> :
+                    (testTypeValue === 2 || testTypeValue === 4) ?
+                        (
+                            <div className="container">
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', }} padding={"1rem"} id='timer'>
+                                    <Logo />
 
-                            {
-                                width >= 800 ?
+                                </Box>
+                                <Container sx={{ justifyContent: 'center', mt: { xs: 7, md: 15 }, color: "#444" }} className="instruction_wrapper">
+                                    <h1 className="mb-3 fw-bold">
+                                        {typingData[0].heading}
+                                    </h1>
+                                    {typingData.map((item, index) => (
+                                        <Typography key={index} sx={{ marginBottom: '10px' }} fontWeight={600}>
+                                            {item.paragraph}
+                                        </Typography>
+                                    ))}
 
-                                    <Stack sx={{ mt: 5, justifyContent: 'center', alignItems: 'center' }} >
-                                        <button className="btn rounded-0 px-4 fw-bold" style={{ color: 'white', backgroundColor: '#35aa57' }} onClick={getQuestions}>Start Test</button>
-                                    </Stack>
-                                    :
+                                    {
+                                        width >= 800 ?
+                                            <Stack sx={{ mt: 5, justifyContent: 'center', alignItems: 'center' }} >
+                                                <button className="btn rounded-0 px-4 fw-bold" style={{ color: 'white', backgroundColor: '#35aa57' }} onClick={getQuestions}>Start Test</button>
+                                            </Stack>
+                                            :
+                                            <Stack sx={{ mt: 5, justifyContent: 'center', alignItems: 'center' }} >
+                                                <p className="fw-bold fst-italic fs-6 badge bg-danger text-wrap m-5">Please Complete the assessment using a deskstop device.</p>
+                                                <button className="btn rounded-0 px-4 fw-bold" disabled style={{ color: 'white', backgroundColor: '#35aa57' }} onClick={getQuestions}>Start Test</button>
+                                            </Stack>
+                                    }
 
-                                    <Stack sx={{ mt: 5, justifyContent: 'center', alignItems: 'center' }} >
-                                        <p className="fw-bold fst-italic fs-6 badge bg-danger text-wrap m-5">Please Complete the assessment using a deskstop device.</p>
-                                        <button className="btn rounded-0 px-4 fw-bold" disabled style={{ color: 'white', backgroundColor: '#35aa57' }} onClick={getQuestions}>Start Test</button>
-                                    </Stack>
-                            }
+                                </Container>
+                                <ToastContainer />
+                            </div>
+                        ) : (
+                            <div className="container">
+                                <Box sx={{ display: 'flex', justifyContent: 'space-between', }} padding={"1rem"} id='timer'>
+                                    <Logo />
+                                </Box>
+                                <Container sx={{ justifyContent: 'center', mt: { xs: 7, md: 15 }, color: "#444" }} className="instruction_wrapper">
+                                    <h1 className="mb-3 fw-bold">
+                                        {data[0].heading}
+                                    </h1>
+                                    {data.map((item, index) => (
+                                        <Typography key={index} sx={{ marginBottom: '10px' }} fontWeight={600}>
+                                            {item.paragraph}
+                                        </Typography>
+                                    ))}
 
-                        </Container>
-                        <ToastContainer />
-                    </div>
-                ) : (
-                    <div className="container">
-                        <Box sx={{ display: 'flex', justifyContent: 'space-between', }} padding={"1rem"} id='timer'>
-                            <Logo />
-
-                        </Box>
-                        <Container sx={{ justifyContent: 'center', mt: { xs: 7, md: 15 }, color: "#444" }} className="instruction_wrapper">
-                            <h1 className="mb-3 fw-bold">
-                                {data[0].heading}
-                            </h1>
-                            {data.map((item, index) => (
-                                <Typography key={index} sx={{ marginBottom: '10px' }} fontWeight={600}>
-                                    {item.paragraph}
-                                </Typography>
-                            ))}
-
-                            {
-                                width >= 800 ?
-
-                                    <Stack sx={{ mt: 5, justifyContent: 'center', alignItems: 'center' }} >
-                                        <button className="btn rounded-0 px-4 fw-bold" style={{ color: 'white', backgroundColor: '#35aa57' }} onClick={getQuestions}>Start Test</button>
-                                    </Stack>
-                                    :
-
-                                    <Stack sx={{ mt: 5, justifyContent: 'center', alignItems: 'center' }} >
-                                        <p className="fw-bold fst-italic fs-6 badge bg-danger text-wrap m-5">Please Complete the assessment using a deskstop device.</p>
-                                        <button className="btn rounded-0 px-4 fw-bold" disabled style={{ color: 'white', backgroundColor: '#35aa57' }} onClick={getQuestions}>Start Test</button>
-                                    </Stack>
-                            }
-
-                        </Container>
-                        <ToastContainer />
-                    </div>
-                )
+                                    {
+                                        width >= 800 ?
+                                            <Stack sx={{ mt: 5, justifyContent: 'center', alignItems: 'center' }} >
+                                                <button className="btn rounded-0 px-4 fw-bold" style={{ color: 'white', backgroundColor: '#35aa57' }} onClick={getQuestions}>Start Test</button>
+                                            </Stack>
+                                            :
+                                            <Stack sx={{ mt: 5, justifyContent: 'center', alignItems: 'center' }} >
+                                                <p className="fw-bold fst-italic fs-6 badge bg-danger text-wrap m-5">Please Complete the assessment using a deskstop device.</p>
+                                                <button className="btn rounded-0 px-4 fw-bold" disabled style={{ color: 'white', backgroundColor: '#35aa57' }} onClick={getQuestions}>Start Test</button>
+                                            </Stack>
+                                    }
+                                </Container>
+                                <ToastContainer />
+                            </div>
+                        )
             }
         </>
     );

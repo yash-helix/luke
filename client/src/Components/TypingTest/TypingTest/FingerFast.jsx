@@ -25,53 +25,37 @@ let Word = (props) => {
     return <span>{text} </span>
 }
 
-let quotes_array = [
-    "Push yourself, because no one else is going to do it for you ",
-    "water away good want over going where would took school think home know bear again ",
-    "Failure is the condiment that gives success its flavor magic shouted other food through been stop must door right ",
-    "Wake up with determination. Go to bed with satisfaction know bear again long things after wanted eat ",
-    "It's going to be hard, but hard does not mean impossible  good want over going where would took school think ",
-    "Learning never exhausts the mind  must door right these began animals next first work ",
-    "The only way to do great work is to love what you do  baby fish mouse something ",
-    "The clouds formed beautiful animals in the sky that eventually created a tornado to wreak havoc. ",
-    "The shark-infested South Pine channel was the only way in or out. He was an introvert that extroverts seemed to love.",
-    "I'm worried by the fact that my daughter looks to the local carpet seller as a role model.",
-];
-const getWords = () => `water away good want over going where would took school think home 
-know bear again long things after wanted eat everyone play thought well find more 
-round tree magic shouted other food through been stop must door right these began 
-animals next first work baby fish mouse something`.toLowerCase().split(' ').sort(() => Math.random() > 0.5 ? 1 : -1)
+
 const getRandomSentences = () => {
     let quotes_array1 = words.sort(() => Math.random() > 0.5 ? 1 : -1).join(" ").toLowerCase();
     let line1 = (quotes_array1.substring(0, 80))
     let line2 = (quotes_array1.substring(80, 150))
     return line1 + line2;
 }
+
+
 const FingerFast = () => {
-
-
-
-    const [wordIndex, setIndex] = useState(0);
-    const cloud = useRef(getRandomSentences().split(' '));
     Word = React.memo(Word)
     const navigate = useNavigate();
+    const inputRef = useRef();
+    const cloud = useRef(getRandomSentences().split(' '));
+
+    const [wordIndex, setIndex] = useState(0);
     const [startCounting, setStartCounting] = useState(false);
     const [activeWordIndex, setActiveWordIndex] = useState(0);
     const [correctWordArray, setCorrectWordArray] = useState([]);
     const [timeup, setTimeUp] = useState(false);
+    const [mount, setMount] = useState(false);
+
     const testID = localStorage.getItem("testID");
     const userID = localStorage.getItem("userID");
-    const [mount, setMount] = useState(false);
-    const inputRef = useRef();
     useEffect(() => {
         if (mount) {
             const data = { testID, userID, isTypingTest: true }
             const res = axios.post(`${process.env.REACT_APP_SERVER}/user/getQuestionFromId`, data)
                 .then(res => console.log(res));
         }
-
         setMount(true);
-
     }, [mount]);
 
     useEffect(() => {
@@ -89,6 +73,7 @@ const FingerFast = () => {
             setActiveWordIndex(index => index + 1)
             if (cloud.current.length - 2 == activeWordIndex) {
                 setIndex(i => i + 1);
+                //cloud.current = (getRandomSentences()).split(' ')
                 cloud.current = (getRandomSentences()).split(' ')
             }
 
@@ -100,8 +85,6 @@ const FingerFast = () => {
                 newResult[activeWordIndex] = word === cloud.current[activeWordIndex]
                 return newResult
             })
-        } else {
-            // setUserInput(value)
         }
     }
     //submit the typing test
@@ -140,7 +123,11 @@ const FingerFast = () => {
     }
 
     return (
-        <Stack sx={{ backgroundColor: '#add5ff', height: "100vh", paddingTop: "5rem", width: "100vw" }}>
+        <Stack sx={{
+            backgroundColor: '#add5ff',
+            //background: 'url(https://img.10fastfingers.com/img/layout/sprite-horizontal.png) 0px -200px repeat-x #add5ff;',
+            height: "100vh", paddingTop: "5rem", width: "100vw"
+        }}>
             <Container>
                 <h2>Speed Typing Test</h2>
                 <p className="para" style={{ border: "1px solid #8eb6d8", borderRadius: "9px", }}>{cloud.current.map((word, index) => {
@@ -149,19 +136,19 @@ const FingerFast = () => {
                 <Stack sx={{
                     display: 'flex', flexDirection: 'row',
                     alignItems: 'center', justifyContent: 'center',
-                    padding: "4px", borderRadius: "4px",
+                    padding: "6px 4px", borderRadius: "4px",
                     background: "#A7C8E7",
                 }}>
-                    {/* <Stack stack={"true"} width='50%'> */}
-                    <TextField
-                        rows={6}
+                    <TextField inputRef={inputRef} type='text' disabled={timeup}
+                        onChange={(e) => processInput(e.target.value)}
+
                         inputProps={{
                             style: {
-                                boxShadow: "inset 5px 5px 14px -6px black",
-                                borderRadius: "4px",
+                                boxShadow: "#6d6161  5px 5px  3px -2px inset",
+                                borderRadius: "4px", height: '2rem'
                             },
                         }}
-                        inputRef={inputRef}
+
                         sx={{
                             width: '75%', marginRight: '6px',
                             backgroundColor: 'white', border: 'none', borderRadius: "8px",
@@ -169,9 +156,7 @@ const FingerFast = () => {
                                 backgroundColor: "white"
                             },
 
-                        }}
-                        type='text' //value={userInput}
-                        disabled={timeup} onChange={(e) => processInput(e.target.value)} />
+                        }} />
 
                     <Timer startCounting={startCounting} correctWords={correctWordArray.filter(Boolean).length} setTimeUp={setTimeUpFun} />
                 </Stack>

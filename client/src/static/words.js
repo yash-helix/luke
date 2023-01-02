@@ -654,4 +654,21 @@ export const words = [
     "Yeeha",
     "Yeesh",
     "Yowch",
-    "Zowie"]
+    "Zowie"];
+
+let quotes_array = [
+    "Push yourself, because no one else is going to do it for you ",
+    "water away good want over going where would took school think home know bear again ",
+    "Failure is the condiment that gives success its flavor magic shouted other food through been stop must door right ",
+    "Wake up with determination. Go to bed with satisfaction know bear again long things after wanted eat ",
+    "It's going to be hard, but hard does not mean impossible  good want over going where would took school think ",
+    "Learning never exhausts the mind  must door right these began animals next first work ",
+    "The only way to do great work is to love what you do  baby fish mouse something ",
+    "The clouds formed beautiful animals in the sky that eventually created a tornado to wreak havoc. ",
+    "The shark-infested South Pine channel was the only way in or out. He was an introvert that extroverts seemed to love.",
+    "I'm worried by the fact that my daughter looks to the local carpet seller as a role model.",
+];
+const getWords = () => `water away good want over going where would took school think home 
+know bear again long things after wanted eat everyone play thought well find more 
+round tree magic shouted other food through been stop must door right these began 
+animals next first work baby fish mouse something`.toLowerCase().split(' ').sort(() => Math.random() > 0.5 ? 1 : -1);
