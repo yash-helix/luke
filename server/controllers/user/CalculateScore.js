@@ -2,7 +2,6 @@ import { testModel } from "../../models/testSchema.js";
 import { userModal } from "../../models/UserSchema.js";
 import { typingTest } from '../../models/TypingTest.js';
 import axios from 'axios';
-import mongoose, { Schema } from 'mongoose';
 
 const CalculateScore = async (userID, userQuestions, res) => {
     try {
@@ -58,7 +57,6 @@ const CalculateScore = async (userID, userQuestions, res) => {
 
             else {
                 const isMsgSentToSlack = await sendUserDetailsToSlack(userID, userData);
-
                 if (isMsgSentToSlack) return res.status(200).send({ success: true, msg: `Test submitted successfully`, testType: test.testType });
                 else return res.status(200).send({ success: true, msg: `Test submitted successfully but server failed to send your test results to the admin`, testType: test.testType });
             }
@@ -83,8 +81,8 @@ export const sendUserDetailsToSlack = async (userID, userData) => {
             text: `Name: ${userData.fullName}.
 \nEmail: ${userData.email}.
 \nMCQS Score: ${testData.score ?? '-'}.\n
-Words/min : ${userData?.wpm ?? typingTestData.wpm ?? '-'}\n 
-Accuracy : ${userData?.accuracy ?? typingTestData.accuracy ?? '-'}\n
+Words/min : ${userData?.wpm ?? typingTestData?.wpm ?? '-'}\n 
+Accuracy : ${userData?.accuracy ?? typingTestData?.accuracy ?? '-'}\n
 \nCV: ${userData.file || "Not Found"}\n\n`
         };
 
@@ -103,6 +101,7 @@ Accuracy : ${userData?.accuracy ?? typingTestData.accuracy ?? '-'}\n
         }
     }
     catch (error) {
+        console.log(error)
         return false;
     }
 }

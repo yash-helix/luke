@@ -30,7 +30,7 @@ function App() {
 
         try {
             const positionRes = await axios.post(`${process.env.REACT_APP_SERVER}/user/getposition`)
-            if (positionRes.data.success) {
+            if (positionRes?.data.success) {
                 let { data } = positionRes.data;
                 data = data.map(d => d.position)
                 //console.log(data)
@@ -46,7 +46,9 @@ function App() {
                 setPositons([])
 
         } catch (error) {
-            setPositons(data)
+            // setPositons(data)
+
+            console.log(error);
             toast.error(error.response.data.msg, {
                 position: 'top-center', style: { width: '28rem' }
             });
