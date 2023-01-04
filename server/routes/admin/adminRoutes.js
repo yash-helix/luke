@@ -38,7 +38,7 @@ adminRouter.get("/jobs/:position", async (req, res) => {
     try {
         let country = await getCountry(ip);
         getJobsForAUser({ country, position }, res)
-    } catch (e) { console.log("err", e.toString()) }
+    } catch (e) { console.error("err", e.toString()) }
 });
 ///////////////////////////////////////////////
 /**Positon */
@@ -84,7 +84,7 @@ adminRouter.post("/getTestDetails", async (req, res) => {
     try {
         const user = await userModal.find().lean().select({ __v: 0 });
         const test = await testModel.find({ isTestCompleted: true }).lean().select({ Questions: 0, email: 0, __v: 0 }).sort({ "updatedAt": -1 })
-        const typingTest1 = await typingTest.find().lean().select({ score: 1, userID: 1, testID: 1 }).sort({ "updatedAt": -1 })
+        const typingTest1 = await typingTest.find().lean().select({ wpm: 1, accuracy: 1, userID: 1, testID: 1 }).sort({ "updatedAt": -1 })
 
         // const typingtest = await typingTest.find(_id,)
 
@@ -99,7 +99,7 @@ adminRouter.post("/getTestDetails", async (req, res) => {
 
             const userDetails = user.find(u => testDetails.userID === u._id.toString());
             const typingTestScore = typingTest1.find(u => testDetails._id.toString() === u.testID);
-            return userDetails !== undefined ? { ...userDetails, ...testDetails, wps: typingTestScore?.score } : null
+            return userDetails !== undefined ? { ...userDetails, ...testDetails, wpm: typingTestScore?.wpm, taccuracy: typingTestScore?.accuracy } : null
         }).filter(details => details);
 
 

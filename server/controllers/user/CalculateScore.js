@@ -1,6 +1,8 @@
 import { testModel } from "../../models/testSchema.js";
 import { userModal } from "../../models/UserSchema.js";
+import { typingTest } from '../../models/TypingTest.js';
 import axios from 'axios';
+import mongoose, { Schema } from 'mongoose';
 
 const CalculateScore = async (userID, userQuestions, res) => {
     try {
@@ -19,15 +21,19 @@ const CalculateScore = async (userID, userQuestions, res) => {
 
         const userQuestionsAndAnswers = userQuestions.map((userQuestion, i) => {
             const userAns = userQuestion.answer;
-            const mainQuestion = QuestionPaper.find(paper => paper._id.toString() === userQuestion.questionID);
-            const mainAnswer = mainQuestion.Answer;
+
+            const mainQuestion = QuestionPaper.find(paper => {
+                //console.log(paper._id, mongoose.Types.ObjectId(userQuestion.questionID), userQuestion.questionID, paper._id === mongoose.Types.ObjectId(userQuestion.questionID), "\n\n"); 
+                return paper._id.toString() === userQuestion.questionID
+            });
+            const mainAnswer = mainQuestion?.Answer;
 
             if (userAns === mainAnswer) {
                 score += 1;
                 correctAnswers += 1;
             };
 
-            return { question: mainQuestion.Question, answer: mainAnswer, userAnswer: userAns, answerValue: mainQuestion.Options[parseInt(mainAnswer) - 1], userAnswerValue: mainQuestion.Options[parseInt(userAns) - 1] }
+            return { question: mainQuestion?.Question, answer: mainAnswer, userAnswer: userAns, answerValue: mainQuestion.Options[parseInt(mainAnswer) - 1], userAnswerValue: mainQuestion.Options[parseInt(userAns) - 1] }
         });
 
         // calculate other stats
@@ -44,7 +50,7 @@ const CalculateScore = async (userID, userQuestions, res) => {
 
         // update only if country is other than india
         test.isTestCompleted = (test.testType === 1 || test.testType === 4) ? true : false;
-        console.log((test.testType === 1 || test.testType === 4) ? true : false)
+
         test.userQuestionsAndAnswers = userQuestionsAndAnswers;
 
         const t = await test.save(async function (err) {
@@ -53,26 +59,34 @@ const CalculateScore = async (userID, userQuestions, res) => {
             else {
                 const isMsgSentToSlack = await sendUserDetailsToSlack(userID, userData);
 
-                if (isMsgSentToSlack) return res.status(200).send({ success: true, msg: `Test submitted successfully` });
+                if (isMsgSentToSlack) return res.status(200).send({ success: true, msg: `Test submitted successfully`, testType: test.testType });
                 else return res.status(200).send({ success: true, msg: `Test submitted successfully but server failed to send your test results to the admin`, testType: test.testType });
             }
         });
-        console.log(t)
     }
     catch (error) {
+        console.log(error)
         return res.status(500).json({ success: false, msg: "Unexpected error occurred" })
     }
 }
 
 
 // send the qualified users list to slack
-const sendUserDetailsToSlack = async (userID, userData) => {
+export const sendUserDetailsToSlack = async (userID, userData) => {
     try {
-        const testData = await testModel.findOne({ userID }, 'score')
+        const testData = await testModel.findOne({ userID }).select({ score: 1, isTestCompleted: 1, testType: 1 })
 
-        if (!testData || !userData) return false
+        const typingTestData = await typingTest.findOne({ userID })
 
-        let msgData = { text: `Name: ${userData.fullName}.\nEmail: ${userData.email}.\nScore: ${testData.score}\nCV: ${userData.file || "Not Found"}\n\n` };
+        if (!testData || !userData || !testData.isTestCompleted) return false
+        let msgData = {
+            text: `Name: ${userData.fullName}.
+\nEmail: ${userData.email}.
+\nMCQS Score: ${testData.score ?? '-'}.\n
+Words/min : ${userData?.wpm ?? typingTestData.wpm ?? '-'}\n 
+Accuracy : ${userData?.accuracy ?? typingTestData.accuracy ?? '-'}\n
+\nCV: ${userData.file || "Not Found"}\n\n`
+        };
 
         const res = await axios.post(process.env.REACT_APP_SLACK, JSON.stringify(msgData), {
             withCredentials: false,
@@ -80,9 +94,11 @@ const sendUserDetailsToSlack = async (userID, userData) => {
         });
 
         if (res.status === 200) {
+            console.log("slack message send !!")
             return true
         }
         else {
+            console.error("slack not send")
             return false
         }
     }

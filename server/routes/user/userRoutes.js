@@ -214,12 +214,11 @@ userRouter.route("/getTestType").post(async (req, res) => {
     }
 });
 userRouter.post("/submitTypingTest", (req, res) => {
-    const { userID, score, testID } = req.body;
+    const { userID, wpm, accuracy, testID } = req.body;
 
+    if (!userID || !wpm) return res.status(400).json({ error: "Invalid user details", success: false })
 
-    if (!userID || !score) return res.status(400).json({ error: "Invalid user details", success: false })
-
-    SubmitTypingTest(userID, testID, score, res);
+    SubmitTypingTest(userID, testID, wpm, accuracy, res);
 })
 
 

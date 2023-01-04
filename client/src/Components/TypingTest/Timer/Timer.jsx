@@ -17,10 +17,10 @@ const divSTYLE = {
     marginLeft: "17px",
     cursor: "pointer",
 }
-
+//let minutes = 0;
 const Timer = (props) => {
 
-    const { correctWords, startCounting, setTimeUp } = props
+    const { startCounting, setTimeUp } = props
     const countRef = useRef(null);
     const [timeElapsed, setTimeElapsed] = useState(60);
     // const [open, setOpen] = useState(true);
@@ -51,11 +51,11 @@ const Timer = (props) => {
     useEffect(() => {
         TimeOut();
     }, [startCounting])
-
     return (
         <div
             style={divSTYLE}
         >{timeElapsed === 60 ? '1:00' : '00:' + timeElapsed}</div>
+
     )
 
 }

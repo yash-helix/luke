@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from "react";
 import { Stack, Container } from "@mui/system";
 import { useNavigate } from "react-router";
-import { OutlinedInput, TextField } from '@mui/material';
+import { TextField } from '@mui/material';
 import axios from "axios";
 import { typeOfTest, routeTypeTest } from "../../../testTypeModal"
 import './TypingTest.css';
@@ -33,8 +33,10 @@ const getRandomSentences = () => {
     return line1 + line2;
 }
 
-
+let index = 0;
+let correctWordArrayStatic = [];
 const FingerFast = () => {
+
     Word = React.memo(Word)
     const navigate = useNavigate();
     const inputRef = useRef();
@@ -47,13 +49,16 @@ const FingerFast = () => {
     const [timeup, setTimeUp] = useState(false);
     const [mount, setMount] = useState(false);
 
-    const testID = localStorage.getItem("testID");
-    const userID = localStorage.getItem("userID");
+    // const testID = localStorage.getItem("testID");
+    // const userID = localStorage.getItem("userID");
     useEffect(() => {
+
         if (mount) {
-            const data = { testID, userID, isTypingTest: true }
-            const res = axios.post(`${process.env.REACT_APP_SERVER}/user/getQuestionFromId`, data)
-                .then(res => console.log(res));
+            index = 0;
+            correctWordArrayStatic = [];
+            //     const data = { testID, userID, isTypingTest: true }
+            // const res = axios.post(`${process.env.REACT_APP_SERVER}/user/getQuestionFromId`, data)
+            //     .then(res => console.log(res));
         }
         setMount(true);
     }, [mount]);
@@ -71,6 +76,7 @@ const FingerFast = () => {
 
         if (value.endsWith(' ')) {
             setActiveWordIndex(index => index + 1)
+            index = index + 1;
             if (cloud.current.length - 2 == activeWordIndex) {
                 setIndex(i => i + 1);
                 //cloud.current = (getRandomSentences()).split(' ')
@@ -79,12 +85,14 @@ const FingerFast = () => {
 
             inputRef.current.value = "";
             // Correct Word
+            const word = value.trim()
             setCorrectWordArray(data => {
-                const word = value.trim()
                 const newResult = [...data]
                 newResult[activeWordIndex] = word === cloud.current[activeWordIndex]
                 return newResult
             })
+
+            correctWordArrayStatic.push(word === cloud.current[activeWordIndex]);
         }
     }
     //submit the typing test
@@ -92,8 +100,15 @@ const FingerFast = () => {
         try {
             let userID = localStorage.getItem("userID");
             const testID = localStorage.getItem("testID");
+            const wordsPerMinute = (correctWordArrayStatic.filter(Boolean).length)
+
+            const trues = correctWordArrayStatic.filter(c => c === true)
+            const accuracy = (trues.length * 100) / (trues.length + (correctWordArrayStatic.length - trues.length))
             const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/submitTypingTest`,
-                { testID, userID, score: correctWordArray.filter(Boolean).length });
+                { testID, userID, wpm: wordsPerMinute, accuracy: accuracy.toFixed(2) });
+
+            // const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/submitTypingTest`,
+            //     { testID, userID, wpm: correctWordArrayStatic.filter(Boolean).length, accuracy: 21 });
             const type = res.data.testType ?? typeOfTest.Typing;
             if (type === typeOfTest.Typing_MCQs) { //Typing + Mcq
                 navigate('/WaitingComponent', { replace: true, state: { type } });
@@ -121,6 +136,7 @@ const FingerFast = () => {
         setTimeUp(timeup);
         SubmitTest();
     }
+
 
     return (
         <Stack sx={{
@@ -158,7 +174,8 @@ const FingerFast = () => {
 
                         }} />
 
-                    <Timer startCounting={startCounting} correctWords={correctWordArray.filter(Boolean).length} setTimeUp={setTimeUpFun} />
+                    <Timer startCounting={startCounting} setTimeUp={setTimeUpFun} />
+
                 </Stack>
             </Container>
         </Stack>

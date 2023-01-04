@@ -39,7 +39,8 @@ const UserTable = ({ filterData }) => {
         position: 'asc',
         country: 'asc',
         score: 'asc',
-        wps: 'asc',
+        wpm: 'asc',
+        accuracy: 'asc',
         averageTime: 'asc',
         accuracy: 'asc',
         questionsAttempted: 'asc',
@@ -244,16 +245,17 @@ const UserTable = ({ filterData }) => {
                                 <th onClick={(e) => sorting("testType")}>Test Type {arrowState.testType === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
                                 <th onClick={(e) => sorting("position")}>Position {arrowState.position === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />} </th>
                                 <th onClick={(e) => sorting("country")}>Country {arrowState.country === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
-                                <th onClick={(e) => sorting("score")}>Total Score {arrowState.score === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
-                                <th onClick={(e) => sorting("wps")}>Typing Score {arrowState.wps === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
+                                <th onClick={(e) => sorting("score")}>MCQs Score {arrowState.score === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
+                                <th onClick={(e) => sorting("wpm")}>Words/Minute{arrowState.wpm === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
+                                <th onClick={(e) => sorting("accuracy")}>Typing Accuracy{arrowState.accuracy === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
                                 <th onClick={(e) => sorting("questionsAttempted")}>Questions Attempted {arrowState.questionsAttempted === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
                                 <th onClick={(e) => sorting("correctAnswers")}>Questions Answered Correctly {arrowState.correctAnswers === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
                                 <th onClick={(e) => sorting("averageTime")}>
-                                    Average time taken per Question(in minutes)
+                                    Average time/Question
                                     {arrowState.averageTime === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
                                 </th>
                                 <th onClick={() => sorting("accuracy")}>
-                                    Accuracy (percent correct of questions answered)
+                                    Accuracy (MCQs)
                                     {arrowState.accuracy === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}
 
                                 </th>
@@ -279,7 +281,8 @@ const UserTable = ({ filterData }) => {
                                         <td>{val.position}</td>
                                         <td>{val?.country || ""}</td>
                                         <td>{val.score}</td>
-                                        <td>{val.wps ?? "-"}</td>
+                                        <td>{val.wpm ?? "-"}</td>
+                                        <td>{val.taccuracy ?? "-"}</td>
                                         <td>{val.questionsAttempted}</td>
                                         <td>{val.correctAnswers}</td>
                                         <td>{val.averageTime}</td>
