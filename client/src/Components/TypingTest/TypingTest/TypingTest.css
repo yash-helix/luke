@@ -15,6 +15,13 @@
     padding-left: 7px;
 }
 
+.activeAndIncorrect {
+    margin: 5px;
+    /* font-weight: bold; */
+    background-color: rgb(209, 6, 6);
+    padding-left: 7px;
+}
+
 .para {
     padding: 15px;
     /* height: 139px;

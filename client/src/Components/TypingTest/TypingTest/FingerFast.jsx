@@ -11,17 +11,21 @@ let Word = (props) => {
 
     const { text, active, correct } = props;
 
-    if (correct === true) {
+    if (correct === true && !active) {
         return <span className="correct">{text + " "}</span>
     }
 
-    if (correct === false) {
+    if (correct === false && !active) {
         return <span className="incorrect">{text + " "}</span>
     }
 
     if (active) {
+        if (!correct && correct !== undefined) {
+            return <span className="activeAndIncorrect">{text + " "}</span>
+        }
         return <span className="active">{text + " "}</span>
     }
+
     return <span>{text} </span>
 }
 
@@ -89,10 +93,28 @@ const FingerFast = () => {
             setCorrectWordArray(data => {
                 const newResult = [...data]
                 newResult[activeWordIndex] = word === cloud.current[activeWordIndex]
+
                 return newResult
             })
 
             correctWordArrayStatic.push(word === cloud.current[activeWordIndex]);
+        }
+        else {
+            const word = value.trim()
+            setCorrectWordArray(data => {
+                const newResult = [...data]
+                let size = word.length
+                let correct = true
+                for (let i = 0; i < size; i++) {
+                    if (word[i] != cloud.current[activeWordIndex][i]) {
+                        correct = false
+                        break
+                    }
+                }
+                newResult[activeWordIndex] = correct
+                return newResult
+            })
+
         }
     }
     //submit the typing test
@@ -112,9 +134,9 @@ const FingerFast = () => {
             const type = res.data.testType ?? typeOfTest.Typing;
             if (type === typeOfTest.Typing_MCQs) { //Typing + Mcq
                 navigate('/WaitingComponent', { replace: true, state: { type } });
-                setTimeout(() => {
-                    navigate(routeTypeTest.MCQs, { replace: true, state: { userID } });
-                }, 5000)
+                // setTimeout(() => {
+                //     navigate(routeTypeTest.MCQs, { replace: true, state: { userID } });
+                // }, 5000)
                 return;
             }
 
