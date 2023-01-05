@@ -34,6 +34,7 @@ const getRandomSentences = () => {
     let quotes_array1 = words.sort(() => Math.random() > 0.5 ? 1 : -1).join(" ").toLowerCase();
     let line1 = (quotes_array1.substring(0, 80))
     let line2 = (quotes_array1.substring(80, 150))
+    line2 = line2.trim();
     return line1 + line2;
 }
 
@@ -81,7 +82,7 @@ const FingerFast = () => {
         if (value.endsWith(' ')) {
             setActiveWordIndex(index => index + 1)
             index = index + 1;
-            if (cloud.current.length - 2 == activeWordIndex) {
+            if (cloud.current.length - 1 == activeWordIndex) {
                 setIndex(i => i + 1);
                 //cloud.current = (getRandomSentences()).split(' ')
                 cloud.current = (getRandomSentences()).split(' ')
