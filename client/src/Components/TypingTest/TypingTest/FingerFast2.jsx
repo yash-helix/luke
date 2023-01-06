@@ -183,7 +183,8 @@ const FingerFast = () => {
                 <h2>Speed Typing Test</h2>
 
                 <div className="para" style={{
-                    border: "1px solid #8eb6d8", borderRadius: "9px",
+                    outline: "1.4px solid #8eb6d8",
+                    borderRadius: "9px",
                     height: "9rem", overflow: 'hidden'
                 }}>
                     <div ref={rowRef} id={'row-1'} style={{ position: 'relative', top: rowRef.current?.top ?? '-1px' }}>

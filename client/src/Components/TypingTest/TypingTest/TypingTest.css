@@ -23,14 +23,15 @@
 }
 
 .para {
-    padding: 15px;
+    border: 1rem solid white;
+    padding: 0 15px;
     /* height: 139px;
     overflow: hidden; */
     border-radius: 8px;
-    border: 1px solid #8eb6d8;
+    /* border: 1px solid #8eb6d8; */
     font-size: 2.2em;
     line-height: 1.7em;
-    border: 1px solid lightgrey;
+    /* border: 1px solid lightgrey; */
     background-color: white;
     font-family: 'Times New Roman', Times, serif;
 }
