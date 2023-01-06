@@ -7,10 +7,11 @@ import { typeOfTest } from "../../../testTypeModal"
 import './TypingTest.css';
 import Timer from "../Timer/Timer";
 import { words } from "../../../static/words";
+import { useMemo } from "react";
 let Word = (props) => {
 
     const { index, text, active, correct } = props;
-
+    //console.log({ index, text, active, correct })
     if (correct === true && !active) {
         return <span className="correct">{text + " "}</span>
     }
@@ -57,6 +58,15 @@ const FingerFast = () => {
     const [timeup, setTimeUp] = useState(false);
     const [mount, setMount] = useState(false);
 
+    const wordsA = useMemo(() => {
+        return cloud.current.slice(0, (activeWordIndex + 35)).map((word, index) => {
+            return <Word index={index} key={index} text={word}
+                active={index === activeWordIndex}
+                correct={correctWordArray[index]}
+            />
+        })
+    }, [correctWordArray])
+
     useEffect(() => {
         if (!mount) return;
         line_height = 53;
@@ -86,21 +96,36 @@ const FingerFast = () => {
             })
         }
         else {
-            const word = value.trim()
-
-            setCorrectWordArray(data => {
-                const newResult = [...data]
-                let size = word.length
-                let correct = true
-                for (let i = 0; i < size; i++) {
-                    if (word[i] != cloud.current[activeWordIndex][i]) {
-                        correct = false
-                        break
-                    }
+            let p = document.getElementsByClassName("text" + (activeWordIndex))[0];
+            const word = value.trim();
+            let size = word.length;
+            let correct = true;
+            for (let i = 0; i < size; i++) {
+                if (word[i] != cloud.current[activeWordIndex][i]) {
+                    correct = false;
+                    break;
                 }
-                newResult[activeWordIndex] = correct
-                return newResult
-            })
+            }
+
+            if (!correct) {
+                p.classList.add('activeAndIncorrect');
+            }
+            else p.classList.remove('activeAndIncorrect');
+
+
+            /*  setCorrectWordArray(data => {
+                  const newResult = [...data]
+                  let size = word.length
+                  let correct = true
+                  for (let i = 0; i < size; i++) {
+                      if (word[i] != cloud.current[activeWordIndex][i]) {
+                          correct = false;
+                          break;
+                      }
+                  }
+                  newResult[activeWordIndex] = correct
+                  return newResult
+              })*/
         }
 
         let p = document.getElementsByClassName("text" + (activeWordIndex + 1))[0];
@@ -161,10 +186,11 @@ const FingerFast = () => {
                     border: "1px solid #8eb6d8", borderRadius: "9px",
                     height: "9rem", overflow: 'hidden'
                 }}>
-
-                    <div ref={rowRef} id={'row-1'} style={{ position: 'relative', top: rowRef.current?.top ?? '-1px' }}>{cloud.current.map((word, index) => {
-                        return <Word index={index} key={index} text={word} active={index === activeWordIndex} correct={correctWordArray[index]} />
-                    })}</div>
+                    <div ref={rowRef} id={'row-1'} style={{ position: 'relative', top: rowRef.current?.top ?? '-1px' }}>
+                        {
+                            wordsA
+                        }
+                    </div>
                 </div>
 
 
