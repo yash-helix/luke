@@ -51,7 +51,6 @@ const FingerFast = () => {
     const rowRef = useRef();
     let cloud = useRef(getRandomSentences().split(' '));
 
-    const [wordIndex, setIndex] = useState(0);
     const [startCounting, setStartCounting] = useState(false);
     const [activeWordIndex, setActiveWordIndex] = useState(0);
     const [correctWordArray, setCorrectWordArray] = useState([]);
@@ -60,22 +59,20 @@ const FingerFast = () => {
 
     useEffect(() => {
         if (!mount) return;
-        correctWordArrayStatic = []; line_height = 53;
+        line_height = 53;
         previous_position_top = index = row_counter = 0;
         setMount(true);
     }, [mount]);
 
     // useEffect(() => {
-    //     setCorrectWordArray([])
-    //     setActiveWordIndex(0)
-    // }, [wordIndex])
+    //     console.log(correctWordArray)
+    // }, [correctWordArray])
 
     const processInput = (value) => {
 
         if (!startCounting) {
-            // setStartCounting(true)
+            setStartCounting(true)
         }
-
 
         if (value.endsWith(' ')) {
             setActiveWordIndex(index => index + 1)
@@ -105,8 +102,8 @@ const FingerFast = () => {
                 return newResult
             })
         }
-        let p = document.getElementsByClassName("text" + (activeWordIndex + 1))[0];
 
+        let p = document.getElementsByClassName("text" + (activeWordIndex + 1))[0];
         if (p.offsetTop > previous_position_top + 10) {
             row_counter++;
             previous_position_top = p.offsetTop;
@@ -120,10 +117,10 @@ const FingerFast = () => {
         try {
             let userID = localStorage.getItem("userID");
             const testID = localStorage.getItem("testID");
-            const wordsPerMinute = (correctWordArrayStatic.filter(Boolean).length)
+            const wordsPerMinute = (correctWordArray.filter(Boolean).length)
 
-            const trues = correctWordArrayStatic.filter(c => c === true)
-            const accuracy = (trues.length * 100) / (trues.length + (correctWordArrayStatic.length - trues.length))
+            const trues = correctWordArray.filter(c => c === true)
+            const accuracy = (trues.length * 100) / (trues.length + (correctWordArray.length - trues.length))
             const res = await axios.post(`${process.env.REACT_APP_SERVER}/user/submitTypingTest`,
                 { testID, userID, wpm: wordsPerMinute, accuracy: accuracy.toFixed(2) });
 
@@ -159,8 +156,6 @@ const FingerFast = () => {
         }}>
             <Container>
                 <h2>Speed Typing Test</h2>
-
-
 
                 <div className="para" style={{
                     border: "1px solid #8eb6d8", borderRadius: "9px",
