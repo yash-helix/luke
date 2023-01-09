@@ -73,7 +73,23 @@ userRouter.post("/StartTest", async (req, res) => {
         return res.status(500).json({ success: false, msg: "Unexpected error occurred, or user not found" })
     }
 });
+userRouter.post("/typing-start", async (req, res) => {
+    try {
+        const { testID, userID } = req.body;
+        const userTestDoc = await testModel.find({ _id: testID, userID: userID }).select({ isTestStarted: 1, testType: 1 });
+        const { isTestStarted, testType } = userTestDoc[0];
 
+        if (!isTestStarted) {
+            userTestDoc[0].isTestStarted = true;
+            await userTestDoc[0].save();
+        }
+        return res.status(200).json({ success: true })
+    }
+    catch (error) {
+        console.error(error)
+        return res.status(500).json({ success: false, msg: "Unexpected error occurred" })
+    }
+});
 
 userRouter.post("/getQuestionFromId", async (req, res) => {
 

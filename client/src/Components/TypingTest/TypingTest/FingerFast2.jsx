@@ -66,11 +66,16 @@ const FingerFast = () => {
             />
         })
     }, [correctWordArray])
-
+    const testID = localStorage.getItem("testID");
+    const userID = localStorage.getItem("userID");
     useEffect(() => {
-        if (!mount) return;
-        line_height = 53;
-        previous_position_top = index = row_counter = 0;
+        if (mount) {
+            line_height = 61;
+            previous_position_top = index = row_counter = 0;
+            const data = { testID, userID }
+            const res = axios.post(`${process.env.REACT_APP_SERVER}/user/typing-start`, data)
+                .then(res => res);
+        }
         setMount(true);
     }, [mount]);
 
