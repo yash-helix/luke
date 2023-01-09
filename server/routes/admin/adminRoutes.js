@@ -4,13 +4,12 @@ import uploadExcelToDB from '../../controllers/admin/uploadExcelToDB.js';
 import { testModel } from '../../models/testSchema.js';
 import { userModal } from '../../models/UserSchema.js';
 import { typingTest } from "../../models/TypingTest.js"
-
 import { feedbackModal } from '../../models/FeedbackSchema.js';
-const adminRouter = express.Router();
 import { addJobs, getJobs, deleteJob, getJobsForAUser } from '../../controllers/admin/jobs.js';
 import { test1 } from '../../utils/json/test1.js';
 import { getCountry } from '../../controllers/user/userDetails.js';
 import { getPosition, addPosition, deletePosition } from '../../controllers/admin/position.js';
+const adminRouter = express.Router();
 // import { addCountry, getCountries, deleteCountry } from '../../controllers/admin/country.js';
 
 
@@ -118,17 +117,18 @@ adminRouter.post("/getTestDetails", async (req, res) => {
 // get full detials about user on name click
 adminRouter.post("/getUserPaper", async (req, res) => {
     try {
-        const { id, name } = req.body;
+        const { id } = req.body;
 
         const test = await testModel.findOne({ userID: id }, { _id: 0, userID: 0, __v: 0, Questions: 0, email: 0, retest: 0, isTestCompleted: 0, isTestStarted: 0, createdAt: 0 });
         const user = await userModal.findOne({ _id: id }, { _id: 0, __v: 0, });
+        const typingTest1 = await typingTest.findOne({ userId: id });
         const userFeedback = await feedbackModal.findOne({ userID: id }, { text: 1 });
 
         if (!test || !user) return res.status(404).json({ success: false, msg: "Failed to find the user or his test" });
 
         const { fullName, email, phone, country, language, position, experience, file, ip } = user;
-        const { score, questionsAttempted, correctAnswers, averageTime, accuracy, updatedAt: date } = test;
-
+        const { score, testType, questionsAttempted, correctAnswers, averageTime, accuracy, updatedAt: date } = test;
+        const { wpm } = typingTest1;
         let feedback = "";
         if (userFeedback?.text) {
             feedback = userFeedback.text;
@@ -136,7 +136,7 @@ adminRouter.post("/getUserPaper", async (req, res) => {
 
         const User = {
             fullName, email, phone, country, language, position, experience, file,
-            score, questionsAttempted, correctAnswers, averageTime, accuracy, date,
+            score, testType, wpm, taccuracy: typingTest1.accuracy, questionsAttempted, correctAnswers, averageTime, accuracy, date,
             feedback, ip
         };
 
