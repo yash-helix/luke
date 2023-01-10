@@ -26,8 +26,6 @@ export default function AddPosition() {
     const handleDelete = async (id, _e) => {
         setData(data.filter((v) => v._id !== id));
         const res = await deletePosition(id);
-        console.log(id)
-
 
         if (res.success) {
             toast.success(res.msg, {
@@ -47,7 +45,6 @@ export default function AddPosition() {
             return;
         }
         const res = await addPosition({ position: testFieldRef.current.value });
-        console.log(res)
 
         if (res.success) {
             toast.success(res.msg, {

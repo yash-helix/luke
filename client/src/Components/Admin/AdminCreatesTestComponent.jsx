@@ -44,7 +44,6 @@ const AdminCreatesTest = () => {
                 setData(data.map(item => { delete item.__v; return { ...item } }))
                 const position = await getAllPosition();
                 setPositionOptions(position);
-                // console.log(position)
             })()
         }, []);
     const handleDelete = async (id, _e) => {

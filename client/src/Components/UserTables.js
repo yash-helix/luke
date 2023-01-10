@@ -2,28 +2,19 @@ import axios from "axios";
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { CSVLink } from 'react-csv';
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import moment from 'moment';
-import { NavLink, useNavigate } from "react-router-dom";
-import { AuthContext } from "../contexts/auth";
+import { NavLink } from "react-router-dom";
 import "./UserTable.css";
 import * as Sentry from '@sentry/react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Button } from "@mui/material";
 
 const UserTable = ({ filterData }) => {
-    //const { logged, setLogged, UpdateAuth } = useContext(AuthContext);
-
-    const navigate = useNavigate();
-
     const [data, setData] = useState([]);
     const [order, setOrder] = useState("ASC");
     const [duplicateData, setduplicateData] = useState([]);
     const [errMsg, setErrMsg] = useState("Loading Tests");
-
-    // const [feedback, setFeedback] = useState(null);
-
 
     const [filter, setFilter] = useState({
         country: '',
@@ -40,7 +31,7 @@ const UserTable = ({ filterData }) => {
         country: 'asc',
         score: 'asc',
         wpm: 'asc',
-        accuracy: 'asc',
+        taccuracy: 'asc',
         averageTime: 'asc',
         accuracy: 'asc',
         questionsAttempted: 'asc',
@@ -58,7 +49,7 @@ const UserTable = ({ filterData }) => {
                 setData(res.data.user)
                 setduplicateData(res.data.user)
 
-                console.log(res.data.user);
+                //console.log(res.data.user);
 
                 if (res.data.user.length > 0) {
                     const allCountries = res.data.user.map(user => {
@@ -89,7 +80,6 @@ const UserTable = ({ filterData }) => {
     }
 
     useEffect(() => {
-        //        if (!logged) navigate("/adminLogin", { replace: true })       else
         getTestDetails();
     }, []);
 
@@ -99,9 +89,6 @@ const UserTable = ({ filterData }) => {
     const sorting = (col) => {
         if (order === "ASC") {
             const sorted = [...data].sort((a, b) =>
-                //   a[col]?.toString().toLowerCase() > b[col]?.toString().toLowerCase() ? 1 : -1
-                // );
-
                 typeof a[col] === 'number' ? a[col] - b[col] :
                     a[col].toString().toLowerCase() > b[col].toString().toLowerCase() ? 1 : -1
             );
@@ -114,7 +101,7 @@ const UserTable = ({ filterData }) => {
             const sorted = [...data].sort((a, b) => {
                 //   a[col]?.toString().toLowerCase() < b[col]?.toString().toLowerCase() ? 1 : -1
                 // );
-                console.log(typeof a[col]);
+                //console.log(typeof a[col]);
                 return typeof a[col] === 'number' ? b[col] - a[col] : a[col].toString().toLowerCase() < b[col].toString().toLowerCase() ? 1 : -1
             });
 
@@ -168,7 +155,6 @@ const UserTable = ({ filterData }) => {
         }
         if (filter.country !== "") {
             filteredCountryData = filteredCountryData.filter((item) => item.country === filter.country);
-            console.log(filteredCountryData)
         }
         setData(filteredCountryData);
     }, [filter]);
@@ -247,7 +233,7 @@ const UserTable = ({ filterData }) => {
                                 <th onClick={(e) => sorting("country")}>Country {arrowState.country === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
                                 <th onClick={(e) => sorting("score")}>MCQs Score {arrowState.score === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
                                 <th onClick={(e) => sorting("wpm")}>Words/Minute{arrowState.wpm === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
-                                <th onClick={(e) => sorting("accuracy")}>Typing Accuracy{arrowState.accuracy === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
+                                <th onClick={(e) => sorting("taccuracy")}>Typing Accuracy{arrowState.accuracy === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
                                 <th onClick={(e) => sorting("questionsAttempted")}>Questions Attempted {arrowState.questionsAttempted === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
                                 <th onClick={(e) => sorting("correctAnswers")}>Questions Answered Correctly {arrowState.correctAnswers === 'asc' ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}   </th>
                                 <th onClick={(e) => sorting("averageTime")}>

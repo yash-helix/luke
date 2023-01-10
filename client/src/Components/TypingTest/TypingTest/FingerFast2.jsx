@@ -31,17 +31,10 @@ let Word = (props) => {
 
 
 const getRandomSentences = () => {
-    let quotes_array1 = words.sort(() => Math.random() > 0.5 ? 1 : -1).join(" ").toLowerCase();
-    let line1 = (quotes_array1.substring(0, 80))
-    let line2 = (quotes_array1.substring(80, 150))
-    line2 = line2.trim();
-
-    return quotes_array1;
-    return line1 + line2;
+    return words.sort(() => Math.random() > 0.5 ? 1 : -1).join(" ").toLowerCase();
 }
 
-let index = 0, correctWordArrayStatic = [],
-    previous_position_top = 0,
+let previous_position_top = 0,
     line_height = 61, row_counter = 0;
 
 const FingerFast = () => {
@@ -71,9 +64,9 @@ const FingerFast = () => {
     useEffect(() => {
         if (mount) {
             line_height = 61;
-            previous_position_top = index = row_counter = 0;
+            previous_position_top = row_counter = 0;
             const data = { testID, userID }
-            const res = axios.post(`${process.env.REACT_APP_SERVER}/user/typing-start`, data)
+            axios.post(`${process.env.REACT_APP_SERVER}/user/typing-start`, data)
                 .then(res => res);
         }
         setMount(true);
@@ -209,6 +202,7 @@ const FingerFast = () => {
                 }}>
                     <TextField inputRef={inputRef} type='text' disabled={timeup}
                         onChange={(e) => processInput(e.target.value)}
+                        autoComplete={"off"}
                         inputProps={{
                             style: {
                                 boxShadow: "#6d6161  5px 5px  3px -2px inset",

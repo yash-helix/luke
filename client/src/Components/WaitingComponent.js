@@ -10,7 +10,6 @@ import { Stack } from '@mui/system';
 const WaitingComponent = () => {
 
     const { state } = useLocation();
-    console.log(state);
 
     return (
         <>

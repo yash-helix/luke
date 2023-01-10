@@ -61,7 +61,7 @@ const UserQuestionPaper = () => {
                         <h6 className='col-12 col-md-6 col-lg-3'>Typing-Accuracy: {user?.taccuracy ?? <span> -- </span>}%</h6>
                         {user.country ? <h6>Country: {user.country}</h6> : <h6>Country: Not Found</h6>}
                         {user.ip ? <h6>IP: {user.ip}</h6> : <h6>IP: Not Found</h6>}
-                        {user?.file && <h6>CV: <a href={user.file} download="MyExampleDoc" target='_blank'>
+                        {user?.file && <h6>CV: <a href={user.file} download="MyExampleDoc" target='_blank' rel="noreferrer">
                             <Button>DOWNLOAD CV</Button>
                         </a></h6>}
                         <h6 className='col-12 col-md-6 col-lg-3'>Feedback: {user?.feedback}</h6>
