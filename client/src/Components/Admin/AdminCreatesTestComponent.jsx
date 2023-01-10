@@ -155,7 +155,7 @@ const AdminCreatesTest = () => {
                                 onChange={(e) => handlePositionChange(e.target.value)}
                             >
                                 {positionOptions?.map(position =>
-                                    <MenuItem key={position.id} value={position.position}>
+                                    <MenuItem key={position._id} value={position.position}>
                                         {position.position}</MenuItem>)
                                     ?? <MenuItem key={"ak"}>NO Position available</MenuItem>
                                 }

@@ -19,10 +19,10 @@ const SubmitTypingTest = async (userID, testID, wpm, accuracy, res) => {
             if (testType === 2 || testType === 3) {
 
                 const t = await testModel.findOneAndUpdate({ userID, testID }, { isTestCompleted: true, typingTest })
-
                 sendUserDetailsToSlack(userID, { fullName: user.fullName, email: user.email, file: user.file, typingTest });
-
             }
+            const t = await testModel.findOneAndUpdate({ userID, testID }, { typingTest })
+
             return res.json({ error: "Your typing test has been submitted", testType, success: true })
 
         }
